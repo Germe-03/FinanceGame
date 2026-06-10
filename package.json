@@ -1,0 +1,11 @@
+{
+  "name": "finance-game",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node server.mjs",
+    "test": "node --test",
+    "check": "node --check server.mjs && node --check src/content/gameDescription.js && node --check src/content/caseBriefing.js && node --check src/content/gameConfiguration.js && node --check src/content/gameRound.js && node --check src/domain/configuration.js && node --check src/domain/navigation.js && node --check src/ui/app.js"
+  }
+}

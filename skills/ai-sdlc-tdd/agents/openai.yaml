@@ -1,0 +1,4 @@
+interface:
+  display_name: "AI-SDLC TDD"
+  short_description: "TDD workflow for agentic coding"
+  default_prompt: "Use $ai-sdlc-tdd to implement a change with Red-Green-Refactor and verified tests."

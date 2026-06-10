@@ -1,0 +1,4 @@
+interface:
+  display_name: "CI Quality Gates"
+  short_description: "Build, test, and review gates"
+  default_prompt: "Use $ci-quality-gates to verify tests, builds, static checks, and CI readiness before finishing a change."

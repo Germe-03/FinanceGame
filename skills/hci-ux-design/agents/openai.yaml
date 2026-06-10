@@ -1,0 +1,4 @@
+interface:
+  display_name: "HCI UX Design"
+  short_description: "MMI rules for usable game UX"
+  default_prompt: "Use $hci-ux-design to design or review UI, game flows, accessibility, language, and UX metrics for FinanceGame."

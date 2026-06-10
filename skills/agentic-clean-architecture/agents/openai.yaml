@@ -1,0 +1,4 @@
+interface:
+  display_name: "Agentic Clean Architecture"
+  short_description: "Architecture rules for testable code"
+  default_prompt: "Use $agentic-clean-architecture to design or refactor code with inward dependencies and testable boundaries."
