@@ -6,6 +6,6 @@
   "scripts": {
     "start": "node server.mjs",
     "test": "node --test",
-    "check": "node --check server.mjs && node --check src/content/gameDescription.js && node --check src/content/caseBriefing.js && node --check src/content/gameConfiguration.js && node --check src/content/gameRound.js && node --check src/domain/configuration.js && node --check src/domain/navigation.js && node --check src/ui/app.js"
+    "check": "node --check server.mjs && node --check src/content/gameDescription.js && node --check src/content/caseBriefing.js && node --check src/content/gameConfiguration.js && node --check src/content/gameRound.js && node --check src/content/accountPlan.js && node --check src/domain/booking.js && node --check src/domain/configuration.js && node --check src/domain/navigation.js && node --check src/ui/app.js && node --check src/ui/progress.js && node --check src/ui/markdown.js"
   }
 }

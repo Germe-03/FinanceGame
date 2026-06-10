@@ -20,13 +20,14 @@ test("game round defines reference actions for the accounting task", () => {
   assert.equal(gameRound.buddyAction.enabled, false);
 });
 
-test("task one starts with 20 business booking entries using only active and passive accounts", () => {
+test("task one starts with 20 tasks using only active and passive accounts", () => {
   assert.equal(gameRound.balanceOnlyTasks.title, "Nur Aktiv- und Passivkonten");
   assert.equal(gameRound.balanceOnlyTasks.tasks.length, 20);
 
   for (const task of gameRound.balanceOnlyTasks.tasks) {
     assert.ok(task.id);
     assert.ok(task.scenario.length > 20);
+    if (task.noBooking) continue;
     assert.ok(task.amount.startsWith("CHF "));
     assert.ok(task.debit.account);
     assert.ok(task.credit.account);
@@ -50,15 +51,43 @@ test("task one continues with 40 mixed active passive expense and revenue bookin
   for (const task of gameRound.mixedTasks.tasks) {
     assert.ok(task.id);
     assert.ok(task.scenario.length > 20);
-    assert.ok(task.amount.startsWith("CHF "));
-    assert.ok(mixedAccountTypes.has(task.debit.type), task.id);
-    assert.ok(mixedAccountTypes.has(task.credit.type), task.id);
-    seenTypes.add(task.debit.type);
-    seenTypes.add(task.credit.type);
+    if (task.noBooking) continue;
+
+    const bookings = task.bookings ?? [task];
+    assert.ok(bookings.length >= 1, `${task.id} has no bookings`);
+    for (const b of bookings) {
+      assert.ok(b.amount.startsWith("CHF "), `${task.id} amount`);
+      assert.ok(mixedAccountTypes.has(b.debit.type), `${task.id} debit type`);
+      assert.ok(mixedAccountTypes.has(b.credit.type), `${task.id} credit type`);
+      seenTypes.add(b.debit.type);
+      seenTypes.add(b.credit.type);
+    }
   }
 
   assert.ok(seenTypes.has("active"));
   assert.ok(seenTypes.has("passive"));
   assert.ok(seenTypes.has("expense"));
   assert.ok(seenTypes.has("revenue"));
+});
+
+test("compound tasks have at least two bookings", () => {
+  const compound = gameRound.mixedTasks.tasks.filter((t) => t.bookings);
+  assert.ok(compound.length >= 2, "at least two compound tasks expected");
+  for (const task of compound) {
+    assert.ok(task.bookings.length >= 2, `${task.id} must have ≥ 2 bookings`);
+  }
+});
+
+test("no-booking tasks exist in both sections and carry an explanation", () => {
+  const noBookingBalance = gameRound.balanceOnlyTasks.tasks.filter((t) => t.noBooking);
+  const noBookingMixed = gameRound.mixedTasks.tasks.filter((t) => t.noBooking);
+
+  assert.equal(noBookingBalance.length, 1, "one no-booking task in balanceOnly");
+  assert.equal(noBookingMixed.length, 3, "three no-booking tasks in mixed");
+
+  for (const task of [...noBookingBalance, ...noBookingMixed]) {
+    assert.ok(task.noBookingReason, `${task.id} must have noBookingReason`);
+    assert.ok(task.noBookingReason.length > 20, `${task.id} reason too short`);
+    assert.equal(task.amount, undefined, `${task.id} noBooking task must not have amount`);
+  }
 });
