@@ -8,6 +8,7 @@ export const ROUTES = Object.freeze({
   gameIncomeIntro: "spiel/aufwand-ertrag",
   gameMixed: "spiel/gemischt",
   gameInvoices: "spiel/rechnungen",
+  gameTKonto: "spiel/t-konto",
 });
 
 export const ROUTE_HASHES = Object.freeze({
@@ -20,6 +21,7 @@ export const ROUTE_HASHES = Object.freeze({
   [ROUTES.gameIncomeIntro]: "#spiel/aufwand-ertrag",
   [ROUTES.gameMixed]: "#spiel/gemischt",
   [ROUTES.gameInvoices]: "#spiel/rechnungen",
+  [ROUTES.gameTKonto]: "#spiel/t-konto",
 });
 
 const knownRoutes = new Set(Object.values(ROUTES));

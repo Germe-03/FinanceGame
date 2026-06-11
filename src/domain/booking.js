@@ -31,3 +31,41 @@ export function filterAccounts(accounts, query) {
   );
 }
 
+export function getAccountLedgerItems(tasks, accountName) {
+  const items = [];
+  for (const task of tasks) {
+    if (task.noBooking) continue;
+    const isCompound = Boolean(task.bookings);
+    const bookings = isCompound ? task.bookings : [task];
+    bookings.forEach((booking, bIdx) => {
+      const id = isCompound ? `${task.id}-${bIdx}` : task.id;
+      if (booking.debit?.account === accountName) {
+        items.push({
+          id,
+          taskId: task.id,
+          scenario: task.scenario,
+          amount: booking.amount,
+          amountValue: parseSwissAmount(booking.amount),
+          side: "soll",
+          counterAccount: booking.credit.account,
+        });
+      } else if (booking.credit?.account === accountName) {
+        items.push({
+          id,
+          taskId: task.id,
+          scenario: task.scenario,
+          amount: booking.amount,
+          amountValue: parseSwissAmount(booking.amount),
+          side: "haben",
+          counterAccount: booking.debit.account,
+        });
+      }
+    });
+  }
+  return items;
+}
+
+function parseSwissAmount(str) {
+  return parseFloat(String(str).replace(/'/g, "").replace(/[^0-9.]/g, "")) || 0;
+}
+

@@ -1,4 +1,5 @@
 import tasksData from "./tasks.json" with { type: "json" };
+import { getAccountLedgerItems } from "../domain/booking.js";
 const accountTypes = Object.freeze({
   Bank: "active",
   Post: "active",
@@ -97,6 +98,14 @@ const invoiceBooking = Object.freeze({
   ]),
 });
 
+const tKontoBank = Object.freeze({
+  title: "Aufgabe 4: T-Konto Bank",
+  accountName: "Bank",
+  accountNumber: "1100",
+  lead: "Ziehe jeden Betrag auf die richtige Seite des T-Kontos — Soll (links) oder Haben (rechts). Alle Buchungssätze aus Aufgabe 2, in denen das Konto Bank vorkommt, werden automatisch berücksichtigt.",
+  items: Object.freeze(getAccountLedgerItems([...tasksData.balanceOnly, ...tasksData.mixed], "Bank")),
+});
+
 export const gameRound = Object.freeze({
   title: "FinanceGame Aufgaben",
   subtitle: "Konten finden, buchen, Rechnungen kontieren",
@@ -107,6 +116,7 @@ export const gameRound = Object.freeze({
     Object.freeze({ id: "booking-income-intro", title: "Aufgabe 2: Aufwand und Ertrag kommen dazu", route: "spiel/aufwand-ertrag" }),
     Object.freeze({ id: "booking-mixed", title: "Aufgabe 2: Gemischte Buchungssätze", route: "spiel/gemischt" }),
     Object.freeze({ id: "invoice-booking", title: invoiceBooking.title, route: "spiel/rechnungen" }),
+    Object.freeze({ id: "t-konto-bank", title: tKontoBank.title, route: "spiel/t-konto" }),
   ]),
   accountPlanSearch,
   bookingTask,
@@ -114,6 +124,7 @@ export const gameRound = Object.freeze({
   incomeStatementIntro,
   mixedTasks,
   invoiceBooking,
+  tKontoBank,
   referenceActions: Object.freeze([
     Object.freeze({ id: "kmu-chart", label: "KMU-Kontenplan", href: "./assets/accounting/kmu-kontenplan/Schweizer-Kontenrahmen-KMU.pdf" }),
     Object.freeze({ id: "or-law", label: "OR", href: "./assets/legal/or/or.pdf" }),

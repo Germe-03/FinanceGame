@@ -17,7 +17,7 @@ test("account plan includes invoice task expense accounts", () => {
 test("game round exposes the requested task order", () => {
   assert.deepEqual(
     gameRound.taskSequence.map((task) => task.id),
-    ["account-plan", "booking-balance", "booking-income-intro", "booking-mixed", "invoice-booking"],
+    ["account-plan", "booking-balance", "booking-income-intro", "booking-mixed", "invoice-booking", "t-konto-bank"],
   );
   assert.deepEqual(
     gameRound.taskSequence.map((task) => task.title),
@@ -27,6 +27,7 @@ test("game round exposes the requested task order", () => {
       "Aufgabe 2: Aufwand und Ertrag kommen dazu",
       "Aufgabe 2: Gemischte Buchungssätze",
       "Aufgabe 3: Rechnung kontieren",
+      "Aufgabe 4: T-Konto Bank",
     ],
   );
 });
