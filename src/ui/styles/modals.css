@@ -1,0 +1,249 @@
+/* Modals: Lernmodul-Modal, Support-Modal, Taschenrechner */
+/* ── Module Modal ── */
+
+.module-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.module-modal-overlay[hidden] {
+  display: none;
+}
+
+.module-modal {
+  background: #fff;
+  border-radius: 10px;
+  width: min(760px, 100%);
+  max-height: 82vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.18);
+}
+
+.module-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 22px;
+  border-bottom: 1px solid var(--line);
+  flex-shrink: 0;
+}
+
+.module-modal-title {
+  margin: 0;
+  font-size: 1.15rem;
+}
+
+.module-modal-close {
+  width: 34px;
+  min-height: 34px;
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  color: var(--muted);
+  font-size: 0.95rem;
+  line-height: 1;
+  padding: 0;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.module-modal-close:hover {
+  background: var(--surface-soft);
+  color: var(--text);
+}
+
+.module-modal-body {
+  padding: 22px 26px;
+  overflow-y: auto;
+  flex: 1;
+  line-height: 1.7;
+}
+
+.module-modal-body h1 { margin: 0 0 16px; font-size: 1.4rem; }
+.module-modal-body h2 { margin: 24px 0 8px; font-size: 1.1rem; color: var(--primary-dark); }
+.module-modal-body h3 { margin: 18px 0 6px; font-size: 1rem; }
+.module-modal-body p { margin: 0 0 10px; }
+.module-modal-body ul { margin: 0 0 12px; padding-left: 22px; }
+.module-modal-body li + li { margin-top: 4px; }
+.module-modal-body hr { border: none; border-top: 1px solid var(--line); margin: 18px 0; }
+.module-modal-body strong { color: var(--text); }
+.module-modal-body em { color: var(--muted); }
+.module-modal-body code { background: var(--surface-soft); padding: 1px 5px; border-radius: 3px; font-size: 0.88em; }
+.module-modal-body .md-image { max-width: 100%; height: auto; border-radius: 6px; margin: 8px 0; display: block; }
+.support-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 230;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.48);
+  padding: 20px;
+}
+
+.support-modal-overlay[hidden] {
+  display: none;
+}
+
+.support-modal {
+  width: min(980px, 100%);
+  max-height: 86vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: 8px;
+  background: #ffffff;
+  box-shadow: 0 22px 70px rgba(0, 0, 0, 0.22);
+}
+
+.support-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  border-bottom: 1px solid var(--line);
+  padding: 16px 20px;
+  flex-shrink: 0;
+}
+
+.support-modal-title {
+  margin: 0;
+  font-size: 1.12rem;
+}
+
+.support-modal-close {
+  width: 36px;
+  min-height: 36px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: #ffffff;
+  color: var(--muted);
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.support-modal-close:hover,
+.support-modal-close:focus-visible {
+  background: var(--surface-soft);
+  color: var(--text);
+}
+
+.support-modal-body {
+  overflow: auto;
+  padding: 18px 20px 20px;
+}
+
+.support-resource-view {
+  display: grid;
+  gap: 12px;
+}
+
+.support-resource-frame {
+  width: 100%;
+  height: min(68vh, 680px);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: #ffffff;
+}
+
+.support-resource-link {
+  justify-self: start;
+  border: 0;
+  background: transparent;
+  color: var(--primary-dark);
+  padding: 0;
+  font: inherit;
+  font-weight: 800;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.support-resource-link:hover,
+.support-resource-link:focus-visible {
+  color: var(--primary);
+}
+
+.calculator-form {
+  display: grid;
+  gap: 12px;
+  max-width: 460px;
+}
+
+.calculator-label {
+  color: var(--muted);
+  font-weight: 800;
+}
+
+.calculator-entry-row,
+.calculator-result-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 10px;
+}
+
+.calculator-display,
+.calculator-result {
+  width: 100%;
+  min-height: 44px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 10px 12px;
+  color: var(--text);
+  font: inherit;
+  font-weight: 750;
+}
+
+.calculator-result {
+  background: var(--surface-soft);
+}
+
+.calculator-evaluate-button,
+.calculator-copy-button,
+.calculator-key {
+  min-height: 44px;
+  border: 1px solid var(--primary);
+  border-radius: 6px;
+  background: #ffffff;
+  color: var(--primary-dark);
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.calculator-evaluate-button,
+.calculator-copy-button {
+  padding: 0 14px;
+}
+
+.calculator-evaluate-button:hover,
+.calculator-copy-button:hover,
+.calculator-key:hover,
+.calculator-evaluate-button:focus-visible,
+.calculator-copy-button:focus-visible,
+.calculator-key:focus-visible {
+  background: #e2f4ef;
+}
+
+.calculator-keypad {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.calculator-copy-feedback {
+  min-height: 1.4em;
+  margin: 0;
+  color: var(--muted);
+  font-weight: 750;
+}
+

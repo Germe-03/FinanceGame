@@ -13,6 +13,7 @@ test("navigation maps every app step to a URL hash", () => {
   assert.equal(ROUTES.gameIncomeIntro, "spiel/aufwand-ertrag");
   assert.equal(ROUTES.gameMixed, "spiel/gemischt");
   assert.equal(ROUTES.gameInvoices, "spiel/rechnungen");
+  assert.equal(ROUTES.gameTKonto, "spiel/t-konto");
 
   assert.equal(hashForRoute(ROUTES.description), "#beschreibung");
   assert.equal(hashForRoute(ROUTES.case), "#fall");
@@ -23,6 +24,7 @@ test("navigation maps every app step to a URL hash", () => {
   assert.equal(hashForRoute(ROUTES.gameIncomeIntro), "#spiel/aufwand-ertrag");
   assert.equal(hashForRoute(ROUTES.gameMixed), "#spiel/gemischt");
   assert.equal(hashForRoute(ROUTES.gameInvoices), "#spiel/rechnungen");
+  assert.equal(hashForRoute(ROUTES.gameTKonto), "#spiel/t-konto");
 });
 
 test("navigation reads known hashes and falls back to the description", () => {
@@ -34,6 +36,7 @@ test("navigation reads known hashes and falls back to the description", () => {
   assert.equal(routeFromHash("#spiel/aufwand-ertrag"), ROUTES.gameIncomeIntro);
   assert.equal(routeFromHash("#spiel/gemischt"), ROUTES.gameMixed);
   assert.equal(routeFromHash("#spiel/rechnungen"), ROUTES.gameInvoices);
+  assert.equal(routeFromHash("#spiel/t-konto"), ROUTES.gameTKonto);
   assert.equal(routeFromHash(""), ROUTES.description);
   assert.equal(routeFromHash("#unbekannt"), ROUTES.description);
 });
