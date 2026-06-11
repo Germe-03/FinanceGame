@@ -11,32 +11,59 @@ import {
 } from "../domain/configuration.js";
 import { accountPlan } from "../content/accountPlan.js";
 import { filterAccounts, getUniqueAccounts } from "../domain/booking.js";
+import { calculateExpression } from "../domain/calculator.js";
 import { loadProgress, saveAnswer } from "./progress.js";
 import { renderMarkdown } from "./markdown.js";
 import { ROUTES, hashForRoute, routeFromHash } from "../domain/navigation.js";
+import { searchLearningModules } from "../domain/learningModules.js";
 
 const app = document.querySelector("#app");
 let currentConfiguration = getInitialConfiguration("finance-complete");
+let learningModuleSearchQuery = "";
+let learningModuleSearchRequestId = 0;
+let learningModuleDocumentsPromise = null;
 
 const theoryModules = Object.freeze([
-  { id: "finanzbuchhaltung", name: "Finanzbuchhaltung" },
-  { id: "betriebsbuchhaltung", name: "Betriebsbuchhaltung" },
-  { id: "bilanz", name: "Bilanz" },
-  { id: "erfolgsrechnung", name: "Erfolgsrechnung" },
-  { id: "konto-aufbau", name: "Kontoaufbau" },
-  { id: "kontoarten", name: "Kontoarten" },
-  { id: "buchungssaetze", name: "Buchungssätze" },
-  { id: "jahresabschluss", name: "Jahresabschluss" },
-  { id: "aktiengesellschaft", name: "Aktiengesellschaft" },
-  { id: "or-arbeiten", name: "Arbeiten mit dem OR" },
-  { id: "lohnabrechnung", name: "Lohnabrechnung" },
-  { id: "mehrwertsteuer", name: "Mehrwertsteuer" },
-  { id: "alle-konti", name: "Alle Konti erklärt" },
+  // Grundlagen
+  { id: "finanzbuchhaltung",             name: "Finanzbuchhaltung" },
+  { id: "betriebsbuchhaltung",           name: "Betriebsbuchhaltung" },
+  { id: "konto-aufbau",                  name: "Kontoaufbau" },
+  { id: "kontoarten",                    name: "Kontoarten" },
+  { id: "buchungssaetze",                name: "Buchungssätze" },
+  { id: "wb-konti",                      name: "WB-Konten & Minus-Konti" },
+  // Abschluss
+  { id: "bilanz",                        name: "Bilanz" },
+  { id: "erfolgsrechnung",               name: "Erfolgsrechnung" },
+  { id: "jahresabschluss",               name: "Jahresabschluss" },
+  { id: "abschreibungen",                name: "Abschreibungen" },
+  { id: "stille-reserven",               name: "Stille Reserven" },
+  { id: "rechnungsabgrenzung",           name: "Rechnungsabgrenzung" },
+  { id: "rueckstellungen",               name: "Rückstellungen" },
+  { id: "periodenfremde-geschaeftsfaelle", name: "Periodenfremde Geschäftsfälle" },
+  // Spezialthemen
+  { id: "lohnabrechnung",                name: "Lohnabrechnung" },
+  { id: "mehrwertsteuer",                name: "Mehrwertsteuer" },
+  { id: "warenhandel",                   name: "Warenhandel" },
+  { id: "wertschriften",                 name: "Wertschriften" },
+  { id: "fremdwaehrungen",               name: "Fremdwährungen" },
+  { id: "konto-privat",                  name: "Konto Privat" },
+  { id: "dividendenausschuettung",       name: "Dividendenausschüttung" },
+  { id: "kennzahlen",                    name: "Kennzahlen" },
+  { id: "alle-konti",                    name: "Alle Konti erklärt" },
+  // Rechtsformen
+  { id: "einzelunternehmung",            name: "Einzelunternehmung" },
+  { id: "kollektivgesellschaft",         name: "Kollektivgesellschaft" },
+  { id: "kommanditgesellschaft",         name: "Kommanditgesellschaft" },
+  { id: "gmbh",                          name: "GmbH" },
+  { id: "aktiengesellschaft",            name: "Aktiengesellschaft (AG)" },
+  { id: "gmbh-vs-ag",                    name: "GmbH vs. AG" },
+  { id: "genossenschaft",                name: "Genossenschaft" },
+  // Recht & Kontrolle
+  { id: "revisionsarten",                name: "Revisionsarten" },
+  { id: "or-arbeiten",                   name: "Arbeiten mit dem OR" },
 ]);
 
 window.addEventListener("hashchange", renderCurrentRoute);
-startApp();
-initModuleModal();
 
 export function renderDescriptionScreen() {
   app.innerHTML = `
@@ -85,7 +112,7 @@ export function renderCaseScreen() {
     </section>
   `;
 
-  document.querySelector('[data-action="play"]').addEventListener("click", () => navigateTo(ROUTES.gameBalance));
+  document.querySelector('[data-action="play"]').addEventListener("click", () => navigateTo(ROUTES.gameAccountPlan));
   document.querySelector('[data-action="configuration"]').addEventListener("click", () => navigateTo(ROUTES.configuration));
 }
 
@@ -157,12 +184,45 @@ export function renderConfigurationScreen() {
 }
 
 export function renderGameScreen() {
-  renderBookingTaskScreen();
+  renderAccountPlanSearchScreen();
+}
+
+export function renderAccountPlanSearchScreen() {
+  const section = gameRound.accountPlanSearch;
+  app.innerHTML = `
+    <section class="screen screen--game" aria-labelledby="account-plan-title">
+      <div class="game-outer-layout">
+        ${renderLernmoduleSidebar()}
+        <div>
+          <div class="screen__content game-shell">
+            <button class="back-button" type="button" id="back-to-case">Zurück zum Fallbeschrieb</button>
+            <div class="game-stage-head">
+              <p class="eyebrow">Aufgabe 1 · Kontenplan</p>
+              <h2 id="account-plan-title">${escapeHtml(section.title)}</h2>
+              <p class="lead">${escapeHtml(section.lead)}</p>
+              <p class="task-count">${section.tasks.length} Suchaufgaben</p>
+            </div>
+            <div class="account-search-list" aria-label="Kontenplan-Suchaufgaben">
+              ${section.tasks.map((task, i) => renderAccountPlanSearchTask(task, i)).join("")}
+            </div>
+            <div class="configuration-actions">
+              <button class="primary-action" type="button" id="game-next-button">${escapeHtml(section.nextButtonLabel)}</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      ${renderGameSupportActions()}
+    </section>
+  `;
+
+  document.querySelector("#back-to-case").addEventListener("click", () => navigateTo(ROUTES.case));
+  document.querySelector("#game-next-button").addEventListener("click", () => navigateTo(ROUTES.gameBalance));
+  initAccountPlanChoices(app.querySelector(".account-search-list"));
 }
 
 export function renderBookingTaskScreen() {
   renderBookingTaskListScreen(gameRound.balanceOnlyTasks, {
-    eyebrow: "Aufgabe 1 · Schritt 1 von 3",
+    eyebrow: "Aufgabe 2 · Schritt 1 von 3",
     nextRoute: ROUTES.gameIncomeIntro,
     nextLabel: gameRound.balanceOnlyTasks.nextButtonLabel,
     accounts: getUniqueAccounts(gameRound.balanceOnlyTasks.tasks, accountPlan),
@@ -178,7 +238,7 @@ export function renderIncomeStatementIntroScreen() {
           <div class="screen__content game-shell">
             <button class="back-button" type="button" id="back-to-case">Zurück zum Fallbeschrieb</button>
             <div class="game-stage-head">
-              <p class="eyebrow">Aufgabe 1 · Schritt 2 von 3</p>
+              <p class="eyebrow">Aufgabe 2 · Schritt 2 von 3</p>
               <h2 id="income-intro-title">${escapeHtml(gameRound.incomeStatementIntro.title)}</h2>
               <p class="lead">${escapeHtml(gameRound.incomeStatementIntro.body)}</p>
             </div>
@@ -206,9 +266,18 @@ export function renderIncomeStatementIntroScreen() {
 
 export function renderMixedBookingTaskScreen() {
   renderBookingTaskListScreen(gameRound.mixedTasks, {
-    eyebrow: "Aufgabe 1 · Schritt 3 von 3",
-    status: "Aufgabe 1 endet nach diesen 40 gemischten Buchungssätzen.",
+    eyebrow: "Aufgabe 2 · Schritt 3 von 3",
+    nextRoute: ROUTES.gameInvoices,
+    nextLabel: gameRound.mixedTasks.nextButtonLabel,
     accounts: getUniqueAccounts(gameRound.mixedTasks.tasks, accountPlan),
+  });
+}
+
+export function renderInvoiceBookingScreen() {
+  renderBookingTaskListScreen(gameRound.invoiceBooking, {
+    eyebrow: "Aufgabe 3 · Rechnung kontieren",
+    status: "Minimalrunde abgeschlossen. Weitere Rechnungsfälle und MWST können danach ergänzt werden.",
+    accounts: getUniqueAccounts(gameRound.invoiceBooking.tasks, accountPlan),
   });
 }
 
@@ -283,7 +352,12 @@ function renderRoute(route) {
     return;
   }
 
-  if (route === ROUTES.game || route === ROUTES.gameBalance) {
+  if (route === ROUTES.game || route === ROUTES.gameAccountPlan) {
+    renderAccountPlanSearchScreen();
+    return;
+  }
+
+  if (route === ROUTES.gameBalance) {
     renderBookingTaskScreen();
     return;
   }
@@ -295,6 +369,11 @@ function renderRoute(route) {
 
   if (route === ROUTES.gameMixed) {
     renderMixedBookingTaskScreen();
+    return;
+  }
+
+  if (route === ROUTES.gameInvoices) {
+    renderInvoiceBookingScreen();
     return;
   }
 
@@ -345,6 +424,70 @@ function renderTaskCardFooter() {
   `;
 }
 
+const accountTypeLabels = Object.freeze({
+  active: "Aktivkonto",
+  passive: "Passivkonto",
+  expense: "Aufwandkonto",
+  revenue: "Ertragskonto",
+});
+
+function renderAccountPlanSearchTask(task, index) {
+  return `
+    <article class="account-search-card" data-task-id="${escapeHtml(task.id)}">
+      <div class="booking-task-card__head">
+        <span class="task-number">${index + 1}</span>
+        <p>${escapeHtml(task.scenario)}</p>
+      </div>
+      <div class="account-choice-grid" role="group" aria-label="Kontovorschläge für Aufgabe ${index + 1}">
+        ${task.options.map((option) => renderAccountChoiceButton(task, option)).join("")}
+      </div>
+      <div class="account-choice-feedback" hidden role="status" aria-live="polite"></div>
+    </article>
+  `;
+}
+
+function renderAccountChoiceButton(task, option) {
+  const correct = option.account === task.correctAccount;
+  return `
+    <button class="account-choice-button" type="button" data-choice-account="${escapeHtml(option.account)}" data-correct="${correct}">
+      <span>${escapeHtml(option.account)}</span>
+      <small>${escapeHtml(accountTypeLabels[option.type] ?? option.type)}</small>
+    </button>
+  `;
+}
+
+function initAccountPlanChoices(container) {
+  const tasksById = new Map(gameRound.accountPlanSearch.tasks.map((task) => [task.id, task]));
+  container.querySelectorAll(".account-search-card").forEach((card) => {
+    const task = tasksById.get(card.dataset.taskId);
+    const feedback = card.querySelector(".account-choice-feedback");
+
+    card.querySelectorAll(".account-choice-button").forEach((button) => {
+      button.addEventListener("click", () => {
+        card.querySelectorAll(".account-choice-button").forEach((choice) => {
+          const selected = choice === button;
+          choice.classList.toggle("account-choice-button--selected", selected);
+          choice.setAttribute("aria-pressed", String(selected));
+        });
+
+        const correct = button.dataset.correct === "true";
+        feedback.hidden = false;
+        feedback.className = `account-choice-feedback ${correct ? "account-choice-feedback--correct" : "account-choice-feedback--wrong"}`;
+        feedback.textContent = `${correct ? "Richtig." : `Noch nicht. Richtige Lösung: ${task.correctAccount}.`} ${task.explanation}`;
+      });
+    });
+  });
+}
+function renderTaskImage(task) {
+  if (!task.image) return "";
+  return `
+    <figure class="invoice-task-image-frame">
+      <img class="invoice-task-image" src="${escapeHtml(task.image.src)}" alt="${escapeHtml(task.image.alt)}">
+      <figcaption>Rechnung pruefen und darunter den Buchungssatz eintragen.</figcaption>
+    </figure>
+  `;
+}
+
 function renderBookingTask(task, index) {
   if (task.noBooking) {
     return `
@@ -353,6 +496,7 @@ function renderBookingTask(task, index) {
           <span class="task-number">${index + 1}</span>
           <p>${escapeHtml(task.scenario)}</p>
         </div>
+        ${renderTaskImage(task)}
         ${renderBookingInputRow(0, false)}
         ${renderTaskCardFooter()}
         <div class="booking-task-solution" hidden aria-label="Musterlösung">
@@ -378,6 +522,7 @@ function renderBookingTask(task, index) {
         <span class="task-number">${index + 1}</span>
         <p>${escapeHtml(task.scenario)}</p>
       </div>
+      ${renderTaskImage(task)}
       ${inputsHtml}
       ${renderTaskCardFooter()}
       <div class="booking-task-solution" hidden aria-label="Musterlösung">
@@ -431,32 +576,105 @@ function accountLabel(name) {
 }
 
 function renderLernmoduleSidebar() {
-  const theoryItems = theoryModules
-    .map(
-      (m) => `
-    <li class="lernmodule-item lernmodule-item--theory" data-module="${escapeHtml(m.id)}" tabindex="0" role="button" aria-label="${escapeHtml(m.name)} öffnen">
-      <span class="lernmodule-icon">T</span>
-      <span class="lernmodule-name">${escapeHtml(m.name)}</span>
-    </li>`,
-    )
+  const currentRoute = routeFromHash(window.location.hash);
+  const taskItems = [
+    { number: "1", name: "Kontenplan", routes: [ROUTES.game, ROUTES.gameAccountPlan] },
+    { number: "2", name: "Buchungssätze", routes: [ROUTES.gameBalance, ROUTES.gameIncomeIntro, ROUTES.gameMixed] },
+    { number: "3", name: "Rechnungen", routes: [ROUTES.gameInvoices] },
+  ];
+  const theoryItems = renderTheoryModuleItems(theoryModules);
+  const gameItems = taskItems
+    .map((item) => {
+      const current = item.routes.includes(currentRoute);
+      return `
+        <li class="lernmodule-item ${current ? "lernmodule-item--current" : ""}"${current ? ' aria-current="step"' : ""}>
+          <span class="lernmodule-number">${escapeHtml(item.number)}</span>
+          <span class="lernmodule-name">${escapeHtml(item.name)}</span>
+        </li>`;
+    })
     .join("");
 
   return `
     <aside class="lernmodule-sidebar" aria-label="Lernmodule">
       <p class="lernmodule-title">Lernmodule</p>
+      <label class="lernmodule-search-label" for="lernmodule-search">Suche in Lernmodulen</label>
+      <input class="lernmodule-search-input" id="lernmodule-search" type="search" data-learning-module-search autocomplete="off" placeholder="Keyword suchen" value="${escapeHtml(learningModuleSearchQuery)}">
+      <p class="lernmodule-search-status" role="status" aria-live="polite">${learningModuleSearchQuery.trim() ? "Suche laeuft ..." : `${theoryModules.length} Lernmodule`}</p>
       <p class="lernmodule-section-label">Theorie</p>
-      <ul class="lernmodule-list">${theoryItems}</ul>
+      <ul class="lernmodule-list" data-learning-module-results>${theoryItems}</ul>
       <p class="lernmodule-section-label">Aufgaben</p>
-      <ul class="lernmodule-list">
-        <li class="lernmodule-item lernmodule-item--current">
-          <span class="lernmodule-number">1</span>
-          <span class="lernmodule-name">Buchungssätze</span>
-        </li>
-      </ul>
+      <ul class="lernmodule-list">${gameItems}</ul>
     </aside>
   `;
 }
 
+
+function renderTheoryModuleItems(modules) {
+  return modules.map(renderTheoryModuleItem).join("");
+}
+
+function renderTheoryModuleItem(module) {
+  return `
+    <li class="lernmodule-item lernmodule-item--theory" data-module="${escapeHtml(module.id)}" tabindex="0" role="button" aria-label="${escapeHtml(module.name)} oeffnen">
+      <span class="lernmodule-icon">T</span>
+      <span class="lernmodule-name">${escapeHtml(module.name)}</span>
+    </li>`;
+}
+
+function renderLearningModuleEmptyState(query) {
+  return `<li class="lernmodule-empty">Kein Lernmodul enthaelt "${escapeHtml(query)}".</li>`;
+}
+
+function loadLearningModuleDocuments() {
+  if (!learningModuleDocumentsPromise) {
+    learningModuleDocumentsPromise = Promise.all(
+      theoryModules.map(async (module) => {
+        const response = await fetch(`./lernmodule/${module.id}.md`);
+        if (!response.ok) throw new Error(`Lernmodul konnte nicht geladen werden: ${module.id}`);
+        return Object.freeze({ ...module, markdown: await response.text() });
+      }),
+    );
+  }
+  return learningModuleDocumentsPromise;
+}
+
+function initLearningModuleSearch() {
+  document.body.addEventListener("input", (event) => {
+    const input = event.target.closest("[data-learning-module-search]");
+    if (!input) return;
+    learningModuleSearchQuery = input.value;
+    updateLearningModuleSearch(input.closest(".lernmodule-sidebar"), learningModuleSearchQuery);
+  });
+}
+
+async function updateLearningModuleSearch(sidebar, query) {
+  if (!sidebar) return;
+  const resultsList = sidebar.querySelector("[data-learning-module-results]");
+  const status = sidebar.querySelector(".lernmodule-search-status");
+  if (!resultsList || !status) return;
+
+  const trimmedQuery = query.trim();
+  if (!trimmedQuery) {
+    resultsList.innerHTML = renderTheoryModuleItems(theoryModules);
+    status.textContent = `${theoryModules.length} Lernmodule`;
+    return;
+  }
+
+  const requestId = ++learningModuleSearchRequestId;
+  status.textContent = "Suche laeuft ...";
+
+  try {
+    const documents = await loadLearningModuleDocuments();
+    if (requestId !== learningModuleSearchRequestId) return;
+    const results = searchLearningModules(documents, trimmedQuery);
+    resultsList.innerHTML = results.length > 0 ? renderTheoryModuleItems(results) : renderLearningModuleEmptyState(trimmedQuery);
+    status.textContent = results.length === 1 ? "1 Treffer" : `${results.length} Treffer`;
+  } catch {
+    if (requestId !== learningModuleSearchRequestId) return;
+    resultsList.innerHTML = renderTheoryModuleItems(theoryModules);
+    status.textContent = "Suche konnte nicht geladen werden.";
+  }
+}
 function initModuleModal() {
   const overlay = document.createElement("div");
   overlay.className = "module-modal-overlay";
@@ -512,13 +730,18 @@ function initModuleModal() {
 }
 
 function renderReferenceAction(action) {
-  return `<a class="resource-button" href="${escapeHtml(action.href)}" target="_blank" rel="noopener noreferrer">${escapeHtml(action.label)}</a>`;
+  return `<button class="support-popup-button" type="button" data-support-popup="${escapeHtml(action.id)}">${escapeHtml(action.label)}</button>`;
+}
+
+function renderCalculatorAction() {
+  return `<button class="support-popup-button" type="button" data-support-popup="calculator">Taschenrechner</button>`;
 }
 
 function renderGameSupportActions() {
   return `
-    <nav class="game-reference-bar" aria-label="Nachschlagewerke">
+    <nav class="game-reference-bar" aria-label="Nachschlagewerke und Werkzeuge">
       ${gameRound.referenceActions.map(renderReferenceAction).join("")}
+      ${renderCalculatorAction()}
     </nav>
     <div class="game-buddy-bar">
       <button class="buddy-button" type="button" disabled title="${escapeHtml(gameRound.buddyAction.hint)}">${escapeHtml(gameRound.buddyAction.label)}</button>
@@ -526,6 +749,182 @@ function renderGameSupportActions() {
   `;
 }
 
+function initSupportModal() {
+  const overlay = document.createElement("div");
+  overlay.className = "support-modal-overlay";
+  overlay.hidden = true;
+  overlay.setAttribute("role", "dialog");
+  overlay.setAttribute("aria-modal", "true");
+  overlay.setAttribute("aria-labelledby", "support-modal-title");
+  overlay.innerHTML = `
+    <div class="support-modal">
+      <div class="support-modal-header">
+        <h2 class="support-modal-title" id="support-modal-title"></h2>
+        <button type="button" class="support-modal-close" aria-label="Schliessen">x</button>
+      </div>
+      <div class="support-modal-body"></div>
+    </div>
+  `;
+  document.querySelector(".app-shell").appendChild(overlay);
+
+  const title = overlay.querySelector(".support-modal-title");
+  const body = overlay.querySelector(".support-modal-body");
+  const closeButton = overlay.querySelector(".support-modal-close");
+  let previousFocus = null;
+
+  closeButton.addEventListener("click", closeSupportModal);
+  overlay.addEventListener("click", (event) => {
+    const resourceLink = event.target.closest(".support-resource-link");
+    if (resourceLink) {
+      const resourceUrl = new URL(resourceLink.href, window.location.href).href;
+      const opened = window.open(resourceUrl, "_blank");
+      if (opened) {
+        event.preventDefault();
+        opened.opener = null;
+      }
+      return;
+    }
+    if (event.target === overlay) closeSupportModal();
+  });
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") closeSupportModal();
+  });
+  document.body.addEventListener("click", (event) => {
+    const button = event.target.closest("[data-support-popup]");
+    if (!button) return;
+    openSupportPopup(button.dataset.supportPopup);
+  });
+
+  function openSupportPopup(id) {
+    previousFocus = document.activeElement;
+    if (id === "calculator") {
+      title.textContent = "Taschenrechner";
+      body.innerHTML = renderCalculatorPopup();
+      overlay.hidden = false;
+      document.body.style.overflow = "hidden";
+      initCalculator(overlay);
+      overlay.querySelector(".calculator-display").focus();
+      return;
+    }
+
+    const action = gameRound.referenceActions.find((referenceAction) => referenceAction.id === id);
+    if (!action) return;
+    title.textContent = action.label;
+    body.innerHTML = renderResourcePopup(action);
+    overlay.hidden = false;
+    document.body.style.overflow = "hidden";
+    closeButton.focus();
+  }
+
+  function closeSupportModal() {
+    if (overlay.hidden) return;
+    overlay.hidden = true;
+    body.innerHTML = "";
+    document.body.style.overflow = "";
+    if (previousFocus?.focus) previousFocus.focus();
+  }
+}
+
+function renderResourcePopup(action) {
+  return `
+    <div class="support-resource-view">
+      <iframe class="support-resource-frame" src="${escapeHtml(action.href)}" title="${escapeHtml(action.label)}"></iframe>
+      <a class="support-resource-link" href="${escapeHtml(action.href)}" target="_blank" rel="noopener noreferrer">Dokument in neuem Tab oeffnen</a>
+    </div>
+  `;
+}
+
+function renderCalculatorPopup() {
+  return `
+    <form class="calculator-form" aria-label="Taschenrechner">
+      <label class="calculator-label" for="calculator-expression">Rechnung</label>
+      <div class="calculator-entry-row">
+        <input class="calculator-display" id="calculator-expression" data-calculator-expression inputmode="decimal" autocomplete="off" placeholder="z.B. 565 + 134.10">
+        <button class="calculator-evaluate-button" type="submit">Berechnen</button>
+      </div>
+      <label class="calculator-label" for="calculator-result">Ergebnis</label>
+      <div class="calculator-result-row">
+        <input class="calculator-result" id="calculator-result" data-calculator-result readonly value="0.00">
+        <button class="calculator-copy-button" type="button" data-calculator-copy>Kopieren</button>
+      </div>
+      <div class="calculator-keypad" aria-label="Taschenrechner-Tasten">
+        ${renderCalculatorKeys()}
+      </div>
+      <p class="calculator-copy-feedback" role="status" aria-live="polite"></p>
+    </form>
+  `;
+}
+
+function renderCalculatorKeys() {
+  const keys = ["7", "8", "9", "/", "4", "5", "6", "*", "1", "2", "3", "-", "0", ".", "C", "+", "(", ")", "⌫", "="];
+  return keys
+    .map((key) => {
+      const action = key === "C" ? "clear" : key === "⌫" ? "backspace" : key === "=" ? "evaluate" : "insert";
+      return `<button class="calculator-key" type="button" data-calculator-key="${escapeHtml(key)}" data-calculator-action="${action}">${escapeHtml(key)}</button>`;
+    })
+    .join("");
+}
+
+function initCalculator(container) {
+  const form = container.querySelector(".calculator-form");
+  const expression = container.querySelector("[data-calculator-expression]");
+  const result = container.querySelector("[data-calculator-result]");
+  const feedback = container.querySelector(".calculator-copy-feedback");
+
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    calculateAndShowResult();
+  });
+
+  container.querySelectorAll("[data-calculator-key]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const action = button.dataset.calculatorAction;
+      if (action === "clear") {
+        expression.value = "";
+        result.value = "0.00";
+        feedback.textContent = "";
+        expression.focus();
+        return;
+      }
+      if (action === "backspace") {
+        expression.value = expression.value.slice(0, -1);
+        expression.focus();
+        return;
+      }
+      if (action === "evaluate") {
+        calculateAndShowResult();
+        return;
+      }
+      expression.value += button.dataset.calculatorKey;
+      expression.focus();
+    });
+  });
+
+  container.querySelector("[data-calculator-copy]").addEventListener("click", async () => {
+    const value = result.value === "0.00" && expression.value.trim() ? calculateAndShowResult() : result.value;
+    if (!value) return;
+    try {
+      await navigator.clipboard.writeText(value);
+      feedback.textContent = "Ergebnis kopiert. Du kannst es jetzt mit Ctrl + V einfuegen.";
+    } catch {
+      result.focus();
+      result.select();
+      feedback.textContent = "Kopieren wurde blockiert. Das Ergebnis ist markiert und kann manuell kopiert werden.";
+    }
+  });
+
+  function calculateAndShowResult() {
+    try {
+      const calculated = calculateExpression(expression.value);
+      result.value = calculated.display;
+      feedback.textContent = "Ergebnis berechnet.";
+      return calculated.display;
+    } catch (error) {
+      feedback.textContent = error.message;
+      return "";
+    }
+  }
+}
 function initProgressPersistence(container) {
   const progress = loadProgress();
 
@@ -635,3 +1034,8 @@ function escapeHtml(value) {
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;");
 }
+
+startApp();
+initLearningModuleSearch();
+initModuleModal();
+initSupportModal();

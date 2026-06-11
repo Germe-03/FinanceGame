@@ -30,3 +30,4 @@ export function filterAccounts(accounts, query) {
     ({ number, name }) => name.toLowerCase().includes(q) || number.includes(q),
   );
 }
+
