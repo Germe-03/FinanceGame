@@ -11,7 +11,15 @@ import { renderCaseScreen } from "./screens/caseBriefing.js";
 import { renderConfigurationScreen } from "./screens/configuration.js";
 import { renderDescriptionScreen } from "./screens/description.js";
 import { renderIncomeStatementIntroScreen } from "./screens/incomeIntro.js";
+import {
+  renderMwstAdvancedBookingScreen,
+  renderMwstBookingScreen,
+  renderMwstClassifyScreen,
+  renderMwstTKontoScreen,
+  renderMwstVorsteuerScreen,
+} from "./screens/mwst.js";
 import { renderTKontoScreen } from "./screens/tKonto.js";
+import { gameRound } from "../content/gameRound.js";
 
 configureRouter(
   {
@@ -24,7 +32,12 @@ configureRouter(
     [ROUTES.gameIncomeIntro]: renderIncomeStatementIntroScreen,
     [ROUTES.gameMixed]: renderMixedBookingTaskScreen,
     [ROUTES.gameInvoices]: renderInvoiceBookingScreen,
-    [ROUTES.gameTKonto]: renderTKontoScreen,
+    [ROUTES.gameTKonto]: () => renderTKontoScreen(gameRound.tKontoBank),
+    [ROUTES.gameMwstClassify]: renderMwstClassifyScreen,
+    [ROUTES.gameMwstBooking]: renderMwstBookingScreen,
+    [ROUTES.gameMwstVorsteuer]: renderMwstVorsteuerScreen,
+    [ROUTES.gameMwstBookingPro]: renderMwstAdvancedBookingScreen,
+    [ROUTES.gameMwstTKonto]: renderMwstTKontoScreen,
   },
   renderDescriptionScreen,
 );

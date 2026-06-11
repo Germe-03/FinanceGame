@@ -1,4 +1,3 @@
-import { gameRound } from "../../content/gameRound.js";
 import { evaluateLedgerClosing, formatSwissAmount } from "../../domain/ledger.js";
 import { ROUTES } from "../../domain/navigation.js";
 import { renderLernmoduleSidebar } from "../components/sidebar.js";
@@ -6,27 +5,31 @@ import { renderGameSupportActions } from "../components/supportModal.js";
 import { appRoot, escapeHtml } from "../dom.js";
 import { navigateTo } from "../router.js";
 
-let state = null;
+const statesByAccount = new Map();
 
-function getState() {
-  if (!state) {
-    state = {
-      placements: Object.fromEntries(gameRound.tKontoBank.items.map((item) => [item.id, null])),
+function getState(task) {
+  if (!statesByAccount.has(task.accountNumber)) {
+    statesByAccount.set(task.accountNumber, {
+      placements: Object.fromEntries(task.items.map((item) => [item.id, null])),
       phase: "placing",
       closingInputs: { saldo: "", saldoSide: "haben", kontrollsumme: "" },
       closingResult: null,
-    };
+    });
   }
-  return state;
+  return statesByAccount.get(task.accountNumber);
 }
 
-function resetState() {
-  state = null;
+function resetState(task) {
+  statesByAccount.delete(task.accountNumber);
 }
 
-export function renderTKontoScreen() {
-  const task = gameRound.tKontoBank;
-  const current = getState();
+// Generischer T-Konto-Screen: task liefert accountName/-Nummer, lead, items
+// (siehe gameRound.tKontoBank und gameRound.mwst.tKonto) sowie optional
+// nextRoute/nextLabel für den Weiterführungs-Button in der Abschlussphase.
+export function renderTKontoScreen(task, options = {}) {
+  const eyebrow = options.eyebrow ?? "Aufgabe 4 · T-Konto";
+  const rerender = () => renderTKontoScreen(task, options);
+  const current = getState(task);
   const { placements, phase } = current;
   const items = task.items;
 
@@ -43,7 +46,7 @@ export function renderTKontoScreen() {
           <div class="screen__content screen__content--wide game-shell">
             <button class="back-button" type="button" id="back-to-case">Zurück zum Fallbeschrieb</button>
             <div class="game-stage-head">
-              <p class="eyebrow">Aufgabe 4 · T-Konto</p>
+              <p class="eyebrow">${escapeHtml(eyebrow)}</p>
               <h2 id="t-konto-title">${escapeHtml(task.title)}</h2>
               <p class="lead">${escapeHtml(task.lead)}</p>
             </div>
@@ -51,7 +54,7 @@ export function renderTKontoScreen() {
               ${phase === "placing" ? renderPool(poolItems, items.length) : ""}
               ${renderTable(sollItems, habenItems, task, current)}
               ${renderPhaseActions(allPlaced, phase)}
-              ${phase === "closing" ? renderClosing(current, items) : ""}
+              ${phase === "closing" ? renderClosing(current, items, task) : ""}
             </div>
           </div>
         </div>
@@ -63,14 +66,14 @@ export function renderTKontoScreen() {
   document.querySelector("#back-to-case").addEventListener("click", () => navigateTo(ROUTES.case));
 
   if (phase === "placing") {
-    initDragDrop(current);
+    initDragDrop(current, rerender);
     document.querySelectorAll("[data-t-reset]").forEach((btn) => {
-      btn.addEventListener("click", () => { resetState(); renderTKontoScreen(); });
+      btn.addEventListener("click", () => { resetState(task); rerender(); });
     });
     if (allPlaced) {
       document.querySelector("#t-konto-next-btn").addEventListener("click", () => {
         current.phase = "closing";
-        renderTKontoScreen();
+        rerender();
       });
     }
   }
@@ -87,18 +90,19 @@ export function renderTKontoScreen() {
     document.querySelector("#t-konto-back-btn")?.addEventListener("click", () => {
       current.phase = "placing";
       current.closingResult = null;
-      renderTKontoScreen();
+      rerender();
     });
     document.querySelector("#t-konto-reset-btn")?.addEventListener("click", () => {
-      resetState();
-      renderTKontoScreen();
+      resetState(task);
+      rerender();
     });
     document.querySelector("#t-konto-pruefen-btn")?.addEventListener("click", () => {
       current.closingInputs.saldo = saldoInput?.value ?? current.closingInputs.saldo;
       current.closingInputs.kontrollsumme = ksInput?.value ?? current.closingInputs.kontrollsumme;
       current.closingResult = evaluateLedgerClosing(items, current.placements, current.closingInputs);
-      renderTKontoScreen();
+      rerender();
     });
+    document.querySelector("#t-konto-continue-btn")?.addEventListener("click", () => navigateTo(task.nextRoute));
   }
 }
 
@@ -219,7 +223,7 @@ function renderPhaseActions(allPlaced, phase) {
   `;
 }
 
-function renderClosing(current, items) {
+function renderClosing(current, items, task) {
   const { closingInputs, closingResult } = current;
   const saldoSideHaben = (closingInputs.saldoSide || "haben") === "haben";
 
@@ -283,6 +287,7 @@ function renderClosing(current, items) {
           <button class="secondary-action" type="button" id="t-konto-back-btn">← Zuordnung korrigieren</button>
           <button class="secondary-action" type="button" id="t-konto-reset-btn">Neustart</button>
           <button class="primary-action" type="button" id="t-konto-pruefen-btn">Prüfen</button>
+          ${task.nextRoute ? `<button class="primary-action" type="button" id="t-konto-continue-btn">${escapeHtml(task.nextLabel)}</button>` : ""}
         </div>
       </div>
       ${feedbackHtml}
@@ -290,7 +295,7 @@ function renderClosing(current, items) {
   `;
 }
 
-function initDragDrop(current) {
+function initDragDrop(current, rerender) {
   document.querySelectorAll("[data-t-chip]").forEach((chip) => {
     chip.addEventListener("dragstart", (e) => {
       e.dataTransfer.setData("text/plain", chip.dataset.tChip);
@@ -315,7 +320,7 @@ function initDragDrop(current) {
       const itemId = e.dataTransfer.getData("text/plain");
       if (!itemId) return;
       current.placements[itemId] = zone.dataset.tDrop === "pool" ? null : zone.dataset.tDrop;
-      renderTKontoScreen();
+      rerender();
     });
   });
 }

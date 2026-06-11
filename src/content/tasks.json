@@ -105,5 +105,85 @@
     { "id": "RG-03", "scenario": "EKZ Elektrizitaetswerke verrechnen den Stromverbrauch fuer Mai 2024.", "amount": "CHF 372.00", "debitAccount": "Energieaufwand", "creditAccount": "Verbindlichkeiten LL", "explanation": "Der Stromverbrauch wird auf Energieaufwand 6400 gebucht. Die Rechnung bleibt offen, deshalb steht Verbindlichkeiten LL im Haben.", "image": "rechnung_3.png" },
     { "id": "RG-04", "scenario": "Immobilien Keller AG verrechnet die Miete fuer das Geschaeftslokal im Juni 2024.", "amount": "CHF 1'800.00", "debitAccount": "Raumaufwand", "creditAccount": "Verbindlichkeiten LL", "explanation": "Die Miete fuer das Geschaeftslokal gehoert in den Raumaufwand. Weil die Rechnung noch nicht bezahlt ist, steht Verbindlichkeiten LL im Haben.", "image": "rechnung_4.png" },
     { "id": "RG-05", "scenario": "Garage Schneider stellt die Inspektion des VW Transporters inklusive Material in Rechnung.", "amount": "CHF 415.00", "debitAccount": "Fahrzeugaufwand", "creditAccount": "Verbindlichkeiten LL", "explanation": "Inspektion und Material fuer den Firmenwagen gehoeren in den Fahrzeugaufwand. Die offene Rechnung wird als Verbindlichkeiten LL erfasst.", "image": "rechnung_5.png" }
+  ],
+  "mwstClassification": [
+    { "id": "MZ-01", "scenario": "Die Firma kauft Schrauben und Beschläge für die Werkstatt auf Rechnung. Auf der Rechnung ist 8.1 % MWST ausgewiesen.", "correct": "vorsteuer", "explanation": "Beim Einkauf bezahlt die Firma MWST an den Lieferanten. Diese Vorsteuer ist ein Guthaben gegenüber der ESTV und kann bei der Abrechnung abgezogen werden." },
+    { "id": "MZ-02", "scenario": "Die Firma verkauft einem Kunden Handelswaren und weist auf der Rechnung 8.1 % MWST aus.", "correct": "geschuldet", "explanation": "Beim Verkauf zieht die Firma MWST vom Kunden ein. Dieses Geld gehört der ESTV — es ist geschuldete MWST und damit eine Schuld der Firma." },
+    { "id": "MZ-03", "scenario": "Die Monatslöhne werden dem Team per Bank überwiesen.", "correct": "keine", "explanation": "Löhne unterliegen nicht der Mehrwertsteuer. Bei der Lohnzahlung entsteht weder Vorsteuer noch geschuldete MWST." },
+    { "id": "MZ-04", "scenario": "Für die Werkstatt wird eine neue Absauganlage gekauft. Die Rechnung weist 8.1 % MWST aus.", "correct": "vorsteuer", "explanation": "Auch beim Kauf von Anlagen bezahlt die Firma MWST an den Lieferanten. Diese Vorsteuer darf sie bei der Abrechnung mit der ESTV abziehen." },
+    { "id": "MZ-05", "scenario": "Eine Reparatur beim Kunden wird mit ausgewiesener MWST in Rechnung gestellt.", "correct": "geschuldet", "explanation": "Die Firma erbringt eine steuerbare Leistung und stellt MWST in Rechnung. Der eingezogene Betrag ist geschuldete MWST gegenüber der ESTV." },
+    { "id": "MZ-06", "scenario": "Die Bank belastet Zinsen für das Bankdarlehen.", "correct": "keine", "explanation": "Zinsen gehören zum Finanzbereich und sind von der MWST ausgenommen. Es sieht nach Aufwand mit MWST aus — ist es aber nicht." },
+    { "id": "MZ-07", "scenario": "Die Jahresprämie für die Betriebsversicherung wird per Bank bezahlt.", "correct": "keine", "explanation": "Versicherungsprämien sind von der MWST ausgenommen. Trotz hoher Rechnung gibt es hier keinen Vorsteuerabzug." },
+    { "id": "MZ-08", "scenario": "Beim Grosshändler wird Holz eingekauft. Auf der Quittung steht 8.1 % MWST.", "correct": "vorsteuer", "explanation": "Der Materialeinkauf enthält MWST, welche die Firma als Vorsteuer geltend machen kann. Sie ist ein Guthaben gegenüber der ESTV." },
+    { "id": "MZ-09", "scenario": "Ein Barverkauf von Restholz wird an der Ladenkasse getippt, inklusive MWST.", "correct": "geschuldet", "explanation": "Auch bei Barverkäufen zieht die Firma MWST vom Kunden ein. Der MWST-Anteil im Kassenbetrag ist geschuldete MWST." },
+    { "id": "MZ-10", "scenario": "Die monatliche Miete für die Werkstatt wird überwiesen. Auf der Mietrechnung steht keine MWST.", "correct": "keine", "explanation": "Die Vermietung von Geschäftsräumen ist grundsätzlich von der MWST ausgenommen (ohne Option). Ein grosser Aufwand — aber ohne MWST-Folge." }
+  ],
+  "mwstBookingsBasic": [
+    { "id": "MB-01", "scenario": "Materialeinkauf auf Rechnung: netto CHF 1'000.00 plus 8.1 % MWST (CHF 81.00).", "bookings": [
+      { "amount": "CHF 1'000.00", "debit": { "account": "Materialaufwand", "type": "expense" }, "credit": { "account": "Verbindlichkeiten LL", "type": "passive" } },
+      { "amount": "CHF 81.00", "debit": { "account": "Vorsteuer Material, Waren, DL, Energie", "type": "active" }, "credit": { "account": "Verbindlichkeiten LL", "type": "passive" } }
+    ]},
+    { "id": "MB-02", "scenario": "Warenverkauf auf Rechnung: netto CHF 2'000.00 plus 8.1 % MWST (CHF 162.00).", "bookings": [
+      { "amount": "CHF 2'000.00", "debit": { "account": "Forderungen LL", "type": "active" }, "credit": { "account": "Warenertrag", "type": "revenue" } },
+      { "amount": "CHF 162.00", "debit": { "account": "Forderungen LL", "type": "active" }, "credit": { "account": "Geschuldete MWST", "type": "passive" } }
+    ]},
+    { "id": "MB-03", "scenario": "Barverkauf von Restholz: In der Kasse liegen CHF 2'162.00 inklusive 8.1 % MWST. Rechne den Nettobetrag und die MWST heraus.", "bookings": [
+      { "amount": "CHF 2'000.00", "debit": { "account": "Kasse", "type": "active" }, "credit": { "account": "Warenertrag", "type": "revenue" } },
+      { "amount": "CHF 162.00", "debit": { "account": "Kasse", "type": "active" }, "credit": { "account": "Geschuldete MWST", "type": "passive" } }
+    ]},
+    { "id": "MB-04", "scenario": "Eine grössere Montagearbeit wird dem Kunden verrechnet: netto CHF 6'000.00 plus 8.1 % MWST (CHF 486.00).", "bookings": [
+      { "amount": "CHF 6'000.00", "debit": { "account": "Forderungen LL", "type": "active" }, "credit": { "account": "Dienstleistungsertrag", "type": "revenue" } },
+      { "amount": "CHF 486.00", "debit": { "account": "Forderungen LL", "type": "active" }, "credit": { "account": "Geschuldete MWST", "type": "passive" } }
+    ]},
+    { "id": "MB-05", "scenario": "Die Monatslöhne von CHF 4'500.00 werden dem Team per Bank überwiesen.", "amount": "CHF 4'500.00", "debit": { "account": "Lohnaufwand", "type": "expense" }, "credit": { "account": "Bank", "type": "active" } },
+    { "id": "MB-06", "scenario": "Die Bank schreibt CHF 42.00 Zins auf dem Geschäftskonto gut.", "amount": "CHF 42.00", "debit": { "account": "Bank", "type": "active" }, "credit": { "account": "Finanzertrag", "type": "revenue" } }
+  ],
+  "mwstVorsteuerSplit": [
+    { "id": "VS-01", "scenario": "Holzlatten für Kundenaufträge werden auf Rechnung eingekauft, MWST ausgewiesen.", "correct": "1170", "explanation": "Materialeinkäufe für die Leistungserstellung gehören zur Vorsteuer 1170 (Material, Waren, Dienstleistungen, Energie)." },
+    { "id": "VS-02", "scenario": "Eine neue CNC-Fräse wird für die Werkstatt angeschafft, MWST ausgewiesen.", "correct": "1171", "explanation": "Die Fräse ist eine Investition ins Anlagevermögen. Vorsteuer auf Investitionen gehört auf das Konto 1171." },
+    { "id": "VS-03", "scenario": "Die Stromrechnung der Werkstatt trifft ein, MWST ausgewiesen.", "correct": "1170", "explanation": "Energieaufwand gehört ausdrücklich zur Vorsteuer 1170 (Material, Waren, Dienstleistungen und Energie)." },
+    { "id": "VS-04", "scenario": "Büromaterial wird beim Papeterie-Grossisten gekauft, MWST ausgewiesen.", "correct": "1171", "explanation": "Büromaterial ist übriger Betriebsaufwand und gehört damit zur Vorsteuer 1171 (Investitionen und übriger Betriebsaufwand)." },
+    { "id": "VS-05", "scenario": "Ein Subunternehmer montiert für einen Kundenauftrag und stellt Rechnung mit MWST.", "correct": "1170", "explanation": "Fremdleistungen für die eigentliche Leistungserstellung zählen zu den Dienstleistungen und gehören zur Vorsteuer 1170." },
+    { "id": "VS-06", "scenario": "Das Jahresabo für den IT-Support wird verrechnet, MWST ausgewiesen.", "correct": "1171", "explanation": "IT-Support ist übriger Betriebsaufwand (Informatikaufwand) und gehört deshalb zur Vorsteuer 1171." },
+    { "id": "VS-07", "scenario": "Sechs neue Bürostühle für mehrere Jahre Nutzung werden gekauft, MWST ausgewiesen.", "correct": "1171", "explanation": "Die Stühle sind eine Investition ins Mobiliar. Vorsteuer auf Investitionen gehört auf das Konto 1171." },
+    { "id": "VS-08", "scenario": "Die Monatslöhne werden per Bank überwiesen.", "correct": "keine", "explanation": "Löhne unterliegen nicht der MWST. Ohne bezahlte MWST gibt es auch keinen Vorsteuerabzug — weder über 1170 noch über 1171." },
+    { "id": "VS-09", "scenario": "Der Lieferwagen erhält einen Service in der Garage, MWST ausgewiesen.", "correct": "1171", "explanation": "Fahrzeugunterhalt ist übriger Betriebsaufwand und gehört damit zur Vorsteuer 1171." },
+    { "id": "VS-10", "scenario": "Die Prämie der Betriebsversicherung wird bezahlt.", "correct": "keine", "explanation": "Versicherungsprämien sind von der MWST ausgenommen. Es wurde keine MWST bezahlt, also gibt es keinen Vorsteuerabzug." }
+  ],
+  "mwstBookingsAdvanced": [
+    { "id": "MV-01", "scenario": "Holzeinkauf auf Rechnung: netto CHF 2'000.00 plus 8.1 % MWST (CHF 162.00).", "bookings": [
+      { "amount": "CHF 2'000.00", "debit": { "account": "Materialaufwand", "type": "expense" }, "credit": { "account": "Verbindlichkeiten LL", "type": "passive" } },
+      { "amount": "CHF 162.00", "debit": { "account": "Vorsteuer Material, Waren, DL, Energie", "type": "active" }, "credit": { "account": "Verbindlichkeiten LL", "type": "passive" } }
+    ]},
+    { "id": "MV-02", "scenario": "Eine neue Schleifmaschine wird auf Rechnung gekauft: netto CHF 5'000.00 plus 8.1 % MWST (CHF 405.00).", "bookings": [
+      { "amount": "CHF 5'000.00", "debit": { "account": "Maschinen", "type": "active" }, "credit": { "account": "Verbindlichkeiten LL", "type": "passive" } },
+      { "amount": "CHF 405.00", "debit": { "account": "Vorsteuer Investitionen, übriger Betriebsaufwand", "type": "active" }, "credit": { "account": "Verbindlichkeiten LL", "type": "passive" } }
+    ]},
+    { "id": "MV-03", "scenario": "Das Montageteam holt über Mittag Takeaway-Verpflegung und bezahlt bar CHF 102.60 inklusive MWST. Überlege zuerst, welcher MWST-Satz für Takeaway gilt.", "bookings": [
+      { "amount": "CHF 100.00", "debit": { "account": "Sonstiger Betriebsaufwand", "type": "expense" }, "credit": { "account": "Kasse", "type": "active" } },
+      { "amount": "CHF 2.60", "debit": { "account": "Vorsteuer Investitionen, übriger Betriebsaufwand", "type": "active" }, "credit": { "account": "Kasse", "type": "active" } }
+    ]},
+    { "id": "MV-04", "scenario": "Nach der Abnahme lädt die Chefin die Kundin ins Restaurant ein und bezahlt bar CHF 216.20 inklusive MWST. Gilt hier derselbe Satz wie beim Takeaway?", "bookings": [
+      { "amount": "CHF 200.00", "debit": { "account": "Sonstiger Betriebsaufwand", "type": "expense" }, "credit": { "account": "Kasse", "type": "active" } },
+      { "amount": "CHF 16.20", "debit": { "account": "Vorsteuer Investitionen, übriger Betriebsaufwand", "type": "active" }, "credit": { "account": "Kasse", "type": "active" } }
+    ]},
+    { "id": "MV-05", "scenario": "Die Jahresprämie der Betriebsversicherung von CHF 1'260.00 wird per Bank bezahlt.", "amount": "CHF 1'260.00", "debit": { "account": "Versicherungsaufwand", "type": "expense" }, "credit": { "account": "Bank", "type": "active" } },
+    { "id": "MV-06", "scenario": "Der IT-Support stellt netto CHF 800.00 plus 8.1 % MWST (CHF 64.80) auf Rechnung.", "bookings": [
+      { "amount": "CHF 800.00", "debit": { "account": "Informatikaufwand", "type": "expense" }, "credit": { "account": "Verbindlichkeiten LL", "type": "passive" } },
+      { "amount": "CHF 64.80", "debit": { "account": "Vorsteuer Investitionen, übriger Betriebsaufwand", "type": "active" }, "credit": { "account": "Verbindlichkeiten LL", "type": "passive" } }
+    ]},
+    { "id": "MV-07", "scenario": "Die Stromrechnung der Werkstatt trifft ein: netto CHF 400.00 plus 8.1 % MWST (CHF 32.40).", "bookings": [
+      { "amount": "CHF 400.00", "debit": { "account": "Energieaufwand", "type": "expense" }, "credit": { "account": "Verbindlichkeiten LL", "type": "passive" } },
+      { "amount": "CHF 32.40", "debit": { "account": "Vorsteuer Material, Waren, DL, Energie", "type": "active" }, "credit": { "account": "Verbindlichkeiten LL", "type": "passive" } }
+    ]},
+    { "id": "MV-08", "scenario": "Die Werkstattmiete von CHF 2'800.00 wird per Bank überwiesen. Auf der Mietrechnung ist keine MWST ausgewiesen.", "amount": "CHF 2'800.00", "debit": { "account": "Raumaufwand", "type": "expense" }, "credit": { "account": "Bank", "type": "active" } },
+    { "id": "MV-09", "scenario": "Eine Montagearbeit wird dem Kunden verrechnet: netto CHF 1'400.00 plus 8.1 % MWST (CHF 113.40).", "bookings": [
+      { "amount": "CHF 1'400.00", "debit": { "account": "Forderungen LL", "type": "active" }, "credit": { "account": "Dienstleistungsertrag", "type": "revenue" } },
+      { "amount": "CHF 113.40", "debit": { "account": "Forderungen LL", "type": "active" }, "credit": { "account": "Geschuldete MWST", "type": "passive" } }
+    ]},
+    { "id": "MV-10", "scenario": "Quartalsabrechnung mit der ESTV: Die gesamte Vorsteuer wird mit der geschuldeten MWST verrechnet — CHF 275.40 vom Konto 1170 und CHF 488.60 vom Konto 1171.", "bookings": [
+      { "amount": "CHF 275.40", "debit": { "account": "Geschuldete MWST", "type": "passive" }, "credit": { "account": "Vorsteuer Material, Waren, DL, Energie", "type": "active" } },
+      { "amount": "CHF 488.60", "debit": { "account": "Geschuldete MWST", "type": "passive" }, "credit": { "account": "Vorsteuer Investitionen, übriger Betriebsaufwand", "type": "active" } }
+    ]}
   ]
 }

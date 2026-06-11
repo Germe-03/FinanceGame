@@ -41,7 +41,7 @@ test("static server serves the app shell and every referenced resource", { timeo
     // Spielinhalte und Domain-Logik
     await assertServed("/src/content/tasks.json", /application\/json/);
     const tasks = JSON.parse(await fetchText("/src/content/tasks.json"));
-    for (const section of ["accountPlan", "balanceOnly", "mixed", "invoices"]) {
+    for (const section of ["accountPlan", "balanceOnly", "mixed", "invoices", "mwstClassification", "mwstBookingsBasic", "mwstVorsteuerSplit", "mwstBookingsAdvanced"]) {
       assert.ok(Array.isArray(tasks[section]) && tasks[section].length > 0, `tasks.json must contain section ${section}`);
     }
 

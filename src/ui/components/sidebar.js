@@ -12,6 +12,7 @@ const taskItems = Object.freeze([
   { number: "2", name: "Buchungssätze", routes: [ROUTES.gameBalance, ROUTES.gameIncomeIntro, ROUTES.gameMixed] },
   { number: "3", name: "Rechnungen", routes: [ROUTES.gameInvoices] },
   { number: "4", name: "T-Konto Bank", routes: [ROUTES.gameTKonto] },
+  { number: "5", name: "Mehrwertsteuer", routes: [ROUTES.gameMwstClassify, ROUTES.gameMwstBooking, ROUTES.gameMwstVorsteuer, ROUTES.gameMwstBookingPro, ROUTES.gameMwstTKonto] },
 ]);
 
 export function renderLernmoduleSidebar() {

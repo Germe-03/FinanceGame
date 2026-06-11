@@ -17,7 +17,10 @@ test("account plan includes invoice task expense accounts", () => {
 test("game round exposes the requested task order", () => {
   assert.deepEqual(
     gameRound.taskSequence.map((task) => task.id),
-    ["account-plan", "booking-balance", "booking-income-intro", "booking-mixed", "invoice-booking", "t-konto-bank"],
+    [
+      "account-plan", "booking-balance", "booking-income-intro", "booking-mixed", "invoice-booking", "t-konto-bank",
+      "mwst-classify", "mwst-booking-basic", "mwst-vorsteuer-split", "mwst-booking-advanced", "mwst-t-konto",
+    ],
   );
   assert.deepEqual(
     gameRound.taskSequence.map((task) => task.title),
@@ -28,6 +31,11 @@ test("game round exposes the requested task order", () => {
       "Aufgabe 2: Gemischte Buchungssätze",
       "Aufgabe 3: Rechnung kontieren",
       "Aufgabe 4: T-Konto Bank",
+      "Aufgabe 5: Vorsteuer oder geschuldete MWST?",
+      "Aufgabe 5: Buchen mit MWST",
+      "Aufgabe 5: Vorsteuer 1170 oder 1171?",
+      "Aufgabe 5: Buchen mit 1170 und 1171",
+      "Aufgabe 5: T-Konto Geschuldete MWST",
     ],
   );
 });

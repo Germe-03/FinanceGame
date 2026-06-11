@@ -104,6 +104,53 @@ const tKontoBank = Object.freeze({
   accountNumber: "1100",
   lead: "Ziehe jeden Betrag auf die richtige Seite des T-Kontos — Soll (links) oder Haben (rechts). Alle Buchungssätze aus Aufgabe 2, in denen das Konto Bank vorkommt, werden automatisch berücksichtigt.",
   items: Object.freeze(getAccountLedgerItems([...tasksData.balanceOnly, ...tasksData.mixed], "Bank")),
+  nextRoute: "spiel/mwst/zuordnen",
+  nextLabel: "Weiter zu Aufgabe 5: Mehrwertsteuer",
+});
+
+const mwst = Object.freeze({
+  title: "Aufgabe 5: Mehrwertsteuer",
+  classification: Object.freeze({
+    title: "Aufgabe 5: Vorsteuer oder geschuldete MWST?",
+    lead: "Entscheide bei jedem Geschäftsfall: Entsteht Vorsteuer (wir haben eingekauft), geschuldete MWST (wir haben verkauft) — oder gar keine MWST? Achtung, einige Fälle sehen nach MWST aus, lösen aber keine aus.",
+    nextButtonLabel: "Weiter",
+    choiceOptions: Object.freeze([
+      Object.freeze({ id: "vorsteuer", label: "Vorsteuer", hint: "Wir haben eingekauft — Guthaben gegenüber der ESTV" }),
+      Object.freeze({ id: "geschuldet", label: "Geschuldete MWST", hint: "Wir haben verkauft — Schuld gegenüber der ESTV" }),
+      Object.freeze({ id: "keine", label: "Keine MWST", hint: "Geschäftsfall ohne MWST-Folge" }),
+    ]),
+    tasks: Object.freeze(tasksData.mwstClassification),
+  }),
+  bookingsBasic: Object.freeze({
+    title: "Aufgabe 5: Buchen mit MWST",
+    lead: "Buche die Geschäftsfälle inklusive MWST. Verwende für die Vorsteuer vorerst nur das Konto 1170 — die Unterscheidung 1170/1171 folgt im nächsten Schritt. Nicht jeder Fall enthält MWST!",
+    nextButtonLabel: "Weiter",
+    tasks: Object.freeze(tasksData.mwstBookingsBasic),
+  }),
+  vorsteuerSplit: Object.freeze({
+    title: "Aufgabe 5: Vorsteuer 1170 oder 1171?",
+    lead: "Die Vorsteuer wird auf zwei Konten geführt: 1170 für Material, Waren, Dienstleistungen und Energie — 1171 für Investitionen und übrigen Betriebsaufwand. Ordne jeden Einkauf dem richtigen Konto zu.",
+    nextButtonLabel: "Weiter",
+    choiceOptions: Object.freeze([
+      Object.freeze({ id: "1170", label: "1170 Vorsteuer", hint: "Material, Waren, Dienstleistungen, Energie" }),
+      Object.freeze({ id: "1171", label: "1171 Vorsteuer", hint: "Investitionen und übriger Betriebsaufwand" }),
+      Object.freeze({ id: "keine", label: "Kein Vorsteuerabzug", hint: "Hier wurde gar keine MWST bezahlt" }),
+    ]),
+    tasks: Object.freeze(tasksData.mwstVorsteuerSplit),
+  }),
+  bookingsAdvanced: Object.freeze({
+    title: "Aufgabe 5: Buchen mit 1170 und 1171",
+    lead: "Buche mit den richtigen Vorsteuerkonten 1170 und 1171. Achtung: Einige Fälle enthalten gar keine MWST — und bei der Verpflegung musst Du den richtigen Satz wählen (8.1 % normal, 2.6 % reduziert für Takeaway).",
+    nextButtonLabel: "Weiter zum T-Konto",
+    tasks: Object.freeze(tasksData.mwstBookingsAdvanced),
+  }),
+  tKonto: Object.freeze({
+    title: "Aufgabe 5: T-Konto Geschuldete MWST",
+    accountName: "Geschuldete MWST",
+    accountNumber: "2200",
+    lead: "Führe das Konto Geschuldete MWST: Ziehe alle MWST-Buchungen aus den beiden Buchungs-Teilaufgaben auf die richtige Seite. Der Saldo zeigt am Schluss die Zahllast — den Betrag, den die Firma der ESTV überweisen muss.",
+    items: Object.freeze(getAccountLedgerItems([...tasksData.mwstBookingsBasic, ...tasksData.mwstBookingsAdvanced], "Geschuldete MWST")),
+  }),
 });
 
 export const gameRound = Object.freeze({
@@ -117,6 +164,11 @@ export const gameRound = Object.freeze({
     Object.freeze({ id: "booking-mixed", title: "Aufgabe 2: Gemischte Buchungssätze", route: "spiel/gemischt" }),
     Object.freeze({ id: "invoice-booking", title: invoiceBooking.title, route: "spiel/rechnungen" }),
     Object.freeze({ id: "t-konto-bank", title: tKontoBank.title, route: "spiel/t-konto" }),
+    Object.freeze({ id: "mwst-classify", title: mwst.classification.title, route: "spiel/mwst/zuordnen" }),
+    Object.freeze({ id: "mwst-booking-basic", title: mwst.bookingsBasic.title, route: "spiel/mwst/buchen" }),
+    Object.freeze({ id: "mwst-vorsteuer-split", title: mwst.vorsteuerSplit.title, route: "spiel/mwst/vorsteuer-konten" }),
+    Object.freeze({ id: "mwst-booking-advanced", title: mwst.bookingsAdvanced.title, route: "spiel/mwst/buchen-vertieft" }),
+    Object.freeze({ id: "mwst-t-konto", title: mwst.tKonto.title, route: "spiel/mwst/t-konto" }),
   ]),
   accountPlanSearch,
   bookingTask,
@@ -125,6 +177,7 @@ export const gameRound = Object.freeze({
   mixedTasks,
   invoiceBooking,
   tKontoBank,
+  mwst,
   referenceActions: Object.freeze([
     Object.freeze({ id: "kmu-chart", label: "KMU-Kontenplan", href: "./assets/accounting/kmu-kontenplan/Schweizer-Kontenrahmen-KMU.pdf" }),
     Object.freeze({ id: "or-law", label: "OR", href: "./assets/legal/or/or.pdf" }),

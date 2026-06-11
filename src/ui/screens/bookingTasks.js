@@ -36,7 +36,7 @@ export function renderInvoiceBookingScreen() {
   });
 }
 
-function renderBookingTaskListScreen(section, options) {
+export function renderBookingTaskListScreen(section, options) {
   appRoot.innerHTML = `
     <section class="screen screen--game" aria-labelledby="game-title">
       <div class="game-outer-layout">

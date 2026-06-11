@@ -47,6 +47,7 @@ tests/        node:test; serverSmoke prüft Verhalten (erreichbare Ressourcen),
 - **TDD ist Pflicht** (Details in AGENTS.md): Domain-Änderungen zuerst per Test in `tests/` absichern.
 - Content-Objekte sind mit `Object.freeze` eingefroren; UI rendert über Template-Strings mit `escapeHtml` aus `src/ui/dom.js`.
 - UI-Texte auf Deutsch (Schweiz): «ss» statt «ß»; Beträge im Format `CHF 1'234.50` (Formatierung: `formatSwissAmount` in `src/domain/ledger.js`).
-- Aufgabe 4 (T-Konto) leitet ihre Einträge automatisch aus den Aufgabe-2-Daten ab (`getAccountLedgerItems` über balanceOnly + mixed). Neue Buchungssätze mit Konto Bank erscheinen dort ohne Zusatzaufwand.
+- Die T-Konto-Aufgaben (4: Bank, 5: Geschuldete MWST) leiten ihre Einträge automatisch aus den Buchungsdaten ab (`getAccountLedgerItems`). Neue Buchungssätze mit dem jeweiligen Konto erscheinen dort ohne Zusatzaufwand. Der T-Konto-Screen (`screens/tKonto.js`) und der Zuordnungs-Screen (`screens/choiceTasks.js`) sind generisch — neue Instanzen brauchen nur Content-Konfiguration.
+- Aufgabe 5 (MWST): Die ESTV-Verrechnungsbuchung MV-10 in tasks.json muss den Summen aller Vorsteuer-Buchungen (1170/1171) der MWST-Teilaufgaben entsprechen — tests/mwstContent.test.js erzwingt das. Wer MWST-Buchungssätze ändert, passt MV-10 an.
 - Skonto ist Ertragsminderung (Dienstleistungsertrag im Soll), nicht Finanzaufwand.
 - `index.html` lädt das Einstiegsmodul mit Cache-Buster `?v=...` — bei UI-Änderungen Version anpassen.
