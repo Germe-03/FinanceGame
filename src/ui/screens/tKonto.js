@@ -114,7 +114,7 @@ function renderPool(poolItems, totalCount) {
         <div class="t-konto-chip" draggable="true" data-t-chip="${escapeHtml(item.id)}"
           title="${escapeHtml(item.scenario)}">
           <span class="t-konto-chip__id">${escapeHtml(item.taskId)}</span>
-          <span class="t-konto-chip__amount">${escapeHtml(item.amount)}</span>
+          <span class="t-konto-chip__amount">CHF ${formatSwissAmount(item.amountValue)}</span>
           <p class="t-konto-chip__scenario">${escapeHtml(item.scenario)}</p>
         </div>
       `).join("");
@@ -145,7 +145,7 @@ function renderTable(sollItems, habenItems, task, current) {
       <div class="t-konto-entry${statusClass}" ${draggableAttr} title="${escapeHtml(item.scenario)}">
         <span class="t-konto-entry__id">${escapeHtml(item.taskId)}</span>
         <span class="t-konto-entry__counter">${escapeHtml(item.counterAccount)}</span>
-        <span class="t-konto-entry__amount">${escapeHtml(item.amount)}</span>
+        <span class="t-konto-entry__amount">${formatSwissAmount(item.amountValue)}</span>
         ${checkIcon}
       </div>
     `;

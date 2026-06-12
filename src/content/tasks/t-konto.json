@@ -1,0 +1,13 @@
+{
+  "id": "aufgabe-4",
+  "title": "Aufgabe 4: T-Konto Bank",
+  "lead": "Ziehe jeden Betrag auf die richtige Seite des T-Kontos — Soll (links) oder Haben (rechts). Alle Buchungssätze aus Aufgabe 2, in denen das Konto Bank vorkommt, werden automatisch berücksichtigt.",
+  "account": {
+    "name": "Bank",
+    "number": "1100"
+  },
+  "next": {
+    "route": "spiel/mwst/zuordnen",
+    "label": "Weiter zu Aufgabe 5: Mehrwertsteuer"
+  }
+}

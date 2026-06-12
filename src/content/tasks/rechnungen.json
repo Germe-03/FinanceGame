@@ -1,0 +1,72 @@
+{
+  "id": "aufgabe-3",
+  "title": "Aufgabe 3: Rechnung kontieren",
+  "lead": "Pruefe die abgebildete Rechnung und trage darunter den passenden Buchungssatz ein. Die Faelle sind vorerst ohne MWST formuliert.",
+  "tasks": [
+    {
+      "id": "RG-01",
+      "scenario": "Papeterie Mueller AG verrechnet Verwaltungs- und Bueromaterial fuer das Buero.",
+      "image": "rechnung_1.png",
+      "explanation": "Das Verwaltungs- und Bueromaterial wird als Verwaltungsaufwand verbucht. Da die Rechnung noch offen ist, steht Verbindlichkeiten LL im Haben.",
+      "bookings": [
+        {
+          "amount": 123.1,
+          "debit": "Verwaltungsaufwand",
+          "credit": "Verbindlichkeiten LL"
+        }
+      ]
+    },
+    {
+      "id": "RG-02",
+      "scenario": "TechSupport Bern GmbH stellt eine Rechnung fuer Serverreparatur und Anfahrt.",
+      "image": "rechnung_2.png",
+      "explanation": "Serverreparatur und IT-Unterstuetzung gehoeren hier in den Informatikaufwand. Die offene Rechnung wird als Verbindlichkeiten LL erfasst.",
+      "bookings": [
+        {
+          "amount": 565,
+          "debit": "Informatikaufwand",
+          "credit": "Verbindlichkeiten LL"
+        }
+      ]
+    },
+    {
+      "id": "RG-03",
+      "scenario": "EKZ Elektrizitaetswerke verrechnen den Stromverbrauch fuer Mai 2024.",
+      "image": "rechnung_3.png",
+      "explanation": "Der Stromverbrauch wird auf Energieaufwand 6400 gebucht. Die Rechnung bleibt offen, deshalb steht Verbindlichkeiten LL im Haben.",
+      "bookings": [
+        {
+          "amount": 372,
+          "debit": "Energieaufwand",
+          "credit": "Verbindlichkeiten LL"
+        }
+      ]
+    },
+    {
+      "id": "RG-04",
+      "scenario": "Immobilien Keller AG verrechnet die Miete fuer das Geschaeftslokal im Juni 2024.",
+      "image": "rechnung_4.png",
+      "explanation": "Die Miete fuer das Geschaeftslokal gehoert in den Raumaufwand. Weil die Rechnung noch nicht bezahlt ist, steht Verbindlichkeiten LL im Haben.",
+      "bookings": [
+        {
+          "amount": 1800,
+          "debit": "Raumaufwand",
+          "credit": "Verbindlichkeiten LL"
+        }
+      ]
+    },
+    {
+      "id": "RG-05",
+      "scenario": "Garage Schneider stellt die Inspektion des VW Transporters inklusive Material in Rechnung.",
+      "image": "rechnung_5.png",
+      "explanation": "Inspektion und Material fuer den Firmenwagen gehoeren in den Fahrzeugaufwand. Die offene Rechnung wird als Verbindlichkeiten LL erfasst.",
+      "bookings": [
+        {
+          "amount": 415,
+          "debit": "Fahrzeugaufwand",
+          "credit": "Verbindlichkeiten LL"
+        }
+      ]
+    }
+  ]
+}

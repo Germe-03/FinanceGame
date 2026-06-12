@@ -1,0 +1,694 @@
+{
+  "id": "aufgabe-2",
+  "title": "Aufgabe 2: Buchungssätze",
+  "balanceOnly": {
+    "title": "Nur Aktiv- und Passivkonten",
+    "lead": "Löse diese 20 Geschäftsfälle. Jeder Buchungssatz enthält ausschliesslich Aktiv- und Passivkonten.",
+    "tasks": [
+      {
+        "id": "AP-01",
+        "scenario": "Die Firma kauft eine neue Tischkreissäge für CHF 4'200.00 direkt per Bank.",
+        "bookings": [
+          {
+            "amount": 4200,
+            "debit": "Maschinen",
+            "credit": "Bank"
+          }
+        ]
+      },
+      {
+        "id": "AP-02",
+        "scenario": "Für die Kasse werden CHF 2'000.00 vom Bankkonto abgehoben.",
+        "bookings": [
+          {
+            "amount": 2000,
+            "debit": "Kasse",
+            "credit": "Bank"
+          }
+        ]
+      },
+      {
+        "id": "AP-03",
+        "scenario": "CHF 1'450.00 Bargeld aus der Ladenkasse werden am Abend auf das Bankkonto einbezahlt.",
+        "bookings": [
+          {
+            "amount": 1450,
+            "debit": "Bank",
+            "credit": "Kasse"
+          }
+        ]
+      },
+      {
+        "id": "AP-04",
+        "scenario": "Die Firma kauft eine neue Schleifmaschine für CHF 8'600.00 auf Rechnung.",
+        "bookings": [
+          {
+            "amount": 8600,
+            "debit": "Maschinen",
+            "credit": "Verbindlichkeiten LL"
+          }
+        ]
+      },
+      {
+        "id": "AP-05",
+        "scenario": "Die offene Rechnung von CHF 8'600.00 für die Schleifmaschine wird per Bank bezahlt.",
+        "bookings": [
+          {
+            "amount": 8600,
+            "debit": "Verbindlichkeiten LL",
+            "credit": "Bank"
+          }
+        ]
+      },
+      {
+        "id": "AP-06",
+        "scenario": "Ein Kunde überweist CHF 3'280.00 für eine bereits verbuchte Rechnung auf das Bankkonto.",
+        "bookings": [
+          {
+            "amount": 3280,
+            "debit": "Bank",
+            "credit": "Forderungen LL"
+          }
+        ]
+      },
+      {
+        "id": "AP-07",
+        "scenario": "Eine Kundin bezahlt CHF 740.00 für eine alte offene Rechnung bar am Empfang.",
+        "bookings": [
+          {
+            "amount": 740,
+            "debit": "Kasse",
+            "credit": "Forderungen LL"
+          }
+        ]
+      },
+      {
+        "id": "AP-08",
+        "scenario": "Die Bank gewährt der Firma ein kurzfristiges Darlehen von CHF 15'000.00 und schreibt den Betrag gut.",
+        "bookings": [
+          {
+            "amount": 15000,
+            "debit": "Bank",
+            "credit": "Bankdarlehen"
+          }
+        ]
+      },
+      {
+        "id": "AP-09",
+        "scenario": "CHF 5'000.00 des Bankdarlehens werden zurückbezahlt.",
+        "bookings": [
+          {
+            "amount": 5000,
+            "debit": "Bankdarlehen",
+            "credit": "Bank"
+          }
+        ]
+      },
+      {
+        "id": "AP-10",
+        "scenario": "Ein Lieferwagen wird für CHF 24'000.00 gekauft; die Finanzierung erfolgt über ein langfristiges Darlehen.",
+        "bookings": [
+          {
+            "amount": 24000,
+            "debit": "Fahrzeuge",
+            "credit": "Darlehen"
+          }
+        ]
+      },
+      {
+        "id": "AP-11",
+        "scenario": "Die Firma überlegt, neue Spezialwerkzeuge für die Werkstatt zu kaufen. Der Entscheid und die Bestellung folgen erst nächste Woche.",
+        "noBooking": {
+          "reason": "Eine Kaufabsicht oder Planung berührt die Buchhaltung nicht. Erst mit Lieferung oder Rechnung entsteht ein buchungspflichtiger Geschäftsfall."
+        }
+      },
+      {
+        "id": "AP-12",
+        "scenario": "Ein Geschäftscomputer wird für CHF 2'350.00 direkt per Bank bezahlt.",
+        "bookings": [
+          {
+            "amount": 2350,
+            "debit": "Büromaschinen",
+            "credit": "Bank"
+          }
+        ]
+      },
+      {
+        "id": "AP-13",
+        "scenario": "Ein Lieferant wandelt eine offene Rechnung von CHF 6'400.00 in ein längerfristiges Darlehen um.",
+        "bookings": [
+          {
+            "amount": 6400,
+            "debit": "Verbindlichkeiten LL",
+            "credit": "Darlehen"
+          }
+        ]
+      },
+      {
+        "id": "AP-14",
+        "scenario": "Ein Kunde überweist CHF 4'500.00 als Vorauszahlung für einen bevorstehenden Auftrag.",
+        "bookings": [
+          {
+            "amount": 4500,
+            "debit": "Bank",
+            "credit": "Verbindlichkeiten LL"
+          }
+        ]
+      },
+      {
+        "id": "AP-15",
+        "scenario": "Eine kleinere Lieferantenrechnung von CHF 1'200.00 wird bar aus der Kasse bezahlt.",
+        "bookings": [
+          {
+            "amount": 1200,
+            "debit": "Verbindlichkeiten LL",
+            "credit": "Kasse"
+          }
+        ]
+      },
+      {
+        "id": "AP-16",
+        "scenario": "Die Firma kauft neue Bürostühle und Tische für CHF 3'900.00 auf Rechnung.",
+        "bookings": [
+          {
+            "amount": 3900,
+            "debit": "Mobiliar",
+            "credit": "Verbindlichkeiten LL"
+          }
+        ]
+      },
+      {
+        "id": "AP-17",
+        "scenario": "Eine Lieferantenrechnung von CHF 2'150.00 wird über das Postkonto bezahlt.",
+        "bookings": [
+          {
+            "amount": 2150,
+            "debit": "Verbindlichkeiten LL",
+            "credit": "Post"
+          }
+        ]
+      },
+      {
+        "id": "AP-18",
+        "scenario": "CHF 7'000.00 werden vom Bankkonto auf das Postkonto übertragen.",
+        "bookings": [
+          {
+            "amount": 7000,
+            "debit": "Post",
+            "credit": "Bank"
+          }
+        ]
+      },
+      {
+        "id": "AP-19",
+        "scenario": "Die Firma kauft eine CNC-Bearbeitungsmaschine für CHF 120'000.00 und finanziert sie über ein langfristiges Darlehen.",
+        "bookings": [
+          {
+            "amount": 120000,
+            "debit": "Maschinen",
+            "credit": "Darlehen"
+          }
+        ]
+      },
+      {
+        "id": "AP-20",
+        "scenario": "Ein Gesellschafter stellt der Firma ein zusätzliches Darlehen von CHF 12'000.00 auf dem Bankkonto zur Verfügung.",
+        "bookings": [
+          {
+            "amount": 12000,
+            "debit": "Bank",
+            "credit": "Darlehen"
+          }
+        ]
+      }
+    ]
+  },
+  "incomeStatementIntro": {
+    "title": "Aufwand und Ertrag kommen dazu",
+    "body": "Bis jetzt hast Du nur Bilanzkonten bewegt. Ab jetzt kommen Geschäftsfälle dazu, die den Gewinn verändern: Aufwand vermindert den Erfolg, Ertrag erhöht ihn. Du buchst weiterhin nach Soll und Haben, kombinierst nun aber Aktiv-, Passiv-, Aufwand- und Ertragskonten."
+  },
+  "mixed": {
+    "title": "Gemischte Buchungssätze",
+    "lead": "Jetzt folgen 40 Geschäftsfälle mit Bilanzkonten sowie Aufwand und Ertrag. Die Beispiele sind ohne MWST formuliert, damit der Fokus auf Soll und Haben bleibt.",
+    "tasks": [
+      {
+        "id": "GE-01",
+        "scenario": "Die Monatsmiete von CHF 2'800.00 für die Werkstatt wird per Bank bezahlt.",
+        "bookings": [
+          {
+            "amount": 2800,
+            "debit": "Raumaufwand",
+            "credit": "Bank"
+          }
+        ]
+      },
+      {
+        "id": "GE-02",
+        "scenario": "Unterhalts- und Reparaturkosten an Maschinen und Werkzeug werden für CHF 3'200.00 per Bank bezahlt.",
+        "bookings": [
+          {
+            "amount": 3200,
+            "debit": "Unterhalt und Reparaturen",
+            "credit": "Bank"
+          }
+        ]
+      },
+      {
+        "id": "GE-03",
+        "scenario": "Kleinmaterial für einen Kundenauftrag im Wert von CHF 460.00 wird bar gekauft.",
+        "bookings": [
+          {
+            "amount": 460,
+            "debit": "Materialaufwand",
+            "credit": "Kasse"
+          }
+        ]
+      },
+      {
+        "id": "GE-04",
+        "scenario": "Ein Lieferant stellt Verbrauchsmaterial im Wert von CHF 1'980.00 auf Rechnung.",
+        "bookings": [
+          {
+            "amount": 1980,
+            "debit": "Materialaufwand",
+            "credit": "Verbindlichkeiten LL"
+          }
+        ]
+      },
+      {
+        "id": "GE-05",
+        "scenario": "Die offene Materialrechnung von CHF 1'980.00 wird per Bank bezahlt.",
+        "bookings": [
+          {
+            "amount": 1980,
+            "debit": "Verbindlichkeiten LL",
+            "credit": "Bank"
+          }
+        ]
+      },
+      {
+        "id": "GE-06",
+        "scenario": "Eine Reparaturarbeit wird einem Kunden für CHF 3'600.00 auf Rechnung gestellt.",
+        "bookings": [
+          {
+            "amount": 3600,
+            "debit": "Forderungen LL",
+            "credit": "Dienstleistungsertrag"
+          }
+        ]
+      },
+      {
+        "id": "GE-07",
+        "scenario": "Ein Barverkauf von Ersatzteilen für CHF 320.00 wird direkt in der Kasse erfasst.",
+        "bookings": [
+          {
+            "amount": 320,
+            "debit": "Kasse",
+            "credit": "Warenertrag"
+          }
+        ]
+      },
+      {
+        "id": "GE-08",
+        "scenario": "Ein Kunde bezahlt eine offene Dienstleistungsrechnung von CHF 3'600.00 per Bank.",
+        "bookings": [
+          {
+            "amount": 3600,
+            "debit": "Bank",
+            "credit": "Forderungen LL"
+          }
+        ]
+      },
+      {
+        "id": "GE-09",
+        "scenario": "Die Jahresversicherung von CHF 1'260.00 für den Lieferwagen wird per Bank bezahlt.",
+        "bookings": [
+          {
+            "amount": 1260,
+            "debit": "Versicherungsaufwand",
+            "credit": "Bank"
+          }
+        ]
+      },
+      {
+        "id": "GE-10",
+        "scenario": "Die Telefon- und Internetrechnung von CHF 215.00 trifft ein und wird noch nicht bezahlt.",
+        "bookings": [
+          {
+            "amount": 215,
+            "debit": "Sonstiger Betriebsaufwand",
+            "credit": "Verbindlichkeiten LL"
+          }
+        ]
+      },
+      {
+        "id": "GE-11",
+        "scenario": "Die Firma erhält eine Mahnung für die Telefon- und Internetrechnung von CHF 215.00, die sie bereits vollständig per Bank bezahlt hat.",
+        "noBooking": {
+          "reason": "Die Rechnung und Zahlung wurden bereits gebucht. Eine Mahnung für eine bereits beglichene Schuld löst keine neue Buchung aus."
+        }
+      },
+      {
+        "id": "GE-12",
+        "scenario": "Büromaterial für CHF 390.00 wird direkt per Bank bezahlt.",
+        "bookings": [
+          {
+            "amount": 390,
+            "debit": "Sonstiger Betriebsaufwand",
+            "credit": "Bank"
+          }
+        ]
+      },
+      {
+        "id": "GE-13",
+        "scenario": "Für eine Montagearbeit wird eine Rechnung von CHF 5'850.00 an den Kunden erstellt.",
+        "bookings": [
+          {
+            "amount": 5850,
+            "debit": "Forderungen LL",
+            "credit": "Dienstleistungsertrag"
+          }
+        ]
+      },
+      {
+        "id": "GE-14",
+        "scenario": "Der Kunde aus GE-13 bezahlt die Rechnung von CHF 5'850.00 vollständig per Bank.",
+        "bookings": [
+          {
+            "amount": 5850,
+            "debit": "Bank",
+            "credit": "Forderungen LL"
+          }
+        ]
+      },
+      {
+        "id": "GE-15",
+        "scenario": "Die Bank schreibt CHF 42.00 Zinsen auf dem Geschäftskonto gut.",
+        "bookings": [
+          {
+            "amount": 42,
+            "debit": "Bank",
+            "credit": "Finanzertrag"
+          }
+        ]
+      },
+      {
+        "id": "GE-16",
+        "scenario": "Darlehenszinsen von CHF 310.00 werden vom Bankkonto belastet.",
+        "bookings": [
+          {
+            "amount": 310,
+            "debit": "Finanzaufwand",
+            "credit": "Bank"
+          }
+        ]
+      },
+      {
+        "id": "GE-17",
+        "scenario": "Holzmaterial für CHF 1'800.00 wird auf Rechnung geliefert. Der Spediteur wird für den Transport bar für CHF 120.00 bezahlt.",
+        "bookings": [
+          {
+            "amount": 1800,
+            "debit": "Materialaufwand",
+            "credit": "Verbindlichkeiten LL"
+          },
+          {
+            "amount": 120,
+            "debit": "Sonstiger Betriebsaufwand",
+            "credit": "Kasse"
+          }
+        ]
+      },
+      {
+        "id": "GE-18",
+        "scenario": "Eine externe Werkstatt stellt Unterhaltsarbeiten am Lieferwagen für CHF 880.00 auf Rechnung.",
+        "bookings": [
+          {
+            "amount": 880,
+            "debit": "Fahrzeugaufwand",
+            "credit": "Verbindlichkeiten LL"
+          }
+        ]
+      },
+      {
+        "id": "GE-19",
+        "scenario": "Die Unterhaltsrechnung von CHF 880.00 für den Lieferwagen wird per Bank bezahlt.",
+        "bookings": [
+          {
+            "amount": 880,
+            "debit": "Verbindlichkeiten LL",
+            "credit": "Bank"
+          }
+        ]
+      },
+      {
+        "id": "GE-20",
+        "scenario": "Die Firma holt bei drei Werbeagenturen Offerten für eine lokale Kampagne ein. Noch kein Auftrag wurde vergeben.",
+        "noBooking": {
+          "reason": "Das Einholen von Offerten ist kein buchungspflichtiger Vorgang. Erst mit Auftragserteilung und erbrachter Leistung entsteht eine Buchung."
+        }
+      },
+      {
+        "id": "GE-21",
+        "scenario": "Ein neuer Auftraggeber bezahlt CHF 2'500.00 als Vorauszahlung für ein Projekt.",
+        "bookings": [
+          {
+            "amount": 2500,
+            "debit": "Bank",
+            "credit": "Verbindlichkeiten LL"
+          }
+        ]
+      },
+      {
+        "id": "GE-22",
+        "scenario": "Die Vorauszahlung von CHF 2'500.00 wird nach Projektabschluss als Ertrag erfasst.",
+        "bookings": [
+          {
+            "amount": 2500,
+            "debit": "Verbindlichkeiten LL",
+            "credit": "Dienstleistungsertrag"
+          }
+        ]
+      },
+      {
+        "id": "GE-23",
+        "scenario": "Treibstoff für CHF 165.00 für den Lieferwagen wird mit der Firmenkarte bezahlt.",
+        "bookings": [
+          {
+            "amount": 165,
+            "debit": "Fahrzeugaufwand",
+            "credit": "Bank"
+          }
+        ]
+      },
+      {
+        "id": "GE-24",
+        "scenario": "Für eine erbrachte Beratungsleistung werden CHF 240.00 bar eingenommen.",
+        "bookings": [
+          {
+            "amount": 240,
+            "debit": "Kasse",
+            "credit": "Dienstleistungsertrag"
+          }
+        ]
+      },
+      {
+        "id": "GE-25",
+        "scenario": "Eine Serviceleistung für einen Partnerbetrieb wird für CHF 700.00 in Rechnung gestellt.",
+        "bookings": [
+          {
+            "amount": 700,
+            "debit": "Forderungen LL",
+            "credit": "Dienstleistungsertrag"
+          }
+        ]
+      },
+      {
+        "id": "GE-26",
+        "scenario": "Der Partnerbetrieb bestätigt schriftlich, die offene Rechnung über CHF 700.00 für die Serviceleistung bis Ende Woche zu begleichen.",
+        "noBooking": {
+          "reason": "Eine Zahlungsankündigung ist kein Geldeingang. Erst wenn die Zahlung tatsächlich auf dem Konto eingeht, wird gebucht."
+        }
+      },
+      {
+        "id": "GE-27",
+        "scenario": "Eine Kundin begleicht ihre offene Rechnung von CHF 3'200.00: CHF 2'800.00 per Banküberweisung und CHF 400.00 bar.",
+        "bookings": [
+          {
+            "amount": 2800,
+            "debit": "Bank",
+            "credit": "Forderungen LL"
+          },
+          {
+            "amount": 400,
+            "debit": "Kasse",
+            "credit": "Forderungen LL"
+          }
+        ]
+      },
+      {
+        "id": "GE-28",
+        "scenario": "Ein Lieferant gewährt nachträglich einen Rabatt von CHF 180.00 auf eine offene Rechnung.",
+        "bookings": [
+          {
+            "amount": 180,
+            "debit": "Verbindlichkeiten LL",
+            "credit": "Materialaufwand"
+          }
+        ]
+      },
+      {
+        "id": "GE-29",
+        "scenario": "Die Firma liefert Holzprodukte im Wert von CHF 950.00 an einen Kunden und stellt die Rechnung.",
+        "bookings": [
+          {
+            "amount": 950,
+            "debit": "Forderungen LL",
+            "credit": "Produktionserlöse"
+          }
+        ]
+      },
+      {
+        "id": "GE-30",
+        "scenario": "Ein spontaner Serviceauftrag für CHF 610.00 wird sofort bar bezahlt.",
+        "bookings": [
+          {
+            "amount": 610,
+            "debit": "Kasse",
+            "credit": "Dienstleistungsertrag"
+          }
+        ]
+      },
+      {
+        "id": "GE-31",
+        "scenario": "Die Stromrechnung der Werkstatt von CHF 430.00 wird per Bank bezahlt.",
+        "bookings": [
+          {
+            "amount": 430,
+            "debit": "Sonstiger Betriebsaufwand",
+            "credit": "Bank"
+          }
+        ]
+      },
+      {
+        "id": "GE-32",
+        "scenario": "Eine Softwarelizenz für CHF 960.00 für die Auftragsplanung wird auf Rechnung gekauft.",
+        "bookings": [
+          {
+            "amount": 960,
+            "debit": "Informatikaufwand",
+            "credit": "Verbindlichkeiten LL"
+          }
+        ]
+      },
+      {
+        "id": "GE-33",
+        "scenario": "Die Softwarelizenz von CHF 960.00 wird per Bank bezahlt.",
+        "bookings": [
+          {
+            "amount": 960,
+            "debit": "Verbindlichkeiten LL",
+            "credit": "Bank"
+          }
+        ]
+      },
+      {
+        "id": "GE-34",
+        "scenario": "Die Bank belastet Kontoführungsgebühren von CHF 28.00.",
+        "bookings": [
+          {
+            "amount": 28,
+            "debit": "Finanzaufwand",
+            "credit": "Bank"
+          }
+        ]
+      },
+      {
+        "id": "GE-35",
+        "scenario": "Neue Ware für CHF 2'750.00 wird auf Rechnung eingekauft und direkt als Warenaufwand erfasst.",
+        "bookings": [
+          {
+            "amount": 2750,
+            "debit": "Warenaufwand",
+            "credit": "Verbindlichkeiten LL"
+          }
+        ]
+      },
+      {
+        "id": "GE-36",
+        "scenario": "Ein Kunde kauft Ware für CHF 4'200.00 auf Rechnung.",
+        "bookings": [
+          {
+            "amount": 4200,
+            "debit": "Forderungen LL",
+            "credit": "Warenertrag"
+          }
+        ]
+      },
+      {
+        "id": "GE-37",
+        "scenario": "Der Kunde aus GE-36 bezahlt die Rechnung von CHF 4'200.00 auf das Bankkonto.",
+        "bookings": [
+          {
+            "amount": 4200,
+            "debit": "Bank",
+            "credit": "Forderungen LL"
+          }
+        ]
+      },
+      {
+        "id": "GE-38",
+        "scenario": "Für Umbauarbeiten im Büro eines Kunden wurde bereits eine Rechnung über CHF 1'450.00 gestellt. Der Kunde bezahlt sofort bar und erhält 10 % Rabatt (CHF 145.00) sowie 2 % Skonto auf den Restbetrag (CHF 26.10).",
+        "bookings": [
+          {
+            "amount": 1278.9,
+            "debit": "Kasse",
+            "credit": "Forderungen LL"
+          },
+          {
+            "amount": 145,
+            "debit": "Dienstleistungsertrag",
+            "credit": "Forderungen LL"
+          },
+          {
+            "amount": 26.1,
+            "debit": "Dienstleistungsertrag",
+            "credit": "Forderungen LL"
+          }
+        ]
+      },
+      {
+        "id": "GE-39",
+        "scenario": "Für einen Kundenauftrag wird eine externe Spezialistin für CHF 1'450.00 auf Rechnung beigezogen.",
+        "bookings": [
+          {
+            "amount": 1450,
+            "debit": "Unterhalt und Reparaturen",
+            "credit": "Verbindlichkeiten LL"
+          }
+        ]
+      },
+      {
+        "id": "GE-40",
+        "scenario": "Ein Montageauftrag wird abgeschlossen: Materialien für CHF 2'400.00 auf Rechnung erhalten, Transportkosten von CHF 180.00 bar bezahlt, Rechnung von CHF 4'800.00 an den Kunden gestellt.",
+        "bookings": [
+          {
+            "amount": 2400,
+            "debit": "Materialaufwand",
+            "credit": "Verbindlichkeiten LL"
+          },
+          {
+            "amount": 180,
+            "debit": "Sonstiger Betriebsaufwand",
+            "credit": "Kasse"
+          },
+          {
+            "amount": 4800,
+            "debit": "Forderungen LL",
+            "credit": "Dienstleistungsertrag"
+          }
+        ]
+      }
+    ]
+  }
+}

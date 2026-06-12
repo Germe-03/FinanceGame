@@ -59,6 +59,7 @@ test("basic mwst bookings use one vorsteuer account and contain no-MWST trick bo
   const section = gameRound.mwst.bookingsBasic;
   assert.equal(section.tasks.length, 6);
 
+  const accountTypes = new Set(["active", "passive", "expense", "revenue"]);
   const usedAccounts = new Set();
   for (const task of section.tasks) {
     for (const booking of task.bookings ?? [task]) {
@@ -66,6 +67,9 @@ test("basic mwst bookings use one vorsteuer account and contain no-MWST trick bo
       usedAccounts.add(booking.credit.account);
       assert.ok(accountPlanNames.has(booking.debit.account), `${task.id}: ${booking.debit.account} missing from accountPlan`);
       assert.ok(accountPlanNames.has(booking.credit.account), `${task.id}: ${booking.credit.account} missing from accountPlan`);
+      assert.ok(accountTypes.has(booking.debit.type), `${task.id}: debit type missing for ${booking.debit.account}`);
+      assert.ok(accountTypes.has(booking.credit.type), `${task.id}: credit type missing for ${booking.credit.account}`);
+      assert.ok(typeof booking.amount === "number" && booking.amount > 0, `${task.id}: amount must be a positive number`);
     }
   }
   assert.ok(usedAccounts.has(VORSTEUER_1170));

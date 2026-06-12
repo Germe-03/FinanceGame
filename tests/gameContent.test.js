@@ -116,7 +116,7 @@ test("task two starts with 20 tasks using only active and passive accounts", () 
     assert.ok(task.id);
     assert.ok(task.scenario.length > 20);
     if (task.noBooking) continue;
-    assert.ok(task.amount.startsWith("CHF "));
+    assert.ok(typeof task.amount === "number" && task.amount > 0, `${task.id} amount must be a positive number`);
     assert.ok(task.debit.account);
     assert.ok(task.credit.account);
     assert.ok(balanceAccountTypes.has(task.debit.type), task.id);
@@ -144,7 +144,7 @@ test("task two continues with 40 mixed active passive expense and revenue bookin
     const bookings = task.bookings ?? [task];
     assert.ok(bookings.length >= 1, `${task.id} has no bookings`);
     for (const b of bookings) {
-      assert.ok(b.amount.startsWith("CHF "), `${task.id} amount`);
+      assert.ok(typeof b.amount === "number" && b.amount > 0, `${task.id} amount must be a positive number`);
       assert.ok(mixedAccountTypes.has(b.debit.type), `${task.id} debit type`);
       assert.ok(mixedAccountTypes.has(b.credit.type), `${task.id} credit type`);
       seenTypes.add(b.debit.type);
@@ -190,17 +190,17 @@ test("task three introduces five invoice booking tasks with image references", (
     assert.equal(task.image.src, `./assets/accounting/rechnungen/rechnung_${number}.png`);
     assert.match(task.image.alt, new RegExp(`Rechnung ${number}`));
     assert.ok(task.scenario.length > 20);
-    assert.ok(task.amount.startsWith("CHF "));
+    assert.ok(typeof task.amount === "number" && task.amount > 0, `${task.id} amount must be a positive number`);
     assert.ok(task.debit.account);
     assert.ok(task.credit.account);
   });
 
   const expectedInvoiceSolutions = [
-    ["RG-01", /Papeterie Mueller AG/, "CHF 123.10", "Verwaltungsaufwand", "Verbindlichkeiten LL"],
-    ["RG-02", /TechSupport Bern GmbH/, "CHF 565.00", "Informatikaufwand", "Verbindlichkeiten LL"],
-    ["RG-03", /EKZ Elektrizitaetswerke/, "CHF 372.00", "Energieaufwand", "Verbindlichkeiten LL"],
-    ["RG-04", /Immobilien Keller AG/, "CHF 1'800.00", "Raumaufwand", "Verbindlichkeiten LL"],
-    ["RG-05", /Garage Schneider/, "CHF 415.00", "Fahrzeugaufwand", "Verbindlichkeiten LL"],
+    ["RG-01", /Papeterie Mueller AG/, 123.10, "Verwaltungsaufwand", "Verbindlichkeiten LL"],
+    ["RG-02", /TechSupport Bern GmbH/, 565.00, "Informatikaufwand", "Verbindlichkeiten LL"],
+    ["RG-03", /EKZ Elektrizitaetswerke/, 372.00, "Energieaufwand", "Verbindlichkeiten LL"],
+    ["RG-04", /Immobilien Keller AG/, 1800.00, "Raumaufwand", "Verbindlichkeiten LL"],
+    ["RG-05", /Garage Schneider/, 415.00, "Fahrzeugaufwand", "Verbindlichkeiten LL"],
   ];
 
   for (const [id, scenarioPattern, amount, debitAccount, creditAccount] of expectedInvoiceSolutions) {

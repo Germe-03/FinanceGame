@@ -38,11 +38,17 @@ test("static server serves the app shell and every referenced resource", { timeo
       await assertServed(new URL(specifier, `${BASE_URL}/src/ui/`).pathname, /text\/javascript/);
     }
 
-    // Spielinhalte und Domain-Logik
-    await assertServed("/src/content/tasks.json", /application\/json/);
-    const tasks = JSON.parse(await fetchText("/src/content/tasks.json"));
-    for (const section of ["accountPlan", "balanceOnly", "mixed", "invoices", "mwstClassification", "mwstBookingsBasic", "mwstVorsteuerSplit", "mwstBookingsAdvanced"]) {
-      assert.ok(Array.isArray(tasks[section]) && tasks[section].length > 0, `tasks.json must contain section ${section}`);
+    // Spielinhalte: eine strukturierte JSON-Datei pro Aufgabe.
+    for (const file of ["kontenplan", "buchungssaetze", "rechnungen", "t-konto", "mwst"]) {
+      await assertServed(`/src/content/tasks/${file}.json`, /application\/json/);
+    }
+    const kontenplan = JSON.parse(await fetchText("/src/content/tasks/kontenplan.json"));
+    assert.ok(kontenplan.title && Array.isArray(kontenplan.tasks) && kontenplan.tasks.length > 0);
+    const buchungssaetze = JSON.parse(await fetchText("/src/content/tasks/buchungssaetze.json"));
+    assert.ok(buchungssaetze.balanceOnly.tasks.length > 0 && buchungssaetze.mixed.tasks.length > 0);
+    const mwst = JSON.parse(await fetchText("/src/content/tasks/mwst.json"));
+    for (const section of ["classification", "bookingsBasic", "vorsteuerSplit", "bookingsAdvanced"]) {
+      assert.ok(Array.isArray(mwst[section].tasks) && mwst[section].tasks.length > 0, `mwst.json must contain section ${section}`);
     }
 
     // Referenzmaterial und Assets

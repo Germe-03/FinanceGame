@@ -1,6 +1,7 @@
 import { accountPlan } from "../../content/accountPlan.js";
 import { gameRound } from "../../content/gameRound.js";
 import { getUniqueAccounts } from "../../domain/booking.js";
+import { formatSwissAmount } from "../../domain/ledger.js";
 import { ROUTES } from "../../domain/navigation.js";
 import { initAccountInputs } from "../components/accountInput.js";
 import { renderLernmoduleSidebar } from "../components/sidebar.js";
@@ -170,7 +171,7 @@ function renderBookingSolutionRow(booking) {
   return `
     <div class="solution-row">
       <span class="solution-booking">${escapeHtml(accountLabel(booking.debit.account))} / ${escapeHtml(accountLabel(booking.credit.account))}</span>
-      <span class="solution-amount">${escapeHtml(booking.amount)}</span>
+      <span class="solution-amount">CHF ${formatSwissAmount(booking.amount)}</span>
     </div>
   `;
 }
