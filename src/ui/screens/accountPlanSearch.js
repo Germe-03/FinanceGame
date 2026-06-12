@@ -1,5 +1,6 @@
 import { gameRound } from "../../content/gameRound.js";
 import { ROUTES } from "../../domain/navigation.js";
+import { renderProgressBar, updateProgressBar } from "../components/progressBar.js";
 import { renderLernmoduleSidebar } from "../components/sidebar.js";
 import { renderGameSupportActions } from "../components/supportModal.js";
 import { appRoot, escapeHtml } from "../dom.js";
@@ -25,7 +26,7 @@ export function renderAccountPlanSearchScreen() {
               <p class="eyebrow">Aufgabe 1 · Kontenplan</p>
               <h2 id="account-plan-title">${escapeHtml(section.title)}</h2>
               <p class="lead">${escapeHtml(section.lead)}</p>
-              <p class="task-count">${section.tasks.length} Suchaufgaben</p>
+              ${renderProgressBar(0, section.tasks.length, "Aufgaben beantwortet")}
             </div>
             <div class="account-search-list" aria-label="Kontenplan-Suchaufgaben">
               ${section.tasks.map((task, i) => renderAccountPlanSearchTask(task, i)).join("")}
@@ -42,7 +43,15 @@ export function renderAccountPlanSearchScreen() {
 
   document.querySelector("#back-to-case").addEventListener("click", () => navigateTo(ROUTES.case));
   document.querySelector("#game-next-button").addEventListener("click", () => navigateTo(ROUTES.gameBalance));
-  initAccountPlanChoices(appRoot.querySelector(".account-search-list"));
+  const cardList = appRoot.querySelector(".account-search-list");
+  initAccountPlanChoices(cardList);
+  cardList.addEventListener("click", (event) => {
+    if (!event.target.closest(".account-choice-button")) return;
+    const flags = [...cardList.querySelectorAll(".account-search-card")].map(
+      (card) => card.querySelector(".account-choice-button--selected") !== null,
+    );
+    updateProgressBar(appRoot, flags);
+  });
 }
 
 function renderAccountPlanSearchTask(task, index) {

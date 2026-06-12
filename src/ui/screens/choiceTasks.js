@@ -1,4 +1,5 @@
 import { ROUTES } from "../../domain/navigation.js";
+import { renderProgressBar, updateProgressBar } from "../components/progressBar.js";
 import { renderLernmoduleSidebar } from "../components/sidebar.js";
 import { renderGameSupportActions } from "../components/supportModal.js";
 import { appRoot, escapeHtml } from "../dom.js";
@@ -18,7 +19,7 @@ export function renderChoiceTaskScreen(section, options) {
               <p class="eyebrow">${escapeHtml(options.eyebrow)}</p>
               <h2 id="choice-task-title">${escapeHtml(section.title)}</h2>
               <p class="lead">${escapeHtml(section.lead)}</p>
-              <p class="task-count">${section.tasks.length} Zuordnungsaufgaben</p>
+              ${renderProgressBar(0, section.tasks.length, "Aufgaben beantwortet")}
             </div>
             <div class="account-search-list" aria-label="Zuordnungsaufgaben">
               ${section.tasks.map((task, i) => renderChoiceCard(task, section, i)).join("")}
@@ -35,7 +36,19 @@ export function renderChoiceTaskScreen(section, options) {
 
   document.querySelector("#back-to-case").addEventListener("click", () => navigateTo(ROUTES.case));
   document.querySelector("#game-next-button").addEventListener("click", () => navigateTo(options.nextRoute));
-  initChoiceCards(appRoot.querySelector(".account-search-list"), section);
+  const cardList = appRoot.querySelector(".account-search-list");
+  initChoiceCards(cardList, section);
+  initChoiceProgressBar(cardList);
+}
+
+function initChoiceProgressBar(cardList) {
+  cardList.addEventListener("click", (event) => {
+    if (!event.target.closest(".account-choice-button")) return;
+    const flags = [...cardList.querySelectorAll(".account-search-card")].map(
+      (card) => card.querySelector(".account-choice-button--selected") !== null,
+    );
+    updateProgressBar(appRoot, flags);
+  });
 }
 
 function renderChoiceCard(task, section, index) {

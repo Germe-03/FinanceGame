@@ -176,3 +176,36 @@ h3 {
   white-space: nowrap;
   border: 0;
 }
+
+/* ── Fortschritts-Bar ── */
+
+.progress-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  max-width: 440px;
+  margin: 0 0 14px;
+}
+
+.progress-bar__track {
+  flex: 1;
+  height: 10px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface-soft);
+  overflow: hidden;
+}
+
+.progress-bar__fill {
+  height: 100%;
+  border-radius: 999px;
+  background: var(--primary);
+  transition: width 0.25s ease;
+}
+
+.progress-bar__label {
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 800;
+  white-space: nowrap;
+}

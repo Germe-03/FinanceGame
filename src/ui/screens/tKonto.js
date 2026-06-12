@@ -1,5 +1,6 @@
 import { evaluateLedgerClosing, formatSwissAmount } from "../../domain/ledger.js";
 import { ROUTES } from "../../domain/navigation.js";
+import { renderProgressBar } from "../components/progressBar.js";
 import { renderLernmoduleSidebar } from "../components/sidebar.js";
 import { renderGameSupportActions } from "../components/supportModal.js";
 import { appRoot, escapeHtml } from "../dom.js";
@@ -122,8 +123,8 @@ function renderPool(poolItems, totalCount) {
   return `
     <div class="t-konto-pool-section">
       <div class="t-konto-pool-header">
-        <span class="t-konto-pool-label">Buchungssätze mit Konto Bank</span>
-        <span class="t-konto-progress">${placedCount} von ${totalCount} zugeordnet</span>
+        <span class="t-konto-pool-label">Buchungssätze mit diesem Konto</span>
+        ${renderProgressBar(placedCount, totalCount, "zugeordnet")}
       </div>
       <div class="t-konto-pool" data-t-drop="pool">
         ${chipsHtml}

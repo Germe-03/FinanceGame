@@ -28,14 +28,10 @@
   color: var(--muted);
 }
 
-.t-konto-progress {
-  padding: 4px 10px;
-  border-radius: 999px;
-  background: var(--primary);
-  color: #fff;
-  font-size: 0.76rem;
-  font-weight: 800;
-  white-space: nowrap;
+.t-konto-pool-header .progress-bar {
+  flex: 1;
+  max-width: 340px;
+  margin: 0;
 }
 
 .t-konto-pool {

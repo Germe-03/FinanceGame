@@ -4,6 +4,7 @@ import { getUniqueAccounts } from "../../domain/booking.js";
 import { formatSwissAmount } from "../../domain/ledger.js";
 import { ROUTES } from "../../domain/navigation.js";
 import { initAccountInputs } from "../components/accountInput.js";
+import { renderProgressBar, updateProgressBar } from "../components/progressBar.js";
 import { renderLernmoduleSidebar } from "../components/sidebar.js";
 import { renderGameSupportActions } from "../components/supportModal.js";
 import { appRoot, escapeHtml } from "../dom.js";
@@ -49,7 +50,7 @@ export function renderBookingTaskListScreen(section, options) {
               <p class="eyebrow">${escapeHtml(options.eyebrow)}</p>
               <h2 id="game-title">${escapeHtml(section.title)}</h2>
               <p class="lead">${escapeHtml(section.lead)}</p>
-              <p class="task-count">${section.tasks.length} Buchungssätze</p>
+              ${renderProgressBar(0, section.tasks.length, "Buchungssätzen bearbeitet")}
             </div>
             <div class="booking-task-list" aria-label="Buchungsaufgaben">
               ${section.tasks.map((task, i) => renderBookingTask(task, i)).join("")}
@@ -73,6 +74,29 @@ export function renderBookingTaskListScreen(section, options) {
   initAccountInputs(taskList, options.accounts ?? []);
   initSolutionToggles(taskList);
   initProgressPersistence(taskList);
+  initBookingProgressBar(taskList);
+}
+
+// Eine Card gilt als bearbeitet, sobald ein Feld ausgefüllt oder die Lösung
+// aufgedeckt wurde (Letzteres deckt die «keine Buchung»-Fälle ab).
+function initBookingProgressBar(taskList) {
+  const refresh = () => {
+    const flags = [...taskList.querySelectorAll(".booking-task-card")].map((card) =>
+      card.dataset.solutionViewed === "true" ||
+      [...card.querySelectorAll("input")].some((input) => input.value.trim() !== ""),
+    );
+    updateProgressBar(appRoot, flags);
+  };
+
+  taskList.addEventListener("input", refresh);
+  taskList.addEventListener("change", refresh);
+  taskList.addEventListener("click", (event) => {
+    const toggle = event.target.closest(".solution-toggle-button");
+    if (!toggle) return;
+    toggle.closest(".booking-task-card").dataset.solutionViewed = "true";
+    refresh();
+  });
+  refresh();
 }
 
 function renderBookingTask(task, index) {
