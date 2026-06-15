@@ -54,7 +54,7 @@ export function renderTKontoScreen(task, options = {}) {
             <div class="t-konto-workspace">
               ${phase === "placing" ? renderPool(poolItems, items.length) : ""}
               ${renderTable(sollItems, habenItems, task, current)}
-              ${renderPhaseActions(allPlaced, phase)}
+              ${renderPhaseActions(allPlaced, phase, task)}
               ${phase === "closing" ? renderClosing(current, items, task) : ""}
             </div>
           </div>
@@ -77,6 +77,7 @@ export function renderTKontoScreen(task, options = {}) {
         rerender();
       });
     }
+    document.querySelector("#t-konto-continue-btn")?.addEventListener("click", () => navigateTo(task.nextRoute));
   }
 
   if (phase === "closing") {
@@ -206,20 +207,25 @@ function renderTable(sollItems, habenItems, task, current) {
   `;
 }
 
-function renderPhaseActions(allPlaced, phase) {
+function renderPhaseActions(allPlaced, phase, task) {
   if (phase === "closing") return "";
+  const skipBtn = task.nextRoute
+    ? `<button class="secondary-action" type="button" id="t-konto-continue-btn">${escapeHtml(task.nextLabel)}</button>`
+    : "";
   if (!allPlaced) {
     return `
       <div class="t-konto-hint-row">
         <p class="t-konto-hint" role="status">Ordne alle Buchungssätze in das T-Konto ein, um fortzufahren.</p>
         <button class="secondary-action t-konto-reset-sm" type="button" data-t-reset>Zurücksetzen</button>
       </div>
+      ${skipBtn ? `<div class="configuration-actions">${skipBtn}</div>` : ""}
     `;
   }
   return `
     <div class="configuration-actions">
       <button class="secondary-action" type="button" data-t-reset>Zurücksetzen</button>
       <button class="primary-action" type="button" id="t-konto-next-btn">Konto abschliessen →</button>
+      ${skipBtn}
     </div>
   `;
 }
