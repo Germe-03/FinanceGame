@@ -304,3 +304,78 @@
   text-transform: uppercase;
   letter-spacing: 0.04em;
 }
+
+/* Akkordeon: Finanzthemen klappen ihre Unteraufgaben inline auf */
+.toc-row__end {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.toc-row__chev {
+  color: var(--muted);
+  font-size: 0.8rem;
+  transition: transform 0.15s ease;
+}
+
+.toc-acc-item--open .toc-row__chev {
+  transform: rotate(180deg);
+}
+
+.toc-acc-item--open .toc-acc-trigger {
+  background: var(--surface-soft);
+  border-bottom-color: transparent;
+}
+
+.toc-acc-panel {
+  padding: 4px 8px 14px 50px;
+  border-bottom: 1px solid var(--line);
+  background: var(--surface-soft);
+}
+
+.toc-acc-panel[hidden] {
+  display: none;
+}
+
+.toc-acc-empty {
+  margin: 8px 0;
+  color: var(--muted);
+  font-weight: 650;
+}
+
+.toc-sublist {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 2px;
+}
+
+.toc-subrow {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+  width: 100%;
+  padding: 10px 10px;
+  background: transparent;
+  border: 0;
+  border-radius: 6px;
+  text-align: left;
+  color: var(--text);
+  font-weight: 600;
+}
+
+.toc-subrow:hover {
+  background: #ffffff;
+}
+
+.toc-subrow__nr {
+  color: var(--muted);
+  font-weight: 800;
+  font-size: 0.82rem;
+}
+
+.toc-subrow__title {
+  font-size: 0.96rem;
+}
