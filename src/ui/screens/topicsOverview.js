@@ -26,7 +26,12 @@ export function renderTopicsOverviewScreen() {
         <div class="toc-block">
           <h3 class="toc-section-bar toc-section-bar--finance">${escapeHtml(financeTopics.section)}</h3>
           <ul class="toc-list">
-            ${financeTopics.topics.map((topic) => renderRow(topic.nr, topic.title, topic.route, "in Arbeit")).join("")}
+            ${financeTopics.topics.map((topic) => renderRow(
+              topic.nr,
+              topic.title,
+              topic.route,
+              topic.subtasks.length > 0 ? `${topic.subtasks.length} Aufgaben` : "in Arbeit",
+            )).join("")}
           </ul>
         </div>
       </div>

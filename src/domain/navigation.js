@@ -45,14 +45,26 @@ export function topicRoute(nr) {
   return `${TOPIC_ROUTE_PREFIX}${nr}`;
 }
 
+export function subtaskRoute(nr, subNr) {
+  return `${TOPIC_ROUTE_PREFIX}${nr}/${subNr}`;
+}
+
 export function isTopicRoute(route) {
   return String(route ?? "").startsWith(TOPIC_ROUTE_PREFIX);
 }
 
-export function topicNrFromRoute(route) {
+// Liefert { nr, subNr } für spiel/thema/<nr> bzw. spiel/thema/<nr>/<subNr>.
+// subNr ist null, wenn keine Unteraufgabe adressiert ist; null gesamthaft,
+// wenn die Route keine gültige Themen-Nummer enthält.
+export function parseTopicRoute(route) {
   if (!isTopicRoute(route)) return null;
-  const nr = Number(route.slice(TOPIC_ROUTE_PREFIX.length));
-  return Number.isInteger(nr) && nr > 0 ? nr : null;
+  const [nrPart, subPart] = route.slice(TOPIC_ROUTE_PREFIX.length).split("/");
+  const nr = Number(nrPart);
+  if (!Number.isInteger(nr) || nr <= 0) return null;
+  if (subPart === undefined) return { nr, subNr: null };
+  const subNr = Number(subPart);
+  if (!Number.isInteger(subNr) || subNr <= 0) return null;
+  return { nr, subNr };
 }
 
 export function routeFromHash(hash) {

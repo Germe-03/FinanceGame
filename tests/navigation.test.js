@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 
-import { ROUTES, hashForRoute, routeFromHash, topicRoute, topicNrFromRoute, isTopicRoute } from "../src/domain/navigation.js";
+import { ROUTES, hashForRoute, routeFromHash, topicRoute, subtaskRoute, parseTopicRoute, isTopicRoute } from "../src/domain/navigation.js";
 
 test("navigation maps every app step to a URL hash", () => {
   assert.equal(ROUTES.description, "beschreibung");
@@ -53,15 +53,21 @@ test("navigation reads known hashes and falls back to the description", () => {
   assert.equal(routeFromHash("#unbekannt"), ROUTES.description);
 });
 
-test("navigation handles dynamic finance topic routes", () => {
+test("navigation handles dynamic finance topic and subtask routes", () => {
   assert.equal(topicRoute(7), "spiel/thema/7");
+  assert.equal(subtaskRoute(2, 8), "spiel/thema/2/8");
   assert.equal(hashForRoute(topicRoute(7)), "#spiel/thema/7");
+  assert.equal(hashForRoute(subtaskRoute(2, 8)), "#spiel/thema/2/8");
   assert.equal(routeFromHash("#spiel/thema/7"), "spiel/thema/7");
+  assert.equal(routeFromHash("#spiel/thema/2/8"), "spiel/thema/2/8");
 
   assert.ok(isTopicRoute("spiel/thema/1"));
+  assert.ok(isTopicRoute("spiel/thema/1/2"));
   assert.ok(!isTopicRoute("spiel/kontenplan"));
 
-  assert.equal(topicNrFromRoute("spiel/thema/21"), 21);
-  assert.equal(topicNrFromRoute("spiel/kontenplan"), null);
-  assert.equal(topicNrFromRoute("spiel/thema/abc"), null);
+  assert.deepEqual(parseTopicRoute("spiel/thema/21"), { nr: 21, subNr: null });
+  assert.deepEqual(parseTopicRoute("spiel/thema/2/8"), { nr: 2, subNr: 8 });
+  assert.equal(parseTopicRoute("spiel/kontenplan"), null);
+  assert.equal(parseTopicRoute("spiel/thema/abc"), null);
+  assert.equal(parseTopicRoute("spiel/thema/2/x"), null);
 });

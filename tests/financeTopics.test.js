@@ -38,7 +38,44 @@ test("each finance topic is numbered 1..21 and routes to its own task", () => {
   gameRound.financeTopics.topics.forEach((topic, index) => {
     assert.equal(topic.nr, index + 1);
     assert.equal(topic.route, `spiel/thema/${index + 1}`);
+    assert.ok(Array.isArray(topic.subtasks), `topic ${topic.nr} must expose a subtasks array`);
   });
+});
+
+test("topics 1 and 2 expose their sub-tasks with sequential routes", () => {
+  const topics = gameRound.financeTopics.topics;
+
+  const buchfuehrung = topics.find((topic) => topic.nr === 1);
+  assert.deepEqual(buchfuehrung.subtasks.map((subtask) => subtask.title), [
+    "Konto",
+    "Bestandeskonten (Aktive / Passiven)",
+    "Kaufmännische Kontenbezeichnung",
+    "Theoriefragen Richtig/Falsch",
+    "Fachausdrücke",
+  ]);
+
+  const doppelteBuchfuehrung = topics.find((topic) => topic.nr === 2);
+  assert.deepEqual(doppelteBuchfuehrung.subtasks.map((subtask) => subtask.title), [
+    "Konteneinträge durchführen und Buchungssätze bilden",
+    "Journal und Hauptbuch führen",
+    "Buchungssätze bestimmen",
+    "Buchungstatsachen bestimmen",
+    "Auswirkungen von Geschäftsfällen auf die Bestandeskonten bestimmen",
+    "Aufwand und Ertrag, Wertverbrauch und Wertzuwachs",
+    "Aufwandkonto & Ertragskonto führen",
+    "Verbuchen von Rabatt und Skonto",
+  ]);
+
+  buchfuehrung.subtasks.forEach((subtask, index) => {
+    assert.equal(subtask.nr, index + 1);
+    assert.equal(subtask.route, `spiel/thema/1/${index + 1}`);
+  });
+  doppelteBuchfuehrung.subtasks.forEach((subtask, index) => {
+    assert.equal(subtask.route, `spiel/thema/2/${index + 1}`);
+  });
+
+  // Themen ohne ausgearbeitete Unteraufgaben haben eine leere Liste.
+  assert.equal(topics.find((topic) => topic.nr === 3).subtasks.length, 0);
 });
 
 test("legacy tasks bundle all current exercises 1-5", () => {

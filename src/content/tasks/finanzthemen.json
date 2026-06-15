@@ -6,11 +6,67 @@
   "topics": [
     {
       "nr": 1,
-      "title": "Kaufmännische Buchführung"
+      "title": "Kaufmännische Buchführung",
+      "subtasks": [
+        {
+          "nr": 1,
+          "title": "Konto"
+        },
+        {
+          "nr": 2,
+          "title": "Bestandeskonten (Aktive / Passiven)"
+        },
+        {
+          "nr": 3,
+          "title": "Kaufmännische Kontenbezeichnung"
+        },
+        {
+          "nr": 4,
+          "title": "Theoriefragen Richtig/Falsch"
+        },
+        {
+          "nr": 5,
+          "title": "Fachausdrücke"
+        }
+      ]
     },
     {
       "nr": 2,
-      "title": "System der doppelten Buchführung"
+      "title": "System der doppelten Buchführung",
+      "subtasks": [
+        {
+          "nr": 1,
+          "title": "Konteneinträge durchführen und Buchungssätze bilden"
+        },
+        {
+          "nr": 2,
+          "title": "Journal und Hauptbuch führen"
+        },
+        {
+          "nr": 3,
+          "title": "Buchungssätze bestimmen"
+        },
+        {
+          "nr": 4,
+          "title": "Buchungstatsachen bestimmen"
+        },
+        {
+          "nr": 5,
+          "title": "Auswirkungen von Geschäftsfällen auf die Bestandeskonten bestimmen"
+        },
+        {
+          "nr": 6,
+          "title": "Aufwand und Ertrag, Wertverbrauch und Wertzuwachs"
+        },
+        {
+          "nr": 7,
+          "title": "Aufwandkonto & Ertragskonto führen"
+        },
+        {
+          "nr": 8,
+          "title": "Verbuchen von Rabatt und Skonto"
+        }
+      ]
     },
     {
       "nr": 3,

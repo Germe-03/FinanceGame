@@ -5,7 +5,7 @@ import tKontoData from "./tasks/t-konto.json" with { type: "json" };
 import mwstData from "./tasks/mwst.json" with { type: "json" };
 import finanzthemenData from "./tasks/finanzthemen.json" with { type: "json" };
 import { getAccountLedgerItems } from "../domain/ledger.js";
-import { topicRoute } from "../domain/navigation.js";
+import { topicRoute, subtaskRoute } from "../domain/navigation.js";
 
 // Einzige Quelle für Kontoarten — die Task-JSONs nennen nur Kontonamen,
 // die Typen werden hier abgeleitet.
@@ -171,6 +171,11 @@ const financeTopics = Object.freeze({
     nr: topic.nr,
     title: topic.title,
     route: topicRoute(topic.nr),
+    subtasks: Object.freeze((topic.subtasks ?? []).map((subtask) => Object.freeze({
+      nr: subtask.nr,
+      title: subtask.title,
+      route: subtaskRoute(topic.nr, subtask.nr),
+    }))),
   }))),
 });
 

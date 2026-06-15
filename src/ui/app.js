@@ -20,7 +20,7 @@ import {
 } from "./screens/mwst.js";
 import { renderTKontoScreen } from "./screens/tKonto.js";
 import { renderTopicsOverviewScreen } from "./screens/topicsOverview.js";
-import { renderTopicPlaceholderScreen } from "./screens/topicPlaceholder.js";
+import { renderTopicScreen } from "./screens/topicDetail.js";
 import { gameRound } from "../content/gameRound.js";
 
 configureRouter(
@@ -42,7 +42,7 @@ configureRouter(
     [ROUTES.gameMwstTKonto]: renderMwstTKontoScreen,
   },
   renderDescriptionScreen,
-  [{ test: isTopicRoute, render: renderTopicPlaceholderScreen }],
+  [{ test: isTopicRoute, render: renderTopicScreen }],
 );
 
 startRouter();
