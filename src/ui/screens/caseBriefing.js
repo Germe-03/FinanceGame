@@ -29,6 +29,6 @@ export function renderCaseScreen() {
     </section>
   `;
 
-  document.querySelector('[data-action="play"]').addEventListener("click", () => navigateTo(ROUTES.gameAccountPlan));
+  document.querySelector('[data-action="play"]').addEventListener("click", () => navigateTo(ROUTES.game));
   document.querySelector('[data-action="configuration"]').addEventListener("click", () => navigateTo(ROUTES.configuration));
 }

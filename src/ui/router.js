@@ -2,10 +2,14 @@ import { hashForRoute, routeFromHash } from "../domain/navigation.js";
 
 let renderers = new Map();
 let fallbackRenderer = () => {};
+let dynamicRenderers = [];
 
-export function configureRouter(routeRenderers, fallback) {
+// dynamicRenderers: [{ test(route): boolean, render(route): void }] für
+// parametrierte Routen (z. B. spiel/thema/<nr>), die keine feste Route haben.
+export function configureRouter(routeRenderers, fallback, dynamic = []) {
   renderers = new Map(Object.entries(routeRenderers));
   fallbackRenderer = fallback;
+  dynamicRenderers = dynamic;
 }
 
 export function navigateTo(route) {
@@ -32,5 +36,15 @@ function renderCurrentRoute() {
 }
 
 function renderRoute(route) {
-  (renderers.get(route) ?? fallbackRenderer)();
+  const exact = renderers.get(route);
+  if (exact) {
+    exact();
+    return;
+  }
+  const dynamic = dynamicRenderers.find((matcher) => matcher.test(route));
+  if (dynamic) {
+    dynamic.render(route);
+    return;
+  }
+  fallbackRenderer();
 }

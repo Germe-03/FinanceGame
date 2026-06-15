@@ -3,7 +3,9 @@ import buchungssaetzeData from "./tasks/buchungssaetze.json" with { type: "json"
 import rechnungenData from "./tasks/rechnungen.json" with { type: "json" };
 import tKontoData from "./tasks/t-konto.json" with { type: "json" };
 import mwstData from "./tasks/mwst.json" with { type: "json" };
+import finanzthemenData from "./tasks/finanzthemen.json" with { type: "json" };
 import { getAccountLedgerItems } from "../domain/ledger.js";
+import { topicRoute } from "../domain/navigation.js";
 
 // Einzige Quelle für Kontoarten — die Task-JSONs nennen nur Kontonamen,
 // die Typen werden hier abgeleitet.
@@ -159,6 +161,33 @@ const mwst = Object.freeze({
   }),
 });
 
+// Inhaltsübersicht: die finanzwirtschaftlichen Themen aus dem Lehrmittel.
+// Jedes Thema ist eine eigene Aufgabe und verlinkt auf seine Themen-Route.
+const financeTopics = Object.freeze({
+  section: finanzthemenData.section,
+  title: finanzthemenData.title,
+  lead: finanzthemenData.lead,
+  topics: Object.freeze(finanzthemenData.topics.map((topic) => Object.freeze({
+    nr: topic.nr,
+    title: topic.title,
+    route: topicRoute(topic.nr),
+  }))),
+});
+
+// «Alte Aufgaben» bündelt die bisherigen Aufgaben 1–5 als eine Sammelaufgabe.
+const legacyTasks = Object.freeze({
+  id: "alte-aufgaben",
+  title: "Alte Aufgaben",
+  lead: "Alle bisherigen Aufgaben (1–5) zum Üben.",
+  tasks: Object.freeze([
+    Object.freeze({ nr: 1, title: accountPlanSearch.title, route: "spiel/kontenplan" }),
+    Object.freeze({ nr: 2, title: bookingTask.title, route: "spiel/aktiv-passiv" }),
+    Object.freeze({ nr: 3, title: invoiceBooking.title, route: "spiel/rechnungen" }),
+    Object.freeze({ nr: 4, title: tKontoBank.title, route: "spiel/t-konto" }),
+    Object.freeze({ nr: 5, title: mwst.title, route: "spiel/mwst/zuordnen" }),
+  ]),
+});
+
 export const gameRound = Object.freeze({
   title: "FinanceGame Aufgaben",
   subtitle: "Konten finden, buchen, Rechnungen kontieren",
@@ -176,6 +205,8 @@ export const gameRound = Object.freeze({
     Object.freeze({ id: "mwst-booking-advanced", title: mwst.bookingsAdvanced.title, route: "spiel/mwst/buchen-vertieft" }),
     Object.freeze({ id: "mwst-t-konto", title: mwst.tKonto.title, route: "spiel/mwst/t-konto" }),
   ]),
+  financeTopics,
+  legacyTasks,
   accountPlanSearch,
   bookingTask,
   balanceOnlyTasks,

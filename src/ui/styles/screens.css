@@ -239,3 +239,68 @@
     width: 100%;
   }
 }
+
+/* Aufgaben-Übersicht (Inhaltsübersicht) im Stil des Lehrmittels */
+.toc-block {
+  margin-top: 26px;
+}
+
+.toc-section-bar {
+  margin: 0 0 2px;
+  padding: 11px 16px;
+  border-radius: 4px;
+  color: #ffffff;
+  font-size: 1.05rem;
+  font-weight: 800;
+}
+
+.toc-section-bar--legacy {
+  background: var(--primary);
+}
+
+.toc-section-bar--finance {
+  background: #7a2d56;
+}
+
+.toc-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.toc-row {
+  display: grid;
+  grid-template-columns: 36px minmax(0, 1fr) auto;
+  gap: 14px;
+  align-items: center;
+  width: 100%;
+  padding: 14px 8px;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  color: var(--text);
+  font-weight: 650;
+}
+
+.toc-row:hover {
+  background: var(--surface-soft);
+}
+
+.toc-row__nr {
+  color: var(--muted);
+  font-weight: 800;
+  text-align: right;
+}
+
+.toc-row__title {
+  font-size: 1.02rem;
+}
+
+.toc-row__status {
+  color: var(--muted);
+  font-size: 0.76rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}

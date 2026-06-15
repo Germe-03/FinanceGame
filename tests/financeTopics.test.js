@@ -1,0 +1,55 @@
+import test from "node:test";
+import assert from "node:assert/strict";
+
+import { gameRound } from "../src/content/gameRound.js";
+
+const EXPECTED_TOPICS = [
+  "Kaufmännische Buchführung",
+  "System der doppelten Buchführung",
+  "Rechnungsabschluss und Kontenrahmen",
+  "Geschäfte mit der Bank",
+  "Fremde Währungen",
+  "Buchhaltung des Warenhandelsbetriebs",
+  "Mehrwertsteuer",
+  "Betriebliche Kalkulation",
+  "Verluste auf Forderungen",
+  "Abschreibungen",
+  "Rechnungsabgrenzungen",
+  "Personalaufwand",
+  "Besonderheiten des Einzelunternehmens",
+  "Besonderheiten der Aktiengesellschaft",
+  "Grundsätze der Bewertung",
+  "Wertschriften",
+  "Liegenschaften",
+  "Analyse der Bilanz und Erfolgsrechnung",
+  "Geldflussrechnung",
+  "Betriebsbuchhaltung",
+  "Deckungsbeitragsrechnung/Break-even-Analyse",
+];
+
+test("finance topics list every chapter from the textbook in order", () => {
+  const { financeTopics } = gameRound;
+  assert.equal(financeTopics.section, "Finanzwirtschaftliche Zusammenhänge");
+  assert.equal(financeTopics.topics.length, 21);
+  assert.deepEqual(financeTopics.topics.map((topic) => topic.title), EXPECTED_TOPICS);
+});
+
+test("each finance topic is numbered 1..21 and routes to its own task", () => {
+  gameRound.financeTopics.topics.forEach((topic, index) => {
+    assert.equal(topic.nr, index + 1);
+    assert.equal(topic.route, `spiel/thema/${index + 1}`);
+  });
+});
+
+test("legacy tasks bundle all current exercises 1-5", () => {
+  const { legacyTasks } = gameRound;
+  assert.equal(legacyTasks.title, "Alte Aufgaben");
+  assert.equal(legacyTasks.tasks.length, 5);
+  assert.deepEqual(
+    legacyTasks.tasks.map((task) => task.route),
+    ["spiel/kontenplan", "spiel/aktiv-passiv", "spiel/rechnungen", "spiel/t-konto", "spiel/mwst/zuordnen"],
+  );
+  for (const task of legacyTasks.tasks) {
+    assert.ok(task.title.length > 0, "legacy task needs a title");
+  }
+});

@@ -1,0 +1,92 @@
+{
+  "id": "finanzthemen",
+  "section": "Finanzwirtschaftliche Zusammenhänge",
+  "title": "Aufgaben",
+  "lead": "Wähle ein Thema aus den finanzwirtschaftlichen Zusammenhängen. Deine bisherigen Aufgaben findest Du unter «Alte Aufgaben».",
+  "topics": [
+    {
+      "nr": 1,
+      "title": "Kaufmännische Buchführung"
+    },
+    {
+      "nr": 2,
+      "title": "System der doppelten Buchführung"
+    },
+    {
+      "nr": 3,
+      "title": "Rechnungsabschluss und Kontenrahmen"
+    },
+    {
+      "nr": 4,
+      "title": "Geschäfte mit der Bank"
+    },
+    {
+      "nr": 5,
+      "title": "Fremde Währungen"
+    },
+    {
+      "nr": 6,
+      "title": "Buchhaltung des Warenhandelsbetriebs"
+    },
+    {
+      "nr": 7,
+      "title": "Mehrwertsteuer"
+    },
+    {
+      "nr": 8,
+      "title": "Betriebliche Kalkulation"
+    },
+    {
+      "nr": 9,
+      "title": "Verluste auf Forderungen"
+    },
+    {
+      "nr": 10,
+      "title": "Abschreibungen"
+    },
+    {
+      "nr": 11,
+      "title": "Rechnungsabgrenzungen"
+    },
+    {
+      "nr": 12,
+      "title": "Personalaufwand"
+    },
+    {
+      "nr": 13,
+      "title": "Besonderheiten des Einzelunternehmens"
+    },
+    {
+      "nr": 14,
+      "title": "Besonderheiten der Aktiengesellschaft"
+    },
+    {
+      "nr": 15,
+      "title": "Grundsätze der Bewertung"
+    },
+    {
+      "nr": 16,
+      "title": "Wertschriften"
+    },
+    {
+      "nr": 17,
+      "title": "Liegenschaften"
+    },
+    {
+      "nr": 18,
+      "title": "Analyse der Bilanz und Erfolgsrechnung"
+    },
+    {
+      "nr": 19,
+      "title": "Geldflussrechnung"
+    },
+    {
+      "nr": 20,
+      "title": "Betriebsbuchhaltung"
+    },
+    {
+      "nr": 21,
+      "title": "Deckungsbeitragsrechnung/Break-even-Analyse"
+    }
+  ]
+}

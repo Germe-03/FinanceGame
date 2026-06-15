@@ -1,6 +1,6 @@
 // Einstiegspunkt: verbindet Routen mit Screens und startet die App.
 // Jeder Screen liegt in screens/, wiederverwendbare UI-Teile in components/.
-import { ROUTES } from "../domain/navigation.js";
+import { ROUTES, isTopicRoute } from "../domain/navigation.js";
 import { initModuleModal } from "./components/moduleModal.js";
 import { initLearningModuleSearch } from "./components/sidebar.js";
 import { initSupportModal } from "./components/supportModal.js";
@@ -19,6 +19,8 @@ import {
   renderMwstVorsteuerScreen,
 } from "./screens/mwst.js";
 import { renderTKontoScreen } from "./screens/tKonto.js";
+import { renderTopicsOverviewScreen } from "./screens/topicsOverview.js";
+import { renderTopicPlaceholderScreen } from "./screens/topicPlaceholder.js";
 import { gameRound } from "../content/gameRound.js";
 
 configureRouter(
@@ -26,7 +28,7 @@ configureRouter(
     [ROUTES.description]: renderDescriptionScreen,
     [ROUTES.case]: renderCaseScreen,
     [ROUTES.configuration]: renderConfigurationScreen,
-    [ROUTES.game]: renderAccountPlanSearchScreen,
+    [ROUTES.game]: renderTopicsOverviewScreen,
     [ROUTES.gameAccountPlan]: renderAccountPlanSearchScreen,
     [ROUTES.gameBalance]: renderBookingTaskScreen,
     [ROUTES.gameIncomeIntro]: renderIncomeStatementIntroScreen,
@@ -40,6 +42,7 @@ configureRouter(
     [ROUTES.gameMwstTKonto]: renderMwstTKontoScreen,
   },
   renderDescriptionScreen,
+  [{ test: isTopicRoute, render: renderTopicPlaceholderScreen }],
 );
 
 startRouter();
