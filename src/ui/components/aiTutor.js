@@ -47,6 +47,25 @@ export function normalizeTutorAnswer(payload) {
   return answer;
 }
 
+// Lässt eine Begründung serverseitig (Ollama) prüfen. Der Bewertungs-Prompt
+// liegt im Python-Backend; hier werden nur die Fakten der Frage gesendet.
+export async function requestJustificationCheck(request, { fetchImpl = window.fetch.bind(window), apiBase = TUTOR_API_BASE } = {}) {
+  const response = await fetchImpl(`${apiBase}/api/tutor/check`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(request),
+  });
+  const payload = await response.json();
+  if (!response.ok) {
+    throw new Error(payload?.error || "Die KI-Prüfung ist fehlgeschlagen.");
+  }
+  const feedback = typeof payload?.feedback === "string" ? payload.feedback.trim() : "";
+  if (!feedback) {
+    throw new Error("Die KI hat keine Rückmeldung geliefert.");
+  }
+  return feedback;
+}
+
 export function renderAiTutorShell() {
   return `
     <button class="ai-tutor-fab" type="button" aria-label="KI-Tutor oeffnen" aria-expanded="false" aria-controls="ai-tutor-panel">

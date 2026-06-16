@@ -570,3 +570,134 @@
     align-items: center;
   }
 }
+
+/* Aufgabe 1.4: Wahr/Falsch-Theoriefragen mit Begründung */
+.theorie-list {
+  list-style: none;
+  margin: 6px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 14px;
+}
+
+.theorie-card {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  padding: 16px;
+}
+
+.theorie-statement {
+  display: flex;
+  gap: 10px;
+  margin: 0 0 12px;
+  font-weight: 700;
+  font-size: 1.02rem;
+}
+
+.theorie-nr {
+  flex: none;
+  min-width: 26px;
+  height: 26px;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  background: var(--surface-soft);
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.theorie-choices {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.theorie-choice {
+  min-width: 110px;
+  min-height: 42px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: #fff;
+  color: var(--text);
+  font-weight: 800;
+}
+
+.theorie-choice:hover,
+.theorie-choice--selected {
+  border-color: var(--primary);
+  outline: 3px solid #f59e0b;
+  outline-offset: 2px;
+}
+
+.theorie-choice--correct {
+  border-color: #15803d;
+  background: #f0fdf4;
+}
+
+.theorie-choice--wrong {
+  border-color: #b91c1c;
+  background: #fef2f2;
+}
+
+.theorie-just-label {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 0.76rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+
+.theorie-just {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 8px 10px;
+  font: inherit;
+  font-size: 0.95rem;
+  background: #fff;
+  color: var(--text);
+  resize: vertical;
+}
+
+.theorie-just:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.theorie-feedback {
+  margin-top: 12px;
+  border-radius: 6px;
+  padding: 10px 12px;
+}
+
+.theorie-feedback--correct {
+  border: 1px solid #15803d;
+  background: #f0fdf4;
+}
+
+.theorie-feedback--wrong {
+  border: 1px solid var(--accent);
+  background: #fff7ed;
+}
+
+.theorie-solution {
+  margin: 0;
+  font-weight: 700;
+  line-height: 1.45;
+  color: var(--text);
+}
+
+.theorie-ai {
+  margin: 8px 0 0;
+  font-weight: 650;
+  font-style: italic;
+  color: var(--primary-dark);
+}
+
+.theorie-ai:empty {
+  display: none;
+}

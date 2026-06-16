@@ -37,10 +37,15 @@ class TutorRequestHandler(BaseHTTPRequestHandler):
         self._write_json(HTTPStatus.NOT_FOUND, {"error": "Unbekannter Endpunkt."})
 
     def do_POST(self) -> None:
-        if self.path != "/api/tutor/chat":
-            self._write_json(HTTPStatus.NOT_FOUND, {"error": "Unbekannter Endpunkt."})
+        if self.path == "/api/tutor/chat":
+            self._handle_chat()
             return
+        if self.path == "/api/tutor/check":
+            self._handle_check()
+            return
+        self._write_json(HTTPStatus.NOT_FOUND, {"error": "Unbekannter Endpunkt."})
 
+    def _handle_chat(self) -> None:
         try:
             payload = self._read_json_body(max_bytes=128_000)
             answer = self.tutor.reply(
@@ -48,6 +53,28 @@ class TutorRequestHandler(BaseHTTPRequestHandler):
                 game_context=payload.get("game_context", {}),
             )
             self._write_json(HTTPStatus.OK, {"answer": answer})
+        except ValueError as exc:
+            self._write_json(HTTPStatus.BAD_REQUEST, {"error": str(exc)})
+        except OllamaTutorError as exc:
+            self._write_json(
+                HTTPStatus.BAD_GATEWAY,
+                {
+                    "error": str(exc),
+                    "hint": "Starte Ollama und installiere das konfigurierte Modell.",
+                },
+            )
+
+    def _handle_check(self) -> None:
+        try:
+            payload = self._read_json_body(max_bytes=32_000)
+            feedback = self.tutor.check_justification(
+                statement=payload.get("statement", ""),
+                correct_answer=payload.get("correct_answer", ""),
+                user_answer=payload.get("user_answer", ""),
+                answer_correct=bool(payload.get("answer_correct", False)),
+                justification=payload.get("justification", ""),
+            )
+            self._write_json(HTTPStatus.OK, {"feedback": feedback})
         except ValueError as exc:
             self._write_json(HTTPStatus.BAD_REQUEST, {"error": str(exc)})
         except OllamaTutorError as exc:

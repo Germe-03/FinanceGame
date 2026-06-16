@@ -1,0 +1,127 @@
+{
+  "id": "thema-1-4",
+  "title": "Theoriefragen Richtig/Falsch",
+  "lead": "Entscheide bei jeder Aussage: wahr oder falsch — und begründe Dein Kreuz in einem Satz. Mit «Prüfen» siehst Du die richtige Lösung samt Begründung; die KI schaut sich zusätzlich Deine eigene Begründung an.",
+  "questions": [
+    {
+      "id": "TF-01",
+      "statement": "Aktivkonten nehmen auf der Sollseite zu.",
+      "answer": true,
+      "explanation": "Aktivkonten nehmen im Soll (links) zu und im Haben (rechts) ab."
+    },
+    {
+      "id": "TF-02",
+      "statement": "Bei Passivkonten steht die Zunahme im Soll.",
+      "answer": false,
+      "explanation": "Passivkonten nehmen im Haben zu; im Soll werden sie kleiner."
+    },
+    {
+      "id": "TF-03",
+      "statement": "Die Bilanz stellt Aufwand und Ertrag gegenüber.",
+      "answer": false,
+      "explanation": "Die Bilanz zeigt Aktiven und Passiven. Aufwand und Ertrag stehen in der Erfolgsrechnung."
+    },
+    {
+      "id": "TF-04",
+      "statement": "In der doppelten Buchführung berührt jeder Buchungssatz mindestens zwei Konten.",
+      "answer": true,
+      "explanation": "Es wird immer im Soll und im Haben gebucht — daher «doppelte» Buchführung."
+    },
+    {
+      "id": "TF-05",
+      "statement": "Die Sollseite eines Kontos ist die linke Seite.",
+      "answer": true,
+      "explanation": "Soll steht links, Haben steht rechts."
+    },
+    {
+      "id": "TF-06",
+      "statement": "Das Eigenkapital ist ein Aktivkonto.",
+      "answer": false,
+      "explanation": "Das Eigenkapital ist ein Passivkonto — es zeigt, woher das Kapital stammt."
+    },
+    {
+      "id": "TF-07",
+      "statement": "Die Kasse zählt zu den Aktiven.",
+      "answer": true,
+      "explanation": "Bargeld ist Vermögen und damit ein Aktivkonto."
+    },
+    {
+      "id": "TF-08",
+      "statement": "Verbindlichkeiten aus Lieferungen und Leistungen gehören zum Fremdkapital.",
+      "answer": true,
+      "explanation": "Schulden gegenüber Lieferanten sind Fremdkapital und stehen bei den Passiven."
+    },
+    {
+      "id": "TF-09",
+      "statement": "Aktivkonten weisen normalerweise einen Saldo auf der Habenseite aus.",
+      "answer": false,
+      "explanation": "Aktivkonten haben in der Regel einen Saldo im Soll, da die Sollseite grösser ist."
+    },
+    {
+      "id": "TF-10",
+      "statement": "Die Summe der Aktiven ist gleich der Summe der Passiven.",
+      "answer": true,
+      "explanation": "Das ist die Bilanzgleichung: Beide Seiten der Bilanz sind immer gleich gross."
+    },
+    {
+      "id": "TF-11",
+      "statement": "Aufwand vermindert den Gewinn.",
+      "answer": true,
+      "explanation": "Aufwand schmälert den Erfolg, Ertrag erhöht ihn."
+    },
+    {
+      "id": "TF-12",
+      "statement": "Ertrag wird im Soll des Ertragskontos gebucht.",
+      "answer": false,
+      "explanation": "Ertrag steht im Haben des Ertragskontos."
+    },
+    {
+      "id": "TF-13",
+      "statement": "Ein Geschäftsfall wird in der doppelten Buchführung nur auf einem einzigen Konto erfasst.",
+      "answer": false,
+      "explanation": "Jeder Geschäftsfall berührt mindestens zwei Konten (Soll an Haben)."
+    },
+    {
+      "id": "TF-14",
+      "statement": "Der Schweizer KMU-Kontenrahmen gliedert die Konten in Kontenklassen von 1 bis 9.",
+      "answer": true,
+      "explanation": "Die Klassen 1–9 ordnen Aktiven, Passiven, Aufwand, Ertrag und weitere Bereiche."
+    },
+    {
+      "id": "TF-15",
+      "statement": "Maschinen gehören zum Umlaufvermögen.",
+      "answer": false,
+      "explanation": "Maschinen werden langfristig genutzt und gehören zum Anlagevermögen."
+    },
+    {
+      "id": "TF-16",
+      "statement": "Das Konto Bank ist immer ein Passivkonto.",
+      "answer": false,
+      "explanation": "Ein Bankguthaben ist ein Aktivkonto; nur ein überzogenes Konto wäre eine Schuld."
+    },
+    {
+      "id": "TF-17",
+      "statement": "Im Buchungssatz wird zuerst das Soll-Konto und dann das Haben-Konto genannt.",
+      "answer": true,
+      "explanation": "Konvention: «Soll an Haben» — zuerst das belastete, dann das gutgeschriebene Konto."
+    },
+    {
+      "id": "TF-18",
+      "statement": "Die Schlussbilanz eines Jahres ist zugleich die Eröffnungsbilanz des nächsten Jahres.",
+      "answer": true,
+      "explanation": "Die Bestände werden unverändert ins neue Jahr übertragen (Bilanzkontinuität)."
+    },
+    {
+      "id": "TF-19",
+      "statement": "Privatbezüge des Inhabers erhöhen das Eigenkapital.",
+      "answer": false,
+      "explanation": "Privatbezüge vermindern das Eigenkapital."
+    },
+    {
+      "id": "TF-20",
+      "statement": "Forderungen aus Lieferungen und Leistungen sind ein Aktivkonto.",
+      "answer": true,
+      "explanation": "Guthaben gegenüber Kunden sind Vermögen und damit ein Aktivkonto."
+    }
+  ]
+}

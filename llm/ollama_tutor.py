@@ -60,6 +60,60 @@ class OllamaTutor:
 
         return answer.strip()
 
+    def check_justification(
+        self,
+        *,
+        statement: str,
+        correct_answer: str,
+        user_answer: str,
+        answer_correct: bool,
+        justification: str,
+    ) -> str:
+        if not isinstance(statement, str) or not statement.strip():
+            raise ValueError("statement muss ein nicht-leerer Text sein.")
+
+        grading_prompt = (
+            "Du bist eine wohlwollende Lehrperson fuer Schweizer Finanzbuchhaltung und "
+            "pruefst die Begruendung einer lernenden Person zu einer Wahr/Falsch-Aussage.\n"
+            "Regeln:\n"
+            "- Sei ermutigend und grosszuegig, nicht pingelig.\n"
+            "- Hat die Person richtig angekreuzt: erkenne das klar an und akzeptiere die "
+            "Begruendung grosszuegig, auch wenn sie knapp oder unpraezise ist. Korrigiere "
+            "hoechstens einen klaren inhaltlichen Fehler.\n"
+            "- Hat die Person falsch angekreuzt: erklaere freundlich in ein bis zwei Saetzen "
+            "den richtigen Gedanken.\n"
+            "- Fehlt eine Begruendung: bitte freundlich um eine kurze Begruendung.\n"
+            "- Antworte auf Deutsch (Schweiz, 'ss' statt scharfem s), per Du, in hoechstens "
+            "zwei kurzen Saetzen. Gib keine Punktzahl und keine Anrede."
+        )
+        justification_text = justification.strip() if isinstance(justification, str) else ""
+        user_content = (
+            f"Aussage: {statement.strip()}\n"
+            f"Richtige Antwort: {correct_answer}\n"
+            f"Kreuz der Person: {user_answer} ({'richtig' if answer_correct else 'nicht richtig'})\n"
+            f"Begruendung der Person: {justification_text or '(keine Begruendung angegeben)'}"
+        )
+
+        payload = {
+            "model": self.model,
+            "messages": [
+                {"role": "system", "content": grading_prompt},
+                {"role": "user", "content": user_content[:2000]},
+            ],
+            "stream": False,
+            "options": {
+                "temperature": 0.2,
+                "num_ctx": 2048,
+            },
+        }
+        response_payload = self._post_json("/api/chat", payload)
+        feedback = response_payload.get("message", {}).get("content")
+
+        if not isinstance(feedback, str) or not feedback.strip():
+            raise OllamaTutorError("Ollama hat keine Rueckmeldung geliefert.")
+
+        return feedback.strip()
+
     def _build_messages(self, messages: list[dict[str, Any]], game_context: dict[str, Any]) -> list[dict[str, str]]:
         if not isinstance(messages, list) or not messages:
             raise ValueError("messages muss eine nicht-leere Liste sein.")
