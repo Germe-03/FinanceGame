@@ -78,14 +78,16 @@ test("topics 1 and 2 expose their sub-tasks with sequential routes", () => {
   assert.equal(topics.find((topic) => topic.nr === 3).subtasks.length, 0);
 });
 
-test("legacy tasks bundle all current exercises 1-5", () => {
+test("legacy tasks bundle the not-yet-migrated exercises (1 moved to topic 1.3)", () => {
   const { legacyTasks } = gameRound;
   assert.equal(legacyTasks.title, "Alte Aufgaben");
-  assert.equal(legacyTasks.tasks.length, 5);
+  assert.equal(legacyTasks.tasks.length, 4);
   assert.deepEqual(
     legacyTasks.tasks.map((task) => task.route),
-    ["spiel/kontenplan", "spiel/aktiv-passiv", "spiel/rechnungen", "spiel/t-konto", "spiel/mwst/zuordnen"],
+    ["spiel/aktiv-passiv", "spiel/rechnungen", "spiel/t-konto", "spiel/mwst/zuordnen"],
   );
+  // Die Kontenplan-Suchaufgabe steckt jetzt unter Thema 1, Unteraufgabe 3.
+  assert.ok(!legacyTasks.tasks.some((task) => task.route === "spiel/kontenplan"));
   for (const task of legacyTasks.tasks) {
     assert.ok(task.title.length > 0, "legacy task needs a title");
   }

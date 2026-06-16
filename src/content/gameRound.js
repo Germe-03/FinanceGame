@@ -148,13 +148,13 @@ const financeTopics = Object.freeze({
   }))),
 });
 
-// «Alte Aufgaben» bündelt die bisherigen Aufgaben 1–5 als eine Sammelaufgabe.
+// «Alte Aufgaben» bündelt die noch nicht ins Themen-Raster verschobenen
+// Aufgaben. Aufgabe 1 (Kontenplan/Kontenbezeichnung) ist nach Thema 1.3 gezügelt.
 const legacyTasks = Object.freeze({
   id: "alte-aufgaben",
   title: "Alte Aufgaben",
-  lead: "Alle bisherigen Aufgaben (1–5) zum Üben.",
+  lead: "Die bisherigen Aufgaben zum Üben.",
   tasks: Object.freeze([
-    Object.freeze({ nr: 1, title: accountPlanSearch.title, route: "spiel/kontenplan" }),
     Object.freeze({ nr: 2, title: bookingTask.title, route: "spiel/aktiv-passiv" }),
     Object.freeze({ nr: 3, title: invoiceBooking.title, route: "spiel/rechnungen" }),
     Object.freeze({ nr: 4, title: tKontoBank.title, route: "spiel/t-konto" }),

@@ -2,6 +2,7 @@ import { gameRound } from "../../content/gameRound.js";
 import { ROUTES } from "../../domain/navigation.js";
 import { appRoot, escapeHtml } from "../dom.js";
 import { navigateTo } from "../router.js";
+import { subtaskScreens } from "./subtasks/registry.js";
 
 // Welches Finanzthema im Akkordeon offen ist. Überdauert Re-Renders und die
 // Rückkehr von einer Unteraufgabe; null = alle geschlossen.
@@ -108,7 +109,7 @@ function renderPanelBody(topic) {
           <button class="toc-subrow" type="button" data-route="${escapeHtml(subtask.route)}">
             <span class="toc-subrow__nr">${escapeHtml(topic.nr)}.${escapeHtml(subtask.nr)}</span>
             <span class="toc-subrow__title">${escapeHtml(subtask.title)}</span>
-            <span class="toc-row__status">in Arbeit</span>
+            <span class="toc-row__status">${subtaskScreens[`${topic.nr}/${subtask.nr}`] ? "Üben" : "in Arbeit"}</span>
           </button>
         </li>
       `).join("")}

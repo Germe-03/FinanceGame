@@ -13,18 +13,29 @@ const accountTypeLabels = Object.freeze({
   revenue: "Ertragskonto",
 });
 
-export function renderAccountPlanSearchScreen() {
+// Wird sowohl als (verschobene) Unteraufgabe 1.3 «Kaufmännische Kontenbezeichnung»
+// aufgerufen — dann mit topic/subtask und Navigation zur Übersicht — als auch
+// direkt über die Route spiel/kontenplan (ohne Argumente, alte Chrome).
+export function renderAccountPlanSearchScreen(topic, subtask) {
   const section = gameRound.accountPlanSearch;
+  const asSubtask = Boolean(topic && subtask);
+  const eyebrow = asSubtask ? `${topic.nr} ${topic.title} · Aufgabe ${subtask.nr}` : "Aufgabe 1 · Kontenplan";
+  const heading = asSubtask ? subtask.title : section.title;
+  const backLabel = asSubtask ? "Zurück zur Übersicht" : "Zurück zum Fallbeschrieb";
+  const backRoute = asSubtask ? ROUTES.game : ROUTES.case;
+  const nextLabel = asSubtask ? "Zurück zur Übersicht" : section.nextButtonLabel;
+  const nextRoute = asSubtask ? ROUTES.game : ROUTES.gameBalance;
+
   appRoot.innerHTML = `
     <section class="screen screen--game" aria-labelledby="account-plan-title">
       <div class="game-outer-layout">
         ${renderLernmoduleSidebar()}
         <div>
           <div class="screen__content game-shell">
-            <button class="back-button" type="button" id="back-to-case">Zurück zum Fallbeschrieb</button>
+            <button class="back-button" type="button" id="back-to-case">${escapeHtml(backLabel)}</button>
             <div class="game-stage-head">
-              <p class="eyebrow">Aufgabe 1 · Kontenplan</p>
-              <h2 id="account-plan-title">${escapeHtml(section.title)}</h2>
+              <p class="eyebrow">${escapeHtml(eyebrow)}</p>
+              <h2 id="account-plan-title">${escapeHtml(heading)}</h2>
               <p class="lead">${escapeHtml(section.lead)}</p>
               ${renderProgressBar(0, section.tasks.length, "Aufgaben beantwortet")}
             </div>
@@ -32,7 +43,7 @@ export function renderAccountPlanSearchScreen() {
               ${section.tasks.map((task, i) => renderAccountPlanSearchTask(task, i)).join("")}
             </div>
             <div class="configuration-actions">
-              <button class="primary-action" type="button" id="game-next-button">${escapeHtml(section.nextButtonLabel)}</button>
+              <button class="primary-action" type="button" id="game-next-button">${escapeHtml(nextLabel)}</button>
             </div>
           </div>
         </div>
@@ -41,8 +52,8 @@ export function renderAccountPlanSearchScreen() {
     </section>
   `;
 
-  document.querySelector("#back-to-case").addEventListener("click", () => navigateTo(ROUTES.case));
-  document.querySelector("#game-next-button").addEventListener("click", () => navigateTo(ROUTES.gameBalance));
+  document.querySelector("#back-to-case").addEventListener("click", () => navigateTo(backRoute));
+  document.querySelector("#game-next-button").addEventListener("click", () => navigateTo(nextRoute));
   const cardList = appRoot.querySelector(".account-search-list");
   initAccountPlanChoices(cardList);
   cardList.addEventListener("click", (event) => {
