@@ -111,4 +111,4 @@ $env:OLLAMA_MODEL = "llama3.1:8b"
 py -3 tutor_server.py
 ```
 
-Alle LLM-Aufrufe und der Systemprompt liegen in Python unter `llm/`. Die JavaScript-App rendert nur das Tutor-Widget und ruft die lokale Python-API auf.
+Alle LLM-Aufrufe sowie System- und Bewertungs-Prompts liegen unter `llm/`. Die JavaScript-App rendert nur das Tutor-Widget und ruft die lokale Python-API auf.

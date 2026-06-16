@@ -20,6 +20,7 @@ ALLOWED_ORIGINS = {
 class TutorRequestHandler(BaseHTTPRequestHandler):
     tutor = OllamaTutor(
         prompt_path=ROOT_DIR / "llm" / "system_prompt.md",
+        grading_prompt_path=ROOT_DIR / "llm" / "grading_prompt.md",
         base_url=os.getenv("OLLAMA_BASE_URL", "http://127.0.0.1:11434"),
         model=os.getenv("OLLAMA_MODEL", "llama3.2:3b"),
         timeout=float(os.getenv("OLLAMA_TIMEOUT_SECONDS", "90")),

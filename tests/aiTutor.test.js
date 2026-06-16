@@ -1,5 +1,8 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import { existsSync, readFileSync } from "node:fs";
+import { dirname, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 
 import {
   TUTOR_API_BASE,
@@ -8,6 +11,8 @@ import {
   renderAiTutorShell,
   sanitizeTutorMessages,
 } from "../src/ui/components/aiTutor.js";
+
+const ROOT_DIR = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 
 test("AI tutor uses the local Python API and never sends prompt instructions from JavaScript", () => {
   assert.equal(TUTOR_API_BASE, "http://127.0.0.1:8766");
@@ -32,6 +37,18 @@ test("AI tutor uses the local Python API and never sends prompt instructions fro
     screen_title: "Konto",
   });
   assert.ok(!JSON.stringify(payload).includes("versteckter Prompt"));
+});
+
+test("AI tutor keeps chat and grading prompts in server-side markdown files", () => {
+  assert.ok(existsSync(resolve(ROOT_DIR, "llm/system_prompt.md")));
+  assert.ok(existsSync(resolve(ROOT_DIR, "llm/grading_prompt.md")));
+
+  const tutorSource = readFileSync(resolve(ROOT_DIR, "llm/ollama_tutor.py"), "utf8");
+  const serverSource = readFileSync(resolve(ROOT_DIR, "tutor_server.py"), "utf8");
+
+  assert.match(serverSource, /grading_prompt_path=.*grading_prompt\.md/s);
+  assert.match(tutorSource, /self\.grading_prompt/);
+  assert.ok(!tutorSource.includes("grading_prompt = ("));
 });
 
 

@@ -11,12 +11,22 @@ class OllamaTutorError(RuntimeError):
 
 
 class OllamaTutor:
-    def __init__(self, *, prompt_path: Path, base_url: str, model: str, timeout: float) -> None:
+    def __init__(
+        self,
+        *,
+        prompt_path: Path,
+        grading_prompt_path: Path,
+        base_url: str,
+        model: str,
+        timeout: float,
+    ) -> None:
         self.prompt_path = prompt_path
+        self.grading_prompt_path = grading_prompt_path
         self.base_url = base_url.rstrip("/")
         self.model = model
         self.timeout = timeout
         self.system_prompt = prompt_path.read_text(encoding="utf-8").strip()
+        self.grading_prompt = grading_prompt_path.read_text(encoding="utf-8").strip()
 
     def health(self) -> dict[str, Any]:
         try:
@@ -72,20 +82,6 @@ class OllamaTutor:
         if not isinstance(statement, str) or not statement.strip():
             raise ValueError("statement muss ein nicht-leerer Text sein.")
 
-        grading_prompt = (
-            "Du bist eine wohlwollende Lehrperson fuer Schweizer Finanzbuchhaltung und "
-            "pruefst die Begruendung einer lernenden Person zu einer Wahr/Falsch-Aussage.\n"
-            "Regeln:\n"
-            "- Sei ermutigend und grosszuegig, nicht pingelig.\n"
-            "- Hat die Person richtig angekreuzt: erkenne das klar an und akzeptiere die "
-            "Begruendung grosszuegig, auch wenn sie knapp oder unpraezise ist. Korrigiere "
-            "hoechstens einen klaren inhaltlichen Fehler.\n"
-            "- Hat die Person falsch angekreuzt: erklaere freundlich in ein bis zwei Saetzen "
-            "den richtigen Gedanken.\n"
-            "- Fehlt eine Begruendung: bitte freundlich um eine kurze Begruendung.\n"
-            "- Antworte auf Deutsch (Schweiz, 'ss' statt scharfem s), per Du, in hoechstens "
-            "zwei kurzen Saetzen. Gib keine Punktzahl und keine Anrede."
-        )
         justification_text = justification.strip() if isinstance(justification, str) else ""
         user_content = (
             f"Aussage: {statement.strip()}\n"
@@ -97,7 +93,7 @@ class OllamaTutor:
         payload = {
             "model": self.model,
             "messages": [
-                {"role": "system", "content": grading_prompt},
+                {"role": "system", "content": self.grading_prompt},
                 {"role": "user", "content": user_content[:2000]},
             ],
             "stream": False,
