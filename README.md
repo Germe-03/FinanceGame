@@ -6,6 +6,8 @@ FinanceGame ist ein interaktives Lernspiel, das die Grundlagen der Finanzbuchhal
 
 Das Projekt soll ein unterhaltsames, praxisnahes Game werden, das Lernende Schritt für Schritt an zentrale Themen der Finanzbuchhaltung heranführt. Die Spielerinnen und Spieler übernehmen Aufgaben in einer fiktiven Firma und müssen geschäftliche Situationen korrekt beurteilen, buchen und rechtlich einordnen.
 
+Ein weiteres Ziel ist eine KI-gestützte Lernstandsanalyse: Die KI soll pro Nutzerin und Nutzer Muster in Antworten erkennen, daraus Stärken und Schwächen ableiten und später Aufgaben vorschlagen, die gezielt Wissenslücken schliessen. Dadurch sollen UX, Motivation und Lerneffekt steigen.
+
 Im Zentrum stehen:
 
 - Buchungssätze verstehen und korrekt bilden
@@ -66,6 +68,7 @@ Das Spiel basiert auf einer erfundenen Schweizer Beispielfirma. Alle Namen, Lief
 - Level oder Kapitel mit steigender Schwierigkeit
 - fiktive Belege, Rechnungen und Geschäftsdokumente
 - spielerische Szenarien aus dem Unternehmensalltag
+- #TODO: KI-gestützte Lernstandsanalyse, die Stärken und Schwächen je Nutzer erkennt und spätere Aufgaben gezielt auf individuelle Wissenslücken ausrichtet
 
 ## Zielgruppe
 
