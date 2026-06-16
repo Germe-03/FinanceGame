@@ -38,6 +38,21 @@ export function renderInvoiceBookingScreen() {
   });
 }
 
+// Die alte Aufgabe 3 (Rechnungen kontieren) als Unteraufgabe 2.4
+// «Buchungssätze anhand Rechnung bestimmen»: gleiche Buchungsaufgaben,
+// aber mit Themen-Eyebrow und Navigation zurück zur Übersicht.
+export function renderInvoiceBookingSubtaskScreen(topic, subtask) {
+  renderBookingTaskListScreen(gameRound.invoiceBooking, {
+    eyebrow: `${topic.nr} ${topic.title} · Aufgabe ${subtask.nr}`,
+    title: subtask.title,
+    backRoute: ROUTES.game,
+    backLabel: "Zurück zur Übersicht",
+    nextRoute: ROUTES.game,
+    nextLabel: "Zurück zur Übersicht",
+    accounts: getUniqueAccounts(gameRound.invoiceBooking.tasks, accountPlan),
+  });
+}
+
 export function renderBookingTaskListScreen(section, options) {
   appRoot.innerHTML = `
     <section class="screen screen--game" aria-labelledby="game-title">
@@ -45,10 +60,10 @@ export function renderBookingTaskListScreen(section, options) {
         ${renderLernmoduleSidebar()}
         <div>
           <div class="screen__content game-shell">
-            <button class="back-button" type="button" id="back-to-case">Zurück zum Fallbeschrieb</button>
+            <button class="back-button" type="button" id="back-to-case">${escapeHtml(options.backLabel ?? "Zurück zum Fallbeschrieb")}</button>
             <div class="game-stage-head">
               <p class="eyebrow">${escapeHtml(options.eyebrow)}</p>
-              <h2 id="game-title">${escapeHtml(section.title)}</h2>
+              <h2 id="game-title">${escapeHtml(options.title ?? section.title)}</h2>
               <p class="lead">${escapeHtml(section.lead)}</p>
               ${renderProgressBar(0, section.tasks.length, "Buchungssätzen bearbeitet")}
             </div>
@@ -65,7 +80,7 @@ export function renderBookingTaskListScreen(section, options) {
     </section>
   `;
 
-  document.querySelector("#back-to-case").addEventListener("click", () => navigateTo(ROUTES.case));
+  document.querySelector("#back-to-case").addEventListener("click", () => navigateTo(options.backRoute ?? ROUTES.case));
   if (options.nextRoute) {
     document.querySelector("#game-next-button").addEventListener("click", () => navigateTo(options.nextRoute));
   }

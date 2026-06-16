@@ -48,22 +48,26 @@
         },
         {
           "nr": 4,
-          "title": "Buchungstatsachen bestimmen"
+          "title": "Buchungssätze anhand Rechnung bestimmen"
         },
         {
           "nr": 5,
-          "title": "Auswirkungen von Geschäftsfällen auf die Bestandeskonten bestimmen"
+          "title": "Buchungstatsachen bestimmen"
         },
         {
           "nr": 6,
-          "title": "Aufwand und Ertrag, Wertverbrauch und Wertzuwachs"
+          "title": "Auswirkungen von Geschäftsfällen auf die Bestandeskonten bestimmen"
         },
         {
           "nr": 7,
-          "title": "Aufwandkonto & Ertragskonto führen"
+          "title": "Aufwand und Ertrag, Wertverbrauch und Wertzuwachs"
         },
         {
           "nr": 8,
+          "title": "Aufwandkonto & Ertragskonto führen"
+        },
+        {
+          "nr": 9,
           "title": "Verbuchen von Rabatt und Skonto"
         }
       ]

@@ -59,6 +59,7 @@ test("topics 1 and 2 expose their sub-tasks with sequential routes", () => {
     "Konteneinträge durchführen und Buchungssätze bilden",
     "Journal und Hauptbuch führen",
     "Buchungssätze bestimmen",
+    "Buchungssätze anhand Rechnung bestimmen",
     "Buchungstatsachen bestimmen",
     "Auswirkungen von Geschäftsfällen auf die Bestandeskonten bestimmen",
     "Aufwand und Ertrag, Wertverbrauch und Wertzuwachs",
@@ -78,16 +79,17 @@ test("topics 1 and 2 expose their sub-tasks with sequential routes", () => {
   assert.equal(topics.find((topic) => topic.nr === 3).subtasks.length, 0);
 });
 
-test("legacy tasks bundle the not-yet-migrated exercises (1 moved to topic 1.3)", () => {
+test("legacy tasks bundle the not-yet-migrated exercises (1 -> 1.3, 3 -> 2.4)", () => {
   const { legacyTasks } = gameRound;
   assert.equal(legacyTasks.title, "Alte Aufgaben");
-  assert.equal(legacyTasks.tasks.length, 4);
+  assert.equal(legacyTasks.tasks.length, 3);
   assert.deepEqual(
     legacyTasks.tasks.map((task) => task.route),
-    ["spiel/aktiv-passiv", "spiel/rechnungen", "spiel/t-konto", "spiel/mwst/zuordnen"],
+    ["spiel/aktiv-passiv", "spiel/t-konto", "spiel/mwst/zuordnen"],
   );
-  // Die Kontenplan-Suchaufgabe steckt jetzt unter Thema 1, Unteraufgabe 3.
+  // Verschoben: Kontenplan-Suche → Thema 1.3, Rechnungen kontieren → Thema 2.4.
   assert.ok(!legacyTasks.tasks.some((task) => task.route === "spiel/kontenplan"));
+  assert.ok(!legacyTasks.tasks.some((task) => task.route === "spiel/rechnungen"));
   for (const task of legacyTasks.tasks) {
     assert.ok(task.title.length > 0, "legacy task needs a title");
   }

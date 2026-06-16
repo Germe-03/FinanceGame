@@ -149,14 +149,13 @@ const financeTopics = Object.freeze({
 });
 
 // «Alte Aufgaben» bündelt die noch nicht ins Themen-Raster verschobenen
-// Aufgaben. Aufgabe 1 (Kontenplan/Kontenbezeichnung) ist nach Thema 1.3 gezügelt.
+// Aufgaben. Verschoben: Aufgabe 1 → Thema 1.3, Aufgabe 3 → Thema 2.4.
 const legacyTasks = Object.freeze({
   id: "alte-aufgaben",
   title: "Alte Aufgaben",
   lead: "Die bisherigen Aufgaben zum Üben.",
   tasks: Object.freeze([
     Object.freeze({ nr: 2, title: bookingTask.title, route: "spiel/aktiv-passiv" }),
-    Object.freeze({ nr: 3, title: invoiceBooking.title, route: "spiel/rechnungen" }),
     Object.freeze({ nr: 4, title: tKontoBank.title, route: "spiel/t-konto" }),
     Object.freeze({ nr: 5, title: mwst.title, route: "spiel/mwst/zuordnen" }),
   ]),
