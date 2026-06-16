@@ -78,3 +78,34 @@ Dieses Projekt ist ein Lern- und Simulationsprojekt. Die Inhalte ersetzen keine 
 ## Status
 
 Das Projekt befindet sich in einer frühen Konzept- und Entwicklungsphase.
+## Lokaler KI-Tutor (Ollama)
+
+Der KI-Tutor besteht aus zwei Prozessen:
+
+1. App starten:
+
+```powershell
+npm start
+```
+
+2. Python-Tutor-API in einem zweiten Terminal starten:
+
+```powershell
+py -3 tutor_server.py
+```
+
+Standardwerte:
+
+- App: `http://127.0.0.1:4173`
+- Tutor-API: `http://127.0.0.1:8766`
+- Ollama: `http://127.0.0.1:11434`
+- Modell: `llama3.2:3b`
+
+Das Modell kann per Umgebung gesetzt werden:
+
+```powershell
+$env:OLLAMA_MODEL = "llama3.1:8b"
+py -3 tutor_server.py
+```
+
+Alle LLM-Aufrufe und der Systemprompt liegen in Python unter `llm/`. Die JavaScript-App rendert nur das Tutor-Widget und ruft die lokale Python-API auf.

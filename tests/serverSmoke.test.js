@@ -58,6 +58,8 @@ test("static server serves the app shell and every referenced resource", { timeo
     await assertServed("/assets/accounting/kmu-kontenplan/Schweizer-Kontenrahmen-KMU.pdf", /application\/pdf/);
     await assertServed("/assets/accounting/rechnungen/README.md", /text\/markdown/);
     await assertServed("/lernmodule/bilanz.md", /text\/markdown/);
+    await assertNotServed("/llm/system_prompt.md");
+    await assertNotServed("/tutor_server.py");
   } finally {
     server.kill();
   }
@@ -69,6 +71,12 @@ async function assertServed(path, contentTypePattern) {
   assert.equal(response.status, 200, `expected 200 for ${cleanPath}`);
   assert.match(response.headers.get("content-type") ?? "", contentTypePattern, `content type for ${cleanPath}`);
   await response.arrayBuffer();
+}
+
+async function assertNotServed(path) {
+  const cleanPath = path.replace(/^\.\//, "/").split("?")[0];
+  const response = await fetch(`${BASE_URL}${cleanPath}`);
+  assert.equal(response.status, 404, `expected 404 for ${cleanPath}`);
 }
 
 async function fetchText(path) {

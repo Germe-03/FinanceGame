@@ -21,6 +21,12 @@ const mimeTypes = {
 createServer((request, response) => {
   const requestedUrl = new URL(request.url ?? "/", `http://${request.headers.host ?? "localhost"}`);
   const pathname = requestedUrl.pathname === "/" ? "/index.html" : decodeURIComponent(requestedUrl.pathname);
+
+  if (pathname === "/tutor_server.py" || pathname === "/llm" || pathname.startsWith("/llm/")) {
+    response.writeHead(404, { "content-type": "text/plain; charset=utf-8" });
+    response.end("Nicht gefunden");
+    return;
+  }
   const filePath = resolve(join(root, normalize(pathname)));
 
   if (!filePath.startsWith(root) || !existsSync(filePath) || !statSync(filePath).isFile()) {
