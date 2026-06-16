@@ -43,7 +43,8 @@ export function renderAccountPlanSearchScreen(topic, subtask) {
               ${section.tasks.map((task, i) => renderAccountPlanSearchTask(task, i)).join("")}
             </div>
             <div class="configuration-actions">
-              <button class="primary-action" type="button" id="game-next-button">${escapeHtml(nextLabel)}</button>
+              <button class="secondary-action" type="button" id="game-next-button">${escapeHtml(nextLabel)}</button>
+              <button class="primary-action" type="button" id="account-check-button">Prüfen</button>
             </div>
           </div>
         </div>
@@ -55,13 +56,21 @@ export function renderAccountPlanSearchScreen(topic, subtask) {
   document.querySelector("#back-to-case").addEventListener("click", () => navigateTo(backRoute));
   document.querySelector("#game-next-button").addEventListener("click", () => navigateTo(nextRoute));
   const cardList = appRoot.querySelector(".account-search-list");
-  initAccountPlanChoices(cardList);
+  const state = { checked: false };
+  initAccountPlanChoices(cardList, state);
   cardList.addEventListener("click", (event) => {
     if (!event.target.closest(".account-choice-button")) return;
     const flags = [...cardList.querySelectorAll(".account-search-card")].map(
       (card) => card.querySelector(".account-choice-button--selected") !== null,
     );
     updateProgressBar(appRoot, flags);
+  });
+  document.querySelector("#account-check-button").addEventListener("click", () => {
+    state.checked = true;
+    const tasksById = new Map(gameRound.accountPlanSearch.tasks.map((task) => [task.id, task]));
+    cardList.querySelectorAll(".account-search-card").forEach((card) => {
+      showAccountPlanFeedback(card, tasksById.get(card.dataset.taskId));
+    });
   });
 }
 
@@ -90,11 +99,10 @@ function renderAccountChoiceButton(task, option) {
   `;
 }
 
-function initAccountPlanChoices(container) {
+function initAccountPlanChoices(container, state) {
   const tasksById = new Map(gameRound.accountPlanSearch.tasks.map((task) => [task.id, task]));
   container.querySelectorAll(".account-search-card").forEach((card) => {
     const task = tasksById.get(card.dataset.taskId);
-    const feedback = card.querySelector(".account-choice-feedback");
 
     card.querySelectorAll(".account-choice-button").forEach((button) => {
       button.addEventListener("click", () => {
@@ -104,11 +112,32 @@ function initAccountPlanChoices(container) {
           choice.setAttribute("aria-pressed", String(selected));
         });
 
-        const correct = button.dataset.correct === "true";
-        feedback.hidden = false;
-        feedback.className = `account-choice-feedback ${correct ? "account-choice-feedback--correct" : "account-choice-feedback--wrong"}`;
-        feedback.textContent = `${correct ? "Richtig." : `Noch nicht. Richtige Lösung: ${task.correctAccount}.`} ${task.explanation}`;
+        // Feedback erst nach «Prüfen»; danach aktualisiert es sich bei Änderung.
+        if (state.checked) showAccountPlanFeedback(card, task);
       });
     });
   });
+}
+
+// Blendet bei einer Aufgaben-Card das Feedback ein und markiert die richtige
+// Lösung (grün) bzw. eine falsch gewählte Option (rot).
+function showAccountPlanFeedback(card, task) {
+  const feedback = card.querySelector(".account-choice-feedback");
+  const selected = card.querySelector(".account-choice-button--selected");
+
+  card.querySelectorAll(".account-choice-button").forEach((button) => {
+    const isCorrect = button.dataset.correct === "true";
+    button.classList.toggle("account-choice-button--correct", isCorrect);
+    button.classList.toggle("account-choice-button--wrong", button === selected && !isCorrect);
+  });
+
+  feedback.hidden = false;
+  if (!selected) {
+    feedback.className = "account-choice-feedback account-choice-feedback--wrong";
+    feedback.textContent = `Noch nicht beantwortet. Richtige Lösung: ${task.correctAccount}. ${task.explanation}`;
+  } else {
+    const correct = selected.dataset.correct === "true";
+    feedback.className = `account-choice-feedback ${correct ? "account-choice-feedback--correct" : "account-choice-feedback--wrong"}`;
+    feedback.textContent = `${correct ? "Richtig." : `Noch nicht. Richtige Lösung: ${task.correctAccount}.`} ${task.explanation}`;
+  }
 }

@@ -379,6 +379,17 @@
   color: #7f1d1d;
 }
 
+/* Nach «Prüfen»: richtige Lösung grün, falsch gewählte Option rot */
+.account-choice-button--correct {
+  border-color: #15803d;
+  background: #f0fdf4;
+}
+
+.account-choice-button--wrong {
+  border-color: #b91c1c;
+  background: #fef2f2;
+}
+
 
 .invoice-task-image-frame {
   margin: 12px 0 0;
