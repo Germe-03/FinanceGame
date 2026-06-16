@@ -3,6 +3,7 @@ import { ROUTES, parseTopicRoute } from "../../domain/navigation.js";
 import { appRoot, escapeHtml } from "../dom.js";
 import { navigateTo } from "../router.js";
 import { setExpandedTopic } from "./topicsOverview.js";
+import { subtaskScreens } from "./subtasks/registry.js";
 
 // Dynamische Themen-Routen. Themen selbst werden in der Übersicht als Akkordeon
 // aufgeklappt; nur einzelne Unteraufgaben (spiel/thema/<nr>/<subNr>) bekommen
@@ -28,6 +29,13 @@ export function renderTopicScreen(route) {
 
   // Rückkehr zur Übersicht soll das zugehörige Thema offen zeigen.
   setExpandedTopic(topic.nr);
+
+  // Ausgearbeitete Unteraufgaben haben einen eigenen Screen (siehe registry.js).
+  const renderSubtask = subtaskScreens[`${topic.nr}/${subtask.nr}`];
+  if (renderSubtask) {
+    renderSubtask(topic, subtask);
+    return;
+  }
 
   appRoot.innerHTML = `
     <section class="screen screen--overview" aria-labelledby="subtask-title">

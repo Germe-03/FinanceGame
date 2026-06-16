@@ -39,7 +39,7 @@ test("static server serves the app shell and every referenced resource", { timeo
     }
 
     // Spielinhalte: eine strukturierte JSON-Datei pro Aufgabe.
-    for (const file of ["kontenplan", "buchungssaetze", "rechnungen", "t-konto", "mwst", "finanzthemen"]) {
+    for (const file of ["kontenplan", "buchungssaetze", "rechnungen", "t-konto", "mwst", "finanzthemen", "konto"]) {
       await assertServed(`/src/content/tasks/${file}.json`, /application\/json/);
     }
     const finanzthemen = JSON.parse(await fetchText("/src/content/tasks/finanzthemen.json"));

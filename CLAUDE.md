@@ -16,6 +16,7 @@ Browserbasiertes Lernspiel zur Schweizer Finanzbuchhaltung (KMU, OR). Vanilla JS
 |---|---|
 | Neue/geänderte Übungsaufgaben | `src/content/tasks/` — eine JSON-Datei pro Aufgabe (kontenplan, buchungssaetze, rechnungen, t-konto, mwst), inkl. Titel und Leads |
 | Themenliste der Inhaltsübersicht | `src/content/tasks/finanzthemen.json` (21 Lehrmittel-Themen «Finanzwirtschaftliche Zusammenhänge», je optional `subtasks`) → Übersicht `screens/topicsOverview.js`, Themen-/Unteraufgaben-Detail `screens/topicDetail.js` |
+| Ausgearbeitete Unteraufgabe (eigener Screen) | `src/ui/screens/subtasks/<name>.js` + Eintrag `"<themaNr>/<subNr>": render…` in `screens/subtasks/registry.js`. Inhalt als `src/content/tasks/<name>.json`, reine Bewertungslogik in `src/domain/` mit Test. Beispiel: Aufgabe 1.1 «Konto» (`kontoExercise.js`, `konto.json`, `termPlacement.js`) |
 | Aufgabenreihenfolge, Kontoarten, Daten→Laufzeit-Mapping | `src/content/gameRound.js` (Assembler; `financeTopics` + `legacyTasks`) |
 | Neue Route/Screen | `src/domain/navigation.js` (Route) + `src/ui/screens/<name>.js` (Screen) + Registrierung in `src/ui/app.js` |
 | Lernmodul (Theorie-Text) | `lernmodule/<id>.md` + Eintrag in `src/content/theoryModules.js` |
@@ -54,4 +55,4 @@ tests/        node:test; serverSmoke prüft Verhalten (erreichbare Ressourcen),
 - Aufgabe 5 (MWST): Die ESTV-Verrechnungsbuchung MV-10 in tasks.json muss den Summen aller Vorsteuer-Buchungen (1170/1171) der MWST-Teilaufgaben entsprechen — tests/mwstContent.test.js erzwingt das. Wer MWST-Buchungssätze ändert, passt MV-10 an.
 - Einstieg «Spielen» (`#fall` → `#spiel`) zeigt die Inhaltsübersicht (`topicsOverview.js`): oben «Alte Aufgaben» (Aufgaben 1–5), darunter die 21 Lehrmittel-Themen. Themen teilen sich die dynamische Route `spiel/thema/<nr>`, Unteraufgaben `spiel/thema/<nr>/<subNr>` (Helfer in `navigation.js`: `topicRoute`/`subtaskRoute`/`isTopicRoute`/`parseTopicRoute`; der Router unterstützt dynamische Matcher als 3. Argument von `configureRouter`). `topicDetail.js` listet die `subtasks` eines Themas auf oder zeigt einen «in Arbeit»-Platzhalter, wenn (noch) keine vorhanden sind.
 - Skonto ist Ertragsminderung (Dienstleistungsertrag im Soll), nicht Finanzaufwand.
-- `index.html` lädt das Einstiegsmodul mit Cache-Buster `?v=...` — bei UI-Änderungen Version anpassen.
+- `index.html` lädt **alle** Stylesheets **und** das Einstiegsmodul mit Cache-Buster `?v=...` — bei jeder UI-Änderung (auch reinen CSS-Änderungen!) die Version überall anpassen, sonst lädt der Browser altes CSS aus dem Cache.

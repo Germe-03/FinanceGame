@@ -1,0 +1,29 @@
+{
+  "id": "thema-1-1",
+  "title": "Konto",
+  "lead": "Ein Konto hat zwei Seiten: Soll (links) und Haben (rechts). Ziehe «Soll», «Haben», «+» (Zunahme) und «−» (Abnahme) an den richtigen Ort. Achtung: Beim Aktivkonto und beim Passivkonto stehen Zunahme und Abnahme auf verschiedenen Seiten.",
+  "accounts": [
+    {
+      "key": "aktiv",
+      "type": "Aktivkonto",
+      "hint": "Vermögen, z. B. Kasse, Bank, Maschinen",
+      "slots": {
+        "headerLeft": "Soll",
+        "headerRight": "Haben",
+        "valueLeft": "+",
+        "valueRight": "−"
+      }
+    },
+    {
+      "key": "passiv",
+      "type": "Passivkonto",
+      "hint": "Schulden und Eigenkapital, z. B. Verbindlichkeiten LL, Darlehen",
+      "slots": {
+        "headerLeft": "Soll",
+        "headerRight": "Haben",
+        "valueLeft": "−",
+        "valueRight": "+"
+      }
+    }
+  ]
+}
