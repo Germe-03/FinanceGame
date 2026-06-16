@@ -1,0 +1,235 @@
+﻿{
+  "accounts": [
+    {
+      "name": "Bank",
+      "number": "1020",
+      "type": "active",
+      "accountClass": "1",
+      "accountClassLabel": "Aktiven"
+    },
+    {
+      "name": "Post",
+      "number": "1021",
+      "type": "active",
+      "accountClass": "1",
+      "accountClassLabel": "Aktiven"
+    },
+    {
+      "name": "Kasse",
+      "number": "1000",
+      "type": "active",
+      "accountClass": "1",
+      "accountClassLabel": "Aktiven"
+    },
+    {
+      "name": "Forderungen LL",
+      "number": "1100",
+      "type": "active",
+      "accountClass": "1",
+      "accountClassLabel": "Aktiven"
+    },
+    {
+      "name": "Darlehensforderungen",
+      "number": "1140",
+      "type": "active",
+      "accountClass": "1",
+      "accountClassLabel": "Aktiven"
+    },
+    {
+      "name": "Vorsteuer Material, Waren, DL, Energie",
+      "number": "1170",
+      "type": "active",
+      "accountClass": "1",
+      "accountClassLabel": "Aktiven"
+    },
+    {
+      "name": "Vorsteuer Investitionen, übriger Betriebsaufwand",
+      "number": "1171",
+      "type": "active",
+      "accountClass": "1",
+      "accountClassLabel": "Aktiven"
+    },
+    {
+      "name": "Warenbestand",
+      "number": "1200",
+      "type": "active",
+      "accountClass": "1",
+      "accountClassLabel": "Aktiven"
+    },
+    {
+      "name": "Maschinen",
+      "number": "1500",
+      "type": "active",
+      "accountClass": "1",
+      "accountClassLabel": "Aktiven"
+    },
+    {
+      "name": "Mobiliar",
+      "number": "1510",
+      "type": "active",
+      "accountClass": "1",
+      "accountClassLabel": "Aktiven"
+    },
+    {
+      "name": "Büromaschinen",
+      "number": "1520",
+      "type": "active",
+      "accountClass": "1",
+      "accountClassLabel": "Aktiven"
+    },
+    {
+      "name": "Fahrzeuge",
+      "number": "1530",
+      "type": "active",
+      "accountClass": "1",
+      "accountClassLabel": "Aktiven"
+    },
+    {
+      "name": "Verbindlichkeiten LL",
+      "number": "2000",
+      "type": "passive",
+      "accountClass": "2",
+      "accountClassLabel": "Passiven"
+    },
+    {
+      "name": "Bankdarlehen",
+      "number": "2140",
+      "type": "passive",
+      "accountClass": "2",
+      "accountClassLabel": "Passiven"
+    },
+    {
+      "name": "Geschuldete MWST",
+      "number": "2200",
+      "type": "passive",
+      "accountClass": "2",
+      "accountClassLabel": "Passiven"
+    },
+    {
+      "name": "Darlehen",
+      "number": "2450",
+      "type": "passive",
+      "accountClass": "2",
+      "accountClassLabel": "Passiven"
+    },
+    {
+      "name": "Eigenkapital",
+      "number": "2800",
+      "type": "passive",
+      "accountClass": "2",
+      "accountClassLabel": "Passiven"
+    },
+    {
+      "name": "Warenertrag",
+      "number": "3200",
+      "type": "revenue",
+      "accountClass": "3",
+      "accountClassLabel": "Betriebsertrag"
+    },
+    {
+      "name": "Dienstleistungsertrag",
+      "number": "3400",
+      "type": "revenue",
+      "accountClass": "3",
+      "accountClassLabel": "Betriebsertrag"
+    },
+    {
+      "name": "Produktionserlöse",
+      "number": "3000",
+      "type": "revenue",
+      "accountClass": "3",
+      "accountClassLabel": "Betriebsertrag"
+    },
+    {
+      "name": "Finanzertrag",
+      "number": "6950",
+      "type": "revenue",
+      "accountClass": "6",
+      "accountClassLabel": "Übriger Betriebsaufwand und Finanzerfolg"
+    },
+    {
+      "name": "Warenaufwand",
+      "number": "4200",
+      "type": "expense",
+      "accountClass": "4",
+      "accountClassLabel": "Material-, Waren- und Dienstleistungsaufwand"
+    },
+    {
+      "name": "Materialaufwand",
+      "number": "4000",
+      "type": "expense",
+      "accountClass": "4",
+      "accountClassLabel": "Material-, Waren- und Dienstleistungsaufwand"
+    },
+    {
+      "name": "Lohnaufwand",
+      "number": "5000",
+      "type": "expense",
+      "accountClass": "5",
+      "accountClassLabel": "Personalaufwand"
+    },
+    {
+      "name": "Raumaufwand",
+      "number": "6000",
+      "type": "expense",
+      "accountClass": "6",
+      "accountClassLabel": "Übriger Betriebsaufwand und Finanzerfolg"
+    },
+    {
+      "name": "Unterhalt und Reparaturen",
+      "number": "6100",
+      "type": "expense",
+      "accountClass": "6",
+      "accountClassLabel": "Übriger Betriebsaufwand und Finanzerfolg"
+    },
+    {
+      "name": "Fahrzeugaufwand",
+      "number": "6200",
+      "type": "expense",
+      "accountClass": "6",
+      "accountClassLabel": "Übriger Betriebsaufwand und Finanzerfolg"
+    },
+    {
+      "name": "Versicherungsaufwand",
+      "number": "6300",
+      "type": "expense",
+      "accountClass": "6",
+      "accountClassLabel": "Übriger Betriebsaufwand und Finanzerfolg"
+    },
+    {
+      "name": "Energieaufwand",
+      "number": "6400",
+      "type": "expense",
+      "accountClass": "6",
+      "accountClassLabel": "Übriger Betriebsaufwand und Finanzerfolg"
+    },
+    {
+      "name": "Verwaltungsaufwand",
+      "number": "6500",
+      "type": "expense",
+      "accountClass": "6",
+      "accountClassLabel": "Übriger Betriebsaufwand und Finanzerfolg"
+    },
+    {
+      "name": "Informatikaufwand",
+      "number": "6570",
+      "type": "expense",
+      "accountClass": "6",
+      "accountClassLabel": "Übriger Betriebsaufwand und Finanzerfolg"
+    },
+    {
+      "name": "Sonstiger Betriebsaufwand",
+      "number": "6700",
+      "type": "expense",
+      "accountClass": "6",
+      "accountClassLabel": "Übriger Betriebsaufwand und Finanzerfolg"
+    },
+    {
+      "name": "Finanzaufwand",
+      "number": "6900",
+      "type": "expense",
+      "accountClass": "6",
+      "accountClassLabel": "Übriger Betriebsaufwand und Finanzerfolg"
+    }
+  ]
+}

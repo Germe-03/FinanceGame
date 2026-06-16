@@ -4,46 +4,15 @@ import rechnungenData from "./tasks/rechnungen.json" with { type: "json" };
 import tKontoData from "./tasks/t-konto.json" with { type: "json" };
 import mwstData from "./tasks/mwst.json" with { type: "json" };
 import finanzthemenData from "./tasks/finanzthemen.json" with { type: "json" };
+import accountsData from "./tasks/accounts.json" with { type: "json" };
 import { getAccountLedgerItems } from "../domain/ledger.js";
 import { topicRoute, subtaskRoute } from "../domain/navigation.js";
 
-// Einzige Quelle für Kontoarten — die Task-JSONs nennen nur Kontonamen,
-// die Typen werden hier abgeleitet.
-const accountTypes = Object.freeze({
-  Bank: "active",
-  Post: "active",
-  Kasse: "active",
-  "Forderungen LL": "active",
-  Darlehensforderungen: "active",
-  "Vorsteuer Material, Waren, DL, Energie": "active",
-  "Vorsteuer Investitionen, übriger Betriebsaufwand": "active",
-  Warenbestand: "active",
-  Maschinen: "active",
-  Mobiliar: "active",
-  Büromaschinen: "active",
-  Fahrzeuge: "active",
-  "Verbindlichkeiten LL": "passive",
-  Bankdarlehen: "passive",
-  "Geschuldete MWST": "passive",
-  Darlehen: "passive",
-  Eigenkapital: "passive",
-  Warenertrag: "revenue",
-  Dienstleistungsertrag: "revenue",
-  Produktionserlöse: "revenue",
-  Finanzertrag: "revenue",
-  Warenaufwand: "expense",
-  Materialaufwand: "expense",
-  Lohnaufwand: "expense",
-  Raumaufwand: "expense",
-  "Unterhalt und Reparaturen": "expense",
-  Fahrzeugaufwand: "expense",
-  Versicherungsaufwand: "expense",
-  Energieaufwand: "expense",
-  Verwaltungsaufwand: "expense",
-  Informatikaufwand: "expense",
-  "Sonstiger Betriebsaufwand": "expense",
-  Finanzaufwand: "expense",
-});
+// Einzige Quelle fuer Kontoarten und Kontometadaten: Die Task-JSONs nennen nur Kontonamen,
+// die Typen werden hier aus der Konto-Metadaten-JSON abgeleitet.
+const accountTypes = Object.freeze(Object.fromEntries(
+  accountsData.accounts.map((account) => [account.name, account.type]),
+));
 
 function toAccountSide(accountName) {
   return Object.freeze({ account: accountName, type: accountTypes[accountName] });
